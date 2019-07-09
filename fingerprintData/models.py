@@ -85,6 +85,10 @@ class Purchase(models.Model):
     purchase_customer= models.ForeignKey('Customer', on_delete=models.CASCADE, db_column='Customer')
     purchase_date = models.DateField(db_column='Purchase Date')
 
+    def was_made_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.purchase_date <= now
+    
     def __str__(self):
         return "%s %s" % (self.purchase_customer, self.purchase_date)
 
@@ -103,6 +107,8 @@ class PurchaseList(models.Model):
         validators=[validate_nonzero],
         db_column='Quantity'
     )
+
+
 
     def __str__(self):
         return "%s %s" % (self.purchaseList_product, self.purchaseList_qty)
