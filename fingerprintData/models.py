@@ -38,7 +38,7 @@ def validate_nonzero(value):
 
 
 class Customer(models.Model):
-    customer_code= models.CharField(primary_key=True)
+    customer_code= models.CharField(primary_key=True, max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
     customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
@@ -65,7 +65,7 @@ class Product(models.Model):
     ]
 
     product_code= models.AutoField( primary_key=True)
-    product_name= models.CharField(blank=False)
+    product_name= models.CharField(max_length=50,blank=False)
     product_price=models.PositiveIntegerField(default=0)
     product_type= models.ForeignKey('Type', on_delete=models.CASCADE)
     product_origin= models.CharField(max_length=2, choices=choices_list, blank=False)
