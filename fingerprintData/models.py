@@ -64,48 +64,47 @@ class Product(models.Model):
         (AFRICA,'Africa'),
     ]
 
-    product_code= models.AutoField( primary_key=True, db_column='Code')
-    product_name= models.CharField(max_length=50,blank=False, db_column='Name')
-    product_price=models.PositiveIntegerField(default=0, db_column='Price')
-    product_type= models.ForeignKey('Type', on_delete=models.CASCADE, db_column='Type')
-    product_origin= models.CharField(max_length=2, choices=choices_list, blank=False, db_column='Origin')
+    product_code= models.AutoField( primary_key=True)
+    product_name= models.CharField(max_length=50,blank=False)
+    product_price=models.PositiveIntegerField(default=0)
+    product_type= models.ForeignKey('Type', on_delete=models.CASCADE)
+    product_origin= models.CharField(max_length=2, choices=choices_list, blank=False)
 
     def __str__(self):
-        return "%s %s %s %s" % (self.product_name, self.product_price, self.product.type, self.product_origin)
+        return "%s %s %s %s" % (self.product_name, self.product_price, self.product_type, self.product_origin)
 
 class Fingerprint(models.Model):
-    fingerprint_code=models.CharField( max_length=50, primary_key=True, db_column='Code')
-    fingerprint_data=models.CharField(max_length=200, blank=False, db_column='Data')
+    fingerprint_code=models.CharField( max_length=50, primary_key=True)
+    fingerprint_data=models.CharField(max_length=200, blank=False)
 
     def __str__(self):
         return "%s %s" % (self.fingerprint_code, self.fingerprint_data)
 
 class Purchase(models.Model):
-    purchase_code= models.BigAutoField(primary_key=True, db_column='Code')
-    purchase_customer= models.ForeignKey('Customer', on_delete=models.CASCADE, db_column='Customer')
-    purchase_date = models.DateField(db_column='Purchase Date')
+    purchase_code= models.BigAutoField(primary_key=True)
+    purchase_customer= models.ForeignKey('Customer', on_delete=models.CASCADE)
+    purchase_date = models.DateField()
 
     def was_made_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.purchase_date <= now
-    
+
     def __str__(self):
         return "%s %s" % (self.purchase_customer, self.purchase_date)
 
 class Type(models.Model):
-    type_id=models.AutoField(primary_key=True, db_column='ID')
-    type_description= models.CharField(max_length=200, blank=False, db_column='Description')
+    type_id=models.AutoField(primary_key=True)
+    type_description= models.CharField(max_length=200, blank=False)
 
     def __str__(self):
         return self.type_description
 
 class PurchaseList(models.Model):
-    purchaseList_code= models.ForeignKey('Purchase', on_delete=models.CASCADE, db_column='Code')
-    purchaseList_product = models.ForeignKey('Product', on_delete=models.CASCADE, db_column='Product')
+    purchaseList_code= models.ForeignKey('Purchase', on_delete=models.CASCADE)
+    purchaseList_product = models.ForeignKey('Product', on_delete=models.CASCADE)
     purchaseList_qty = models.PositiveIntegerField(
         default=0,
-        validators=[validate_nonzero],
-        db_column='Quantity'
+        validators=[validate_nonzero]
     )
 
 
