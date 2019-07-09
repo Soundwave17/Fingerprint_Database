@@ -38,11 +38,13 @@ def validate_nonzero(value):
 
 
 class Customer(models.Model):
-    customer_code= models.CharField(primary_key=True, max_length=16)
+    customer_mail=models.EmailField(primary_key=True)
+    customer_code= models.CharField(max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
     customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
     customer_register_date=models.DateField()
+
     def __str__(self):
         return "%s %s %s" % (self.customer_name, self.customer_surname, self.customer_register_date)
 
