@@ -11,6 +11,11 @@ def index(request):
     return HttpResponse(template.render(context, request))
 """
 
+#TODO add contexts where required.
+#TODO learn FORMS, and GET/POST methods.
+#TODO learn Bootstrap4 html tags.
+#TODO Integrate Chart.js in overview.html, along with DJANGO REST Framework.
+
 def access(request):
     template = loader.get_template('fingerprintData/access.html')
     context = [
