@@ -43,3 +43,10 @@ def overview(request):
 
     ]
     return HttpResponse(template.render(context, request))
+
+def prova(request):
+    template=loader.get_template('fingerprintData/prova.html')
+    context=[
+
+    ]
+    return HttpResponse(template.render(context,request))
