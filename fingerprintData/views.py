@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-
+from django.shortcuts import render
 """
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -17,36 +17,21 @@ def index(request):
 #TODO Integrate Chart.js in overview.html, along with DJANGO REST Framework.
 
 def access(request):
-    template = loader.get_template('fingerprintData/access.html')
-    context = [
-
-    ]
-    return HttpResponse(template.render(context, request))
+    template ='fingerprintData/access.html'
+    return render (request, template)
 
 def purchase(request):
-    template = loader.get_template('fingerprintData/purchase.html')
-    context = [
-
-    ]
-    return HttpResponse(template.render(context, request))
+    template ='fingerprintData/purchase.html'
+    return render (request, template)
 
 def checkout(request):
-    template = loader.get_template('fingerprintData/checkout.html')
-    context = [
-
-    ]
-    return HttpResponse(template.render(context, request))
+    template ='fingerprintData/checkout.html'
+    return render (request, template)
 
 def overview(request):
-    template = loader.get_template('fingerprintData/overview.html')
-    context=[
-
-    ]
-    return HttpResponse(template.render(context, request))
+    template ='fingerprintData/overview.html'
+    return render (request, template)
 
 def prova(request):
-    template=loader.get_template('fingerprintData/prova.html')
-    context=[
-
-    ]
-    return HttpResponse(template.render(context,request))
+    template='fingerprintData/prova.html'
+    return render (request, template)
