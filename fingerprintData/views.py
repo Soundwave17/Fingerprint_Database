@@ -27,7 +27,8 @@ def index(request):
 class access(View):
     def get(self,request):
         template ='fingerprintData/access.html'
-        return render (request, template)
+        form = CustomerAccessForm()
+        return render (request, template, {'form': form})
 
 class purchase(View):
     def get(self,request):
@@ -151,6 +152,7 @@ def create_post(request):
 
 
 #TODO instead of password checking, use fingerprint checking.
+
 def customer_login(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
@@ -168,7 +170,7 @@ def customer_exists(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
         email= request.GET.get('email')
-        exists =Customer.objects.filter(customer_email=email).exists()
+        exists = Customer.objects.filter(customer_email=email).exists()
         if exists:
             data['msg'] = 'This email already exists.'
         else:
