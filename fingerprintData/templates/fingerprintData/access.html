@@ -1,8 +1,65 @@
-{% extends 'fingerprintData/main_template.html' %}
+{% extends 'fingerprintData/access_template.html' %}
+
+{% block title %}Access Page{% endblock title %}
 
 {% block content %}
 {%  load static %}
 
-    <h3>PROFIT!</h3>
+    <div>
+       ""PLACEHOLDER add form CustomerAccess here PLACEHOLDER""
+    </div>
 
 {% endblock content %}
+
+{% block extrajs %}
+    <script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // add this to every ajaxSETUP call : xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    // add this to every ajax call attributes : headers: { "X-CSRFToken": token },
+
+    $(document).ready(function(){
+        var csrftoken = getCookie('csrftoken');
+
+        $('#customer_access_form').on('submit',function(e) {
+            e.preventDefault();
+            console.log($(this).val());
+            var form = $(this).closest("form");
+            $.ajax({
+                url:'customer_exists/' ,
+                dataType: 'json',
+                data: {customer_email: , customer_password: },
+                type: 'GET',
+                success: function(data) {
+
+                }
+            });
+
+        $('#code_exists_form').on('submit',function(e) {
+            e.preventDefault();
+            var username = $(this).find('input').val();
+            $.get('/exists/',
+                {'username': username},
+                function (response) {
+                    $('#response_msg').text(response.msg);
+                }
+            );
+        })
+    });
+    </script>
+{% endblock %}
