@@ -29,8 +29,6 @@ class Customer(models.Model):
     customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
     customer_register_date=models.DateField(default=timezone.now)
 
-
-
     def __str__(self):
         return "%s %s %s" % (self.customer_name, self.customer_surname, self.customer_register_date)
 
@@ -73,7 +71,7 @@ class Fingerprint(models.Model):
 class Purchase(models.Model):
     purchase_code= models.BigAutoField(primary_key=True)
     purchase_customer= models.ForeignKey('Customer', on_delete=models.CASCADE)
-    purchase_date = models.DateField()
+    purchase_date = models.DateField(default=timezone.now)
 
     def was_made_recently(self):
         now = timezone.now()
