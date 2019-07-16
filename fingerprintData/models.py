@@ -20,7 +20,7 @@ def validate_nonzero(value):
             params={'value': value},
         )
 
-
+#TODO later use the fingerprint, instead of commenting it
 class Customer(models.Model):
     customer_email=models.EmailField(primary_key=True)
     customer_password= models.CharField(max_length=16)
