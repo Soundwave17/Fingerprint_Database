@@ -20,13 +20,13 @@ def validate_nonzero(value):
             params={'value': value},
         )
 
-
+#TODO later use the fingerprint, instead of commenting it
 class Customer(models.Model):
     customer_email=models.EmailField(primary_key=True)
     customer_password= models.CharField(max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
-    customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
+    #customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
     customer_register_date=models.DateField(default=timezone.now)
 
     def __str__(self):

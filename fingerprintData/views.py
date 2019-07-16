@@ -30,6 +30,12 @@ class access(View):
         form = CustomerAccessForm()
         return render (request, template, {'form': form})
 
+class register(View):
+    def get(self,request):
+        template ='fingerprintData/register.html'
+        form = CustomerCreateForm()
+        return render (request, template, {'form': form})
+
 class purchase(View):
     def get(self,request):
         template ='fingerprintData/purchase.html'
@@ -156,8 +162,8 @@ def create_post(request):
 def customer_login(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
-        email= request.GET.get('email')
-        password = request.GET.get('password')
+        email= request.GET.get('customer_email')
+        password = request.GET.get('customer_password')
         exists =Customer.objects.filter(customer_email=email, customer_password=password).exists()
         if exists:
             data['msg'] = 'Welcome ' + Customer.objects.get(customer_email=email).customer_name
@@ -169,7 +175,7 @@ def customer_login(request):
 def customer_exists(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
-        email= request.GET.get('email')
+        email= request.GET.get('customer_email')
         exists = Customer.objects.filter(customer_email=email).exists()
         if exists:
             data['msg'] = 'This email already exists.'
@@ -184,22 +190,19 @@ def customer_exists(request):
 def create_customer(request):
     data = dict()
     if request.method == 'POST':
-        # Get the form data
-        form = CustomerCreateForm(request.POST)
+        email = request.POST.get('customer_email')
+        password = request.POST.get('customer_password')
+        name = request.POST.get('customer_name')
+        surname = request.POST.get('customer_surname')
+        exists = Customer.objects.filter(customer_email=email).exists()
 
-        if form.is_valid():
-            form.save()  # insert new row
-
-            # Return some json response back to the user
-            msg = ' Your data has been inserted successfully, thank you!'
-            data = globalfunctions.dict_alert_msg('True', 'Awesome!', msg, 'success')
+        if exists:
+            data['msg'] = 'Email already registered! You fool!'
 
         else:
-
-            # Extract form.errors
-            msg = None
-            msg = [(k, v[0]) for k, v in form.errors.items()]
-            data = globalfunctions.dict_alert_msg('False', 'Oops, Error', msg, 'error')
+            customer = Customer(customer_email=email, customer_password=password, customer_name=name, customer_surname=surname)
+            customer.save()
+            data['msg'] = 'Registered!'
 
         return JsonResponse(data)
 

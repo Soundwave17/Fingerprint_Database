@@ -68,7 +68,7 @@ class CustomerAccessForm(forms.ModelForm):
         }
         labels = {
             'customer_email': 'Email',
-            'customer_password': 'Name',
+            'customer_password': 'Password',
         }
 
     def clean(self):
