@@ -26,8 +26,9 @@ class Customer(models.Model):
     customer_password= models.CharField(max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
-    customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
+    # customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
     customer_register_date=models.DateField(default=timezone.now)
+    customer_admin= models.BooleanField(default=False)
 
     def __str__(self):
         return "%s %s %s" % (self.customer_name, self.customer_surname, self.customer_register_date)

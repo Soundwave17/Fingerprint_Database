@@ -1,8 +1,8 @@
 import json
 
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse,JsonResponse, Http404
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views import View
 
 from fingerprintData import globalfunctions
@@ -31,19 +31,24 @@ class access(View):
         return render (request, template, {'form': form})
 
 class purchase(View):
-    def get(self,request):
+    def get(self,request,customer_email):
+        customer= get_object_or_404(Customer, pk=customer_email)
         template ='fingerprintData/purchase.html'
         return render (request, template)
 
 class checkout(View):
-    def get(self, request):
+    def get(self, request, customer_email):
+        customer = get_object_or_404(Customer, pk=customer_email)
         template ='fingerprintData/checkout.html'
         return render (request, template)
 
 class overview(View):
-    def get(self, request):
-        template ='fingerprintData/overview.html'
-        return render (request, template)
+    def get(self, request, customer_email):
+        customer = get_object_or_404(Customer, pk=customer_email)
+        if(customer.customer_admin):
+            template ='fingerprintData/overview.html'
+            return render (request, template)
+        raise Http404("How did you get in here???")
 
 class prova(View):
     def get(self, request):
@@ -156,8 +161,8 @@ def create_post(request):
 def customer_login(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
-        email= request.GET.get('email')
-        password = request.GET.get('password')
+        email= request.GET.get('customer_email')
+        password = request.GET.get('customer_password')
         exists =Customer.objects.filter(customer_email=email, customer_password=password).exists()
         if exists:
             data['msg'] = 'Welcome ' + Customer.objects.get(customer_email=email).customer_name
@@ -169,7 +174,7 @@ def customer_login(request):
 def customer_exists(request):
     data = {'msg':'', 'success' : False}
     if request.method == 'GET':
-        email= request.GET.get('email')
+        email= request.GET.get('customer_email')
         exists = Customer.objects.filter(customer_email=email).exists()
         if exists:
             data['msg'] = 'This email already exists.'
@@ -193,9 +198,7 @@ def create_customer(request):
             # Return some json response back to the user
             msg = ' Your data has been inserted successfully, thank you!'
             data = globalfunctions.dict_alert_msg('True', 'Awesome!', msg, 'success')
-
         else:
-
             # Extract form.errors
             msg = None
             msg = [(k, v[0]) for k, v in form.errors.items()]

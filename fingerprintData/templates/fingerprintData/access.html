@@ -100,10 +100,10 @@
                     data: {"customer_email":$("#customer-email").val() , "customer_password":$("#customer-password").val() },
                     type: 'GET',
                     success: function (result) {
-                        console.log(result);
-                        var data = JSON.stringify(result);
-                        console.log(data.msg);
-                        console.log(data.success);
+                        console.log(result['success'])
+                        if(result['success']) {
+                            window.location = window.location.pathname + $("#customer-email").val() + "/purchase/"
+                        }
                     }
                 });
             });
