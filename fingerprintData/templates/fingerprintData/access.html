@@ -1,8 +1,112 @@
-{% extends 'fingerprintData/main_template.html' %}
+{% extends 'fingerprintData/access_template.html' %}
+
+{% block title %}Access Page{% endblock title %}
 
 {% block content %}
-{%  load static %}
+    {% load static %}
 
-    <h3>PROFIT!</h3>
+    <div class="jumbotron text-center">
+        <h1>Evil and Mean Marketplace</h1>
+        <p>A very safe place where to buy all your product needs!</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4 text-center shadow">
+                <h3>Welcome</h3>
+                {% load widget_tweaks %}
+
+                <form method="get" id="customer-access-form" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+
+                            {% if form.is_bound %}
+                                {% if field.errors %}
+                                    {% render_field field class="form-control is-invalid" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% render_field field class="form-control is-valid" %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field field class="form-control" %}
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
+
+{% block extrajs %}
+    <script>
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // add this to every ajaxSETUP call : xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        // add this to every ajax call attributes : headers: { "X-CSRFToken": token },
+
+        $(document).ready(function () {
+            var csrftoken = '{% csrf_token %}';
+
+            $('#customer-access-form').on('submit', function (e) {
+                e.preventDefault();
+                console.log($(this).val());
+                var form = $(this).closest("form");
+                $.ajax({
+                    headers: { "X-CSRFToken": csrftoken },
+                    url: 'customer_login/',
+                    dataType: 'json',
+                    data: {"customer_email":$("#customer-email").val() , "customer_password":$("#customer-password").val() },
+                    type: 'GET',
+                    success: function (result) {
+                        console.log(result);
+                        var data = JSON.stringify(result);
+                        console.log(data.msg);
+                        console.log(data.success);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

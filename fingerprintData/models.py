@@ -3,29 +3,13 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 
+#TODO add ADMIN class to all models, like
 """
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-
-    def __str__(self):
-        return self.question_text
-
-    def was_published_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
-    was_published_recently.admin_order_field = 'pub_date'
-    was_published_recently.boolean = True
-    was_published_recently.short_description = 'Published recently?'
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
+class Admin:
+        list_display = ('title', 'publisher', 'publication_date')
+        list_filter = ('publisher', 'publication_date')
+        ordering = ('-publication_date',)
+        search_fields = ('title',)
 """
 
 # throws exception in case of 0 passed as a paramater for the field.
@@ -38,15 +22,17 @@ def validate_nonzero(value):
 
 
 class Customer(models.Model):
-    customer_mail=models.EmailField(primary_key=True)
-    customer_code= models.CharField(max_length=16)
+    customer_email=models.EmailField(primary_key=True)
+    customer_password= models.CharField(max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
     customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
-    customer_register_date=models.DateField()
+    customer_register_date=models.DateField(default=timezone.now)
 
     def __str__(self):
         return "%s %s %s" % (self.customer_name, self.customer_surname, self.customer_register_date)
+
+
 
 class Product(models.Model):
 
@@ -85,7 +71,7 @@ class Fingerprint(models.Model):
 class Purchase(models.Model):
     purchase_code= models.BigAutoField(primary_key=True)
     purchase_customer= models.ForeignKey('Customer', on_delete=models.CASCADE)
-    purchase_date = models.DateField()
+    purchase_date = models.DateField(default=timezone.now)
 
     def was_made_recently(self):
         now = timezone.now()
@@ -109,8 +95,7 @@ class PurchaseList(models.Model):
         validators=[validate_nonzero]
     )
 
-
-
     def __str__(self):
         return "%s %s" % (self.purchaseList_product, self.purchaseList_qty)
+
 
