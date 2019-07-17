@@ -2,6 +2,14 @@
 
 {% block title %}Access Page{% endblock title %}
 
+{% block activetitle %}Login{% endblock activetitle %}
+
+{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:register' %}">{% endblock hrefoff %}
+
+
+{% block offtitle %}Register{% endblock offtitle %}
+
+
 {% block content %}
     {% load static %}
 
@@ -55,6 +63,8 @@
                     {% endfor %}
 
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="{% url 'fingerprintData:register' %}" class="btn btn-info" role="button">Register</a>
+
                 </form>
             </div>
             <div class="col-sm-4">
