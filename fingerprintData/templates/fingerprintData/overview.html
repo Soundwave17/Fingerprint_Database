@@ -1,25 +1,19 @@
-{% extends 'fingerprintData/main_template.html' %}
+{% extends 'fingerprintData/access_template.html' %}
 
-{% block title %}{% endblock title %}
-{% block navtitle %}{% endblock navtitle %}
+{% block title %}Overview{% endblock title %}
+{% block activetitle %}Overview{% endblock activetitle %}
 
 {% block content %}
-{%  load static %}
+    {% load static %}
 
-    <div>
-        """PLACEHOLDER add a form to select Customer, Date, Product-s, Product-Type. Also add a button that triggers the chart. PLACEHOLDER"""
-    </div>
-
-    <div>
-
-    """PLACEHOLDER add Jquery calls and Charts.js functions to render the chart. PLACEHOLDER"""
-
-    <canvas id="graph"></canvas>
-
+    <div class="card-body">
+        <div class="chart-area">
+            <canvas id="myAreaChart"></canvas>
+        </div>
     </div>
 
 {% endblock content %}
 
 {% block extrajs %}
-
+    <script src="{% static 'js/demo/chart-line.js' %}"></script>
 {% endblock %}

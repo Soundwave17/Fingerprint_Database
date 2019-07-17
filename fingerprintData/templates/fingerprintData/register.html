@@ -14,14 +14,17 @@
 
     <div class="jumbotron text-center">
         <h1>Evil and Mean Marketplace</h1>
-        <p>Register now to get the exclusive radioactive cat of Schrödinger as a bonus!</p>
+        <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
             <p>Here you can fill the spaces and register!</p>
     </div>
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 shadow text-center">
-                <h3>Register Here!</h3>
+            <div class="col-sm-12 shadow">
+                <div class="text-center">
+                    <h3>Register Here!</h3>
+                </div>
+
                 {% load widget_tweaks %}
                     <form method="post" id="customer-register-form" novalidate>
                     {% csrf_token %}
