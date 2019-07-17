@@ -2,6 +2,13 @@
 
 {% block title %}Absolutely Not Maccaroni Register Page{% endblock title %}
 
+{% block activetitle %}Register{% endblock activetitle %}
+
+{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:access' %}">{% endblock hrefoff %}
+
+
+{% block offtitle %}Login{% endblock offtitle %}
+
 {% block content %}
     {% load static %}
 
@@ -53,6 +60,7 @@
                     {% endfor %}
 
                     <button type="submit" class="btn btn-primary">Submit</button>
+
                 </form>
             </div>
         </div>
