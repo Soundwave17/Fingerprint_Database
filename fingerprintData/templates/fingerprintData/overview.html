@@ -6,14 +6,36 @@
 {% block content %}
     {% load static %}
 
-    <div class="card-body">
-        <div class="chart-area">
-            <canvas id="myAreaChart"></canvas>
+        <div class="row">
+            <div class="form-group">
+                <label for="year-input">Year:</label>
+                <input type="text" class="form-control" id="year-input" name="year">
+                <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+            </div>
+            <div id="error-div">
+                <ul class="border-danger">
+                    <li><p id="error-msg" class="text-danger"></p></li>
+                </ul>
+            </div>
         </div>
+
+    <div class=" text-center">
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+        <button class="btn btn-info" id="download-pdf">
+            Download PDF
+        </button>
     </div>
+
 
 {% endblock content %}
 
 {% block extrajs %}
     <script src="{% static 'js/demo/chart-line.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
+            integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
+            crossorigin="anonymous"></script>
 {% endblock %}

@@ -27,8 +27,23 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     return s.join(dec);
 }
 
+//download pdf from canvas
+function downloadPDF() {
+    var canvas = document.querySelector('#myAreaChart');
+    //creates image
+    var canvasImg = canvas.toDataURL("image/jpeg", 1.0);
+
+    //creates PDF from img
+    var doc = new jsPDF('landscape');
+    doc.setFontSize(20);
+    doc.text(15, 15, "Cool Chart");
+    doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150);
+    doc.save('canvas.pdf');
+}
+
 // Area Chart Example
 $(document).ready(function () {
+        $("#error-div").hide();
         var csrftoken = '{% csrf_token %}';
         var ctx = document.getElementById("myAreaChart");
         var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -120,49 +135,58 @@ $(document).ready(function () {
             }
         });
 
-        $.ajax({
-            headers: {"X-CSRFToken": csrftoken},
-            url: 'get_revenue_by_year/',
-            dataType: 'json',
-            data: {"year": 2019},
-            type: 'GET',
-            success: function (result) {
-                console.log(result);
-                sum[0] = result['Jan'];
-                sum[1] = result['Feb'];
-                sum[2] = result['Mar'];
-                sum[3] = result['Apr'];
-                sum[4] = result['May'];
-                sum[5] = result['Jun'];
-                sum[6] = result['Jul'];
-                sum[7] = result['Aug'];
-                sum[8] = result['Sep'];
-                sum[9] = result['Oct'];
-                sum[10] = result['Nov'];
-                sum[11] = result['Dec'];
-                myLineChart.data = {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    datasets: [{
-                        label: "Revenue",
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
-                    }]
-                };
-                myLineChart.update();
-
-                placeholder = false;
+        $("#load-graph").click(function () {
+            $("#error-div").hide();
+            if ($("#year-input").val()) {
+                $.ajax({
+                    headers: {"X-CSRFToken": csrftoken},
+                    url: 'get_revenue_by_year/',
+                    dataType: 'json',
+                    data: {"year": $("#year-input").val()},
+                    type: 'GET',
+                    success: function (result) {
+                        console.log(result);
+                        sum[0] = result['Jan'];
+                        sum[1] = result['Feb'];
+                        sum[2] = result['Mar'];
+                        sum[3] = result['Apr'];
+                        sum[4] = result['May'];
+                        sum[5] = result['Jun'];
+                        sum[6] = result['Jul'];
+                        sum[7] = result['Aug'];
+                        sum[8] = result['Sep'];
+                        sum[9] = result['Oct'];
+                        sum[10] = result['Nov'];
+                        sum[11] = result['Dec'];
+                        myLineChart.data = {
+                            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                            datasets: [{
+                                label: "Revenue",
+                                lineTension: 0.3,
+                                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                borderColor: "rgba(78, 115, 223, 1)",
+                                pointRadius: 3,
+                                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                                pointBorderColor: "rgba(78, 115, 223, 1)",
+                                pointHoverRadius: 3,
+                                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                                pointHitRadius: 10,
+                                pointBorderWidth: 2,
+                                data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
+                            }]
+                        };
+                        myLineChart.update();
+                    }
+                });
+            } else {
+                $("#error-div").show();
+                $("#error-msg").html("You must input something!");
             }
         });
+
+        //add event listener to button
+        $("#download-pdf").click(downloadPDF);
     }
 );
 
