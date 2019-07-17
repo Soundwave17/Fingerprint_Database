@@ -165,7 +165,7 @@ def create_post(request):
 #TODO instead of password checking, use fingerprint checking.
 
 def customer_login(request):
-    data = {'msg':'', 'success' : False}
+    data = {'msg':'', 'success' : False, 'admin': False}
     if request.method == 'GET':
         email= request.GET.get('customer_email')
         password = request.GET.get('customer_password')
@@ -173,12 +173,15 @@ def customer_login(request):
         if exists:
             data['msg'] = 'Welcome ' + Customer.objects.get(customer_email=email).customer_name
             data['success'] = True
+            if(Customer.objects.get(pk=email).customer_admin):
+                data['admin'] = True
         else:
             data['msg'] = 'Your email/password is not valid. Please try again'
+
     return JsonResponse(data)
 
 def customer_exists(request):
-    data = {'msg':'', 'success' : False}
+    data = {'msg':'', 'success' : False }
     if request.method == 'GET':
         email= request.GET.get('customer_email')
         exists = Customer.objects.filter(customer_email=email).exists()
@@ -187,6 +190,7 @@ def customer_exists(request):
         else:
             data['msg'] = 'The email is valid.'
             data['success'] = True
+
     return JsonResponse(data)
 
 
