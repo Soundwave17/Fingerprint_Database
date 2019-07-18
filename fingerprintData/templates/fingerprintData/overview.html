@@ -3,6 +3,28 @@
 {% block title %}Overview{% endblock title %}
 {% block activetitle %}Overview{% endblock activetitle %}
 
+{% block topbar %}
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, CUSTOMER_NAME_HERE</span>
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+{% endblock topbar %}
+
 {% block content %}
     {% load static %}
 
@@ -34,7 +56,7 @@
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/chart-line.js' %}"></script>
+    <script src="{% static 'js/demo/overview.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
             integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
             crossorigin="anonymous"></script>

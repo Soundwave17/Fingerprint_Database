@@ -27,6 +27,38 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     return s.join(dec);
 }
 
+//validates year
+function yearValidation(year) {
+
+    var error_div=$("#error-div");
+    var error_msg=$("#error-msg");
+
+    var text = /^[0-9]+$/;
+    if (year != 0) {
+        if ((year != "") && (!text.test(year))) {
+            error_div.show();
+            error_msg.html("Please enter numeric values only.");
+            return false;
+        }
+
+        if (year.length != 4) {
+            error_div.show();
+            error_msg.html("Please enter a 4 digit number.");
+            return false;
+        }
+        var current_year = new Date().getFullYear();
+        if ((year < 1920) || (year > current_year)) {
+            error_div.show();
+            error_msg.html("Year should be in range 1920 to current year");
+            return false;
+        }
+        return true;
+    }
+    error_div.show();
+    error_msg.html("Please enter a 4 digit number.");
+    return false;
+}
+
 //download pdf from canvas
 function downloadPDF() {
     var canvas = document.querySelector('#myAreaChart');
@@ -136,51 +168,55 @@ $(document).ready(function () {
         });
 
         $("#load-graph").click(function () {
-            $("#error-div").hide();
-            if ($("#year-input").val()) {
-                $.ajax({
-                    headers: {"X-CSRFToken": csrftoken},
-                    url: 'get_revenue_by_year/',
-                    dataType: 'json',
-                    data: {"year": $("#year-input").val()},
-                    type: 'GET',
-                    success: function (result) {
-                        console.log(result);
-                        sum[0] = result['Jan'];
-                        sum[1] = result['Feb'];
-                        sum[2] = result['Mar'];
-                        sum[3] = result['Apr'];
-                        sum[4] = result['May'];
-                        sum[5] = result['Jun'];
-                        sum[6] = result['Jul'];
-                        sum[7] = result['Aug'];
-                        sum[8] = result['Sep'];
-                        sum[9] = result['Oct'];
-                        sum[10] = result['Nov'];
-                        sum[11] = result['Dec'];
-                        myLineChart.data = {
-                            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                            datasets: [{
-                                label: "Revenue",
-                                lineTension: 0.3,
-                                backgroundColor: "rgba(78, 115, 223, 0.05)",
-                                borderColor: "rgba(78, 115, 223, 1)",
-                                pointRadius: 3,
-                                pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                                pointBorderColor: "rgba(78, 115, 223, 1)",
-                                pointHoverRadius: 3,
-                                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                                pointHitRadius: 10,
-                                pointBorderWidth: 2,
-                                data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
-                            }]
-                        };
-                        myLineChart.update();
-                    }
-                });
+            var year=$("#year-input").val();
+            var error_div= $("#error-div");
+            error_div.hide();
+            if (year) {
+                if (yearValidation(year)) {
+                    $.ajax({
+                        headers: {"X-CSRFToken": csrftoken},
+                        url: 'get_revenue_by_year/',
+                        dataType: 'json',
+                        data: {"year": year},
+                        type: 'GET',
+                        success: function (result) {
+                            console.log(result);
+                            sum[0] = result['Jan'];
+                            sum[1] = result['Feb'];
+                            sum[2] = result['Mar'];
+                            sum[3] = result['Apr'];
+                            sum[4] = result['May'];
+                            sum[5] = result['Jun'];
+                            sum[6] = result['Jul'];
+                            sum[7] = result['Aug'];
+                            sum[8] = result['Sep'];
+                            sum[9] = result['Oct'];
+                            sum[10] = result['Nov'];
+                            sum[11] = result['Dec'];
+                            myLineChart.data = {
+                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                datasets: [{
+                                    label: "Revenue",
+                                    lineTension: 0.3,
+                                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                    borderColor: "rgba(78, 115, 223, 1)",
+                                    pointRadius: 3,
+                                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                                    pointHoverRadius: 3,
+                                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                                    pointHitRadius: 10,
+                                    pointBorderWidth: 2,
+                                    data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
+                                }]
+                            };
+                            myLineChart.update();
+                        }
+                    });
+                }
             } else {
-                $("#error-div").show();
+                error_div.show();
                 $("#error-msg").html("You must input something!");
                 myLineChart.data = {
                     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
