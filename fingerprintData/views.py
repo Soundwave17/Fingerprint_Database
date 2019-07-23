@@ -43,7 +43,6 @@ class purchase(View):
         template = 'fingerprintData/purchase.html'
         return render(request, template)
 
-
 class checkout(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)

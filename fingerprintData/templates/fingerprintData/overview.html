@@ -3,8 +3,14 @@
 {% block title %}Overview{% endblock title %}
 {% block activetitle %}Overview{% endblock activetitle %}
 {% block navlinks %}
+    <li class="nav-item active">
+        <a class="nav-link" href="javascript:void(0)" id="graphs">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Graphs </span>
+        </a>
+    </li>
     <li class="nav-item">
-        <a class="nav-link" id="sensor-control" href="">
+        <a class="nav-link" href="javascript:void(0)" id="sensor-control">
             <i class="fas fa-fw fa-folder"></i>
             <span> Sensor Control </span>
         </a>
@@ -34,34 +40,124 @@
 
 {% block content %}
     {% load static %}
-    <div id="inner-wrapper">
+    <div id="graph-wrapper" class="container">
 
-
-        <div class="row">
-            <div class="form-group">
-                <label for="year-input">Year:</label>
-                <input type="text" class="form-control" id="year-input" name="year">
-                <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
-            </div>
-            <div id="error-div">
-                <ul class="border-danger">
-                    <li><p id="error-msg" class="text-danger"></p></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class=" text-center">
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+        <div class="col-sm-12">
+            <div class="row ">
+                <div class="form-group">
+                    <label for="year-input">Year:</label>
+                    <input type="text" class="form-control" id="year-input" name="year">
+                    <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+                </div>
+                <div id="error-div">
+                    <ul class="border-danger">
+                        <li><p id="error-msg" class="text-danger"></p></li>
+                    </ul>
                 </div>
             </div>
-            <button class="btn btn-info" id="download-pdf">
-                Download PDF
+
+            <div class=" text-center">
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="myAreaChart"></canvas>
+                    </div>
+                </div>
+                <button class="btn btn-info" id="download-pdf">
+                    Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="sensor-control-wrapper" class="container d-none">
+        <div class="text-center col-sm-12">
+            <p>
+                Sensor has: #### INSERT NUMBER OF TEMPLATES HERE #### fingerprints stored.
+            </p>
+
+            <div class="form-group">
+                <label for="id-input">Select customer to delete by typing his email:</label>
+                <input type="text" class="form-control" id="id-input" name="id">
+                <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
+                    Delete
+                </button>
+            </div>
+
+            <hr class="sidebar-divider my-5">
+
+            <button class="btn btn-danger btn-lg align-bottom" id="delete-all-ids" data-toggle="modal"
+                    data-target="#warning-all-modal">
+                <span>
+                    Delete all!
+                </span>
             </button>
         </div>
     </div>
 
+
+    <!--Modal-->
+
+    <div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Are you sure you wish to delete this Customer?
+                    </p>
+                    <div id="modal-delete-error-div" class="d-none">
+                        <ul>
+                            <li id="modal-delete-error-msg"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="row justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                            <button type="button" id="modal-delete-all" class="btn btn-danger">Yes, delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="warning-all-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    Are you sure you want to delete all the Customer database?
+                    <div id="modal-delete-all-error-div" class="d-none">
+                        <ul>
+                            <li id="modal-delete-all-error-msg"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="row justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                            <button type="button" id="modal-delete-all" class="btn btn-danger">Yes, delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
 
