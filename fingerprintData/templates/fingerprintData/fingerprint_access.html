@@ -17,19 +17,26 @@
 {% block content %}
     {% load static %}
 
-    <div class="card">
+    <div class="card call-sm-6">
             <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
     </div>
 
     <div class="card">
-        <div class="card-doby">
+        <div class="card-body" id="message-ajax">
             PlaceHolder for where should appear ajax call
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <button type="button" class="btn btn-secondary" id="retry">Try</button>
+            <button type="button" id="abort" class="btn btn-danger">Abort</button>
         </div>
     </div>
 
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/access.js' %}"></script>
+    <script src="{% static 'js/demo/fingerprint_access.js' %}"></script>
 
 {% endblock extrajs %}
