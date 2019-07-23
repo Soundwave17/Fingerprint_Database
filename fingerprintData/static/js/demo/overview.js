@@ -73,11 +73,8 @@ function downloadPDF() {
     doc.save('canvas.pdf');
 }
 
-// Area Chart Example
-$(document).ready(function () {
-        $("#error-div").hide();
-        var csrftoken = '{% csrf_token %}';
-        var ctx = document.getElementById("myAreaChart");
+function setupChartPage(){
+    var ctx = document.getElementById("myAreaChart");
         var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         var myLineChart = new Chart(ctx, {
             type: 'line',
@@ -165,6 +162,21 @@ $(document).ready(function () {
                     }
                 }
             }
+        });
+}
+
+// Area Chart Example
+$(document).ready(function () {
+        $("#error-div").hide();
+        var csrftoken = '{% csrf_token %}';
+
+        setupChartPage();
+
+        $("#sensor-control").click(function() {
+            $("#accordionSidebar li").removeClass("active");
+            $("#active-link").addClass("active")
+            $(this).closest("li").addClass(" active");
+
         });
 
         $("#load-graph").click(function () {

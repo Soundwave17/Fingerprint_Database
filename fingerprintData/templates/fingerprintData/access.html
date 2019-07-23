@@ -4,10 +4,14 @@
 
 {% block activetitle %}Login{% endblock activetitle %}
 
-{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:register' %}">{% endblock hrefoff %}
-
-
-{% block offtitle %}Register{% endblock offtitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:register' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Register </span>
+        </a>
+    </li>
+{% endblock navlinks %}
 
 
 {% block content %}
@@ -88,18 +92,20 @@
                 console.log($(this).val());
                 var form = $(this).closest("form");
                 $.ajax({
-                    headers: { "X-CSRFToken": csrftoken },
+                    headers: {"X-CSRFToken": csrftoken},
                     url: 'customer_login/',
                     dataType: 'json',
-                    data: {"customer_email":$("#customer-email").val() , "customer_password":$("#customer-password").val() },
+                    data: {
+                        "customer_email": $("#customer-email").val(),
+                        "customer_password": $("#customer-password").val()
+                    },
                     type: 'GET',
                     success: function (result) {
                         console.log(result)
-                        if(result['success']) {
+                        if (result['success']) {
                             if (result['admin']) {
                                 window.location = window.location.pathname + $("#customer-email").val() + "/overview/";
-                            }
-                            else{
+                            } else {
                                 window.location = window.location.pathname + $("#customer-email").val() + "/purchase/";
                             }
                         }

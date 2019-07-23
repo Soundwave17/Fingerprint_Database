@@ -2,16 +2,25 @@
 
 {% block title %}{% endblock title %}
 {% block navtitle %}{% endblock navtitle %}
-
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Purchase</span>
+        </a>
+    </li>
+{% endblock navlinks %}
 {% block content %}
-{%  load static %}
+    {% load static %}
 
     <div>
-        """PLACEHOLDER add resumee of the purchases, by creating a table that shows all products purchased and their quantities  PLACEHOLDER"""
+        """PLACEHOLDER add resumee of the purchases, by creating a table that shows all products purchased and their
+        quantities PLACEHOLDER"""
     </div>
 
     <div>
-        """PLACEHOLDER add button to confirm the purchase. This triggers a Jqeuery function -> ajax Post towards create_purchaseList view. PLACEHOLDER"""
+        """PLACEHOLDER add button to confirm the purchase. This triggers a Jqeuery function -> ajax Post towards
+        create_purchaseList view. PLACEHOLDER"""
     </div>
 
 {% endblock content %}

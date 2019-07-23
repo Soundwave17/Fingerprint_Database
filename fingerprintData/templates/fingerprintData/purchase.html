@@ -3,8 +3,15 @@
 {% block title %}{% endblock title %}
 {% block navtitle %}{% endblock navtitle %}
 {% block activetitle %}Purchase{% endblock activetitle %}
-{% block hrefoff %}<a class="nav-link" href="">{% endblock hrefoff %}
-{% block offtitle %}Checkout{% endblock offtitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Checkout </span>
+        </a>
+    </li>
+{% endblock navlinks %}
+
 
 {% block topbar %}
     <ul class="navbar-nav ml-auto">
@@ -36,12 +43,32 @@
     </div>
 
     <div class="row">
-        <button class="btn btn-primary"> Go to Checkout</button>
+        <button id="prova" class="btn btn-primary"> Go to Checkout</button>
         <button class="btn btn-info"> Empty your cart</button>
     </div>
 
 {% endblock content %}
 
 {% block extrajs %}
-
+    <script>
+        var csrftoken = '{% csrf_token %}';
+        $(document).ready(function () {
+            $('#prova').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": csrftoken,
+                    },
+                    crossDomain: true,
+                    url: 'http://192.168.1.42/42',
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (result) {
+                        console.log('ciao');
+                        console.log(result);
+                    },
+                });
+            });
+        });
+    </script>
 {% endblock %}

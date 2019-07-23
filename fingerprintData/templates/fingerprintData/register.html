@@ -1,13 +1,15 @@
 {% extends 'fingerprintData/access_template.html' %}
 
 {% block title %}Absolutely Not Maccaroni Register Page{% endblock title %}
-
 {% block activetitle %}Register{% endblock activetitle %}
-
-{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:access' %}">{% endblock hrefoff %}
-
-
-{% block offtitle %}Login{% endblock offtitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Login</span>
+        </a>
+    </li>
+{% endblock navlinks %}
 
 {% block content %}
     {% load static %}

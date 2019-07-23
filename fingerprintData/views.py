@@ -1,5 +1,4 @@
 import json
-
 from django.http import HttpResponse, JsonResponse, Http404
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
@@ -38,10 +37,9 @@ class register(View):
         form = CustomerCreateForm()
         return render(request, template, {'form': form})
 
-
 class purchase(View):
     def get(self, request, customer_email):
-        customer = get_object_or_404(Customer, pk=customer_email)
+        customer = get_object_or_404(Customer, pk=customer_email, customer_admin=False)
         template = 'fingerprintData/purchase.html'
         return render(request, template)
 

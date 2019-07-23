@@ -2,7 +2,14 @@
 
 {% block title %}Overview{% endblock title %}
 {% block activetitle %}Overview{% endblock activetitle %}
-
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" id="sensor-control" href="">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Sensor Control </span>
+        </a>
+    </li>
+{% endblock navlinks %}
 {% block topbar %}
     <ul class="navbar-nav ml-auto">
 
@@ -27,6 +34,8 @@
 
 {% block content %}
     {% load static %}
+    <div id="inner-wrapper">
+
 
         <div class="row">
             <div class="form-group">
@@ -41,15 +50,16 @@
             </div>
         </div>
 
-    <div class=" text-center">
-        <div class="card-body">
-            <div class="chart-area">
-                <canvas id="myAreaChart"></canvas>
+        <div class=" text-center">
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
             </div>
+            <button class="btn btn-info" id="download-pdf">
+                Download PDF
+            </button>
         </div>
-        <button class="btn btn-info" id="download-pdf">
-            Download PDF
-        </button>
     </div>
 
 
@@ -57,7 +67,5 @@
 
 {% block extrajs %}
     <script src="{% static 'js/demo/overview.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
-            integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
-            crossorigin="anonymous"></script>
+    <script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
 {% endblock %}
