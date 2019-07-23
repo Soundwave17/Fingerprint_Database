@@ -68,6 +68,7 @@ body {
   color: #858796;
   text-align: left;
   background-color: #fff;
+  height:100%;
 }
 
 [tabindex="-1"]:focus {
@@ -2565,6 +2566,7 @@ textarea.form-control {
 
 .btn {
   display: inline-block;
+  margin: 2px;
   font-weight: 400;
   color: #858796;
   text-align: center;

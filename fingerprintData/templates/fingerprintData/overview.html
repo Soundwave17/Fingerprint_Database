@@ -1,25 +1,71 @@
-{% extends 'fingerprintData/main_template.html' %}
+{% extends 'fingerprintData/access_template.html' %}
 
-{% block title %}{% endblock title %}
-{% block navtitle %}{% endblock navtitle %}
+{% block title %}Overview{% endblock title %}
+{% block activetitle %}Overview{% endblock activetitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" id="sensor-control" href="">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Sensor Control </span>
+        </a>
+    </li>
+{% endblock navlinks %}
+{% block topbar %}
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, CUSTOMER_NAME_HERE</span>
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+{% endblock topbar %}
 
 {% block content %}
-{%  load static %}
+    {% load static %}
+    <div id="inner-wrapper">
 
-    <div>
-        """PLACEHOLDER add a form to select Customer, Date, Product-s, Product-Type. Also add a button that triggers the chart. PLACEHOLDER"""
+
+        <div class="row">
+            <div class="form-group">
+                <label for="year-input">Year:</label>
+                <input type="text" class="form-control" id="year-input" name="year">
+                <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+            </div>
+            <div id="error-div">
+                <ul class="border-danger">
+                    <li><p id="error-msg" class="text-danger"></p></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class=" text-center">
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+            <button class="btn btn-info" id="download-pdf">
+                Download PDF
+            </button>
+        </div>
     </div>
 
-    <div>
-
-    """PLACEHOLDER add Jquery calls and Charts.js functions to render the chart. PLACEHOLDER"""
-
-    <canvas id="graph"></canvas>
-
-    </div>
 
 {% endblock content %}
 
 {% block extrajs %}
-
+    <script src="{% static 'js/demo/overview.js' %}"></script>
+    <script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
 {% endblock %}

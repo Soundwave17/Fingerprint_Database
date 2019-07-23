@@ -4,10 +4,14 @@
 
 {% block activetitle %}Login{% endblock activetitle %}
 
-{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:register' %}">{% endblock hrefoff %}
-
-
-{% block offtitle %}Register{% endblock offtitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:register' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Register </span>
+        </a>
+    </li>
+{% endblock navlinks %}
 
 
 {% block content %}
@@ -75,24 +79,8 @@
 {% endblock content %}
 
 {% block extrajs %}
+    <script src="{% static 'js/demo/access.js' %}"></script>
     <script>
-
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
         // add this to every ajaxSETUP call : xhr.setRequestHeader("X-CSRFToken", csrftoken);
         // add this to every ajax call attributes : headers: { "X-CSRFToken": token },
 
@@ -104,19 +92,26 @@
                 console.log($(this).val());
                 var form = $(this).closest("form");
                 $.ajax({
-                    headers: { "X-CSRFToken": csrftoken },
+                    headers: {"X-CSRFToken": csrftoken},
                     url: 'customer_login/',
                     dataType: 'json',
-                    data: {"customer_email":$("#customer-email").val() , "customer_password":$("#customer-password").val() },
+                    data: {
+                        "customer_email": $("#customer-email").val(),
+                        "customer_password": $("#customer-password").val()
+                    },
                     type: 'GET',
                     success: function (result) {
-                        console.log(result['success'])
-                        if(result['success']) {
-                            window.location = window.location.pathname + $("#customer-email").val() + "/purchase/"
+                        console.log(result)
+                        if (result['success']) {
+                            if (result['admin']) {
+                                window.location = window.location.pathname + $("#customer-email").val() + "/overview/";
+                            } else {
+                                window.location = window.location.pathname + $("#customer-email").val() + "/purchase/";
+                            }
                         }
                     }
                 });
             });
         });
     </script>
-{% endblock %}
+{% endblock extrajs %}

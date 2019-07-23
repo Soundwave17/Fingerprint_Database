@@ -1,20 +1,74 @@
-{% extends 'fingerprintData/main_template.html' %}
+{% extends 'fingerprintData/access_template.html' %}
 
 {% block title %}{% endblock title %}
 {% block navtitle %}{% endblock navtitle %}
+{% block activetitle %}Purchase{% endblock activetitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Checkout </span>
+        </a>
+    </li>
+{% endblock navlinks %}
+
+
+{% block topbar %}
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown arrow ">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, CUSTOMER_NAME_HERE</span>
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+{% endblock topbar %}
 
 {% block content %}
-{%  load static %}
+    {% load static %}
 
     <div>
-        """PLACEHOLDER add selectable and draggable products. when dropped into the cart, they will be added to the cart  PLACEHOLDER"""
+
     </div>
 
-    <div>
-        """PLACEHOLDER Add buttons to go back, or to go to checkout.  PLACEHOLDER"""
+    <div class="row">
+        <button id="prova" class="btn btn-primary"> Go to Checkout</button>
+        <button class="btn btn-info"> Empty your cart</button>
     </div>
+
 {% endblock content %}
 
 {% block extrajs %}
-
+    <script>
+        var csrftoken = '{% csrf_token %}';
+        $(document).ready(function () {
+            $('#prova').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": csrftoken,
+                    },
+                    crossDomain: true,
+                    url: 'http://192.168.1.42/42',
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (result) {
+                        console.log('ciao');
+                        console.log(result);
+                    },
+                });
+            });
+        });
+    </script>
 {% endblock %}
