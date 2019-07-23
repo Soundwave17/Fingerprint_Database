@@ -60,6 +60,14 @@ class overview(View):
         raise Http404("How did you get in here???")
 
 
+class fingerprint_access(View):
+    def get(self, request, customer_email):
+        customer = get_object_or_404(Customer, pk=customer_email)
+        template = 'fingerprintData/fingerprint_access.html'
+        return render(request, template)
+
+
+
 class prova(View):
     def get(self, request):
         template = 'fingerprintData/prova.html'

@@ -1,0 +1,27 @@
+{% extends 'fingerprintData/access_template.html' %}
+
+{% block title %}Access Page{% endblock title %}
+
+{% block activetitle %}Login{% endblock activetitle %}
+
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:register' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Register </span>
+        </a>
+    </li>
+{% endblock navlinks %}
+
+
+{% block content %}
+    {% load static %}
+
+
+
+{% endblock content %}
+
+{% block extrajs %}
+    <script src="{% static 'js/demo/access.js' %}"></script>
+
+{% endblock extrajs %}
