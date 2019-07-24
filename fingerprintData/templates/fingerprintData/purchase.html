@@ -5,7 +5,7 @@
 {% block activetitle %}Purchase{% endblock activetitle %}
 {% block navlinks %}
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{% url 'fingerprintData:checkout' customer.customer_email %}">
             <i class="fas fa-fw fa-folder"></i>
             <span> Checkout </span>
         </a>
@@ -14,6 +14,9 @@
 
 
 {% block topbar %}
+
+    <input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
+
     <ul class="navbar-nav ml-auto">
 
         <li class="nav-item dropdown arrow ">
@@ -51,24 +54,6 @@
 
 {% block extrajs %}
     <script>
-        var csrftoken = '{% csrf_token %}';
-        $(document).ready(function () {
-            $('#prova').click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    headers: {
-                        "X-CSRFToken": csrftoken,
-                    },
-                    crossDomain: true,
-                    url: 'http://192.168.1.42/42',
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (result) {
-                        console.log('ciao');
-                        console.log(result);
-                    },
-                });
-            });
-        });
+       
     </script>
 {% endblock %}
