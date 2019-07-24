@@ -115,14 +115,18 @@ def create_customer(request):
         password = request.POST.get('customer_password')
         name = request.POST.get('customer_name')
         surname = request.POST.get('customer_surname')
+        fingerprint_id = request.POST.get('fingerprint_id')
         exists = Customer.objects.filter(customer_email=email).exists()
 
         if exists:
             data['msg'] = 'Email already registered! You fool!'
 
         else:
+            fingerprint = Fingerprint(fingerprint_id=fingerprint_id)
+            fingerprint.save()
             customer = Customer(customer_email=email, customer_password=password, customer_name=name,
-                                customer_surname=surname)
+                                customer_surname=surname, customer_fingerprint=fingerprint_id)
+
             customer.save()
             data['msg'] = 'Registered!'
 
