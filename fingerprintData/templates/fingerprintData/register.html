@@ -102,6 +102,7 @@
 {% block extrajs %}
 <script src="{% static 'js/demo/register.js' %}"></script>
 <script>
+
 $(document).ready(function () {
     var csrftoken = '{% csrf_token %}';
     var first = true;
@@ -118,9 +119,11 @@ $(document).ready(function () {
                  url: 'http://192.168.1.42/enroll',
                  dataType: 'json',
                  type: 'POST',
-                 data: {"key":127},
+                 data: {"key":127}, //TODO
                  success: function (result) {
                    console.log(result);
+                   //TODO create variable to store fingerprint ID
+                   //TODO morph button to continue
                  }
                 });
 
@@ -146,6 +149,7 @@ $(document).ready(function () {
                     console.log(result);
                     var data = JSON.stringify(result);
                     console.log(data.msg);
+                    //TODO clean fingerprint id
                 }
             });
         }
