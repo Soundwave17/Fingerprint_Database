@@ -1,7 +1,6 @@
 
 $(document).ready(function () {
 var csrftoken = '{% csrf_token %}';
-var first = true;
 var success = false;
     $('#retry').click(function (e) {
         e.preventDefault();
@@ -15,8 +14,8 @@ var success = false;
                 dataType: 'json',
                 type: 'GET',
                 success: function (result) {
-                    if (!result['response'] && first) {
-                        first = false;
+                    if (!result['response']) {
+                        $('#retry').text("Retry");
                         $('#message-ajax').text(result['msg']);
                     } else {
                         $('#message-ajax').text(result['msg']);
@@ -27,9 +26,6 @@ var success = false;
                 timeout: 100000,
             });
 
-            if (!first) {
-                $('#retry').text("Retry");
-            }
         } else {
             console.log("okkke");
             $.ajax({
