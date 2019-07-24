@@ -3,106 +3,169 @@
 {% block title %}Register{% endblock title %}
 {% block activetitle %}Register{% endblock activetitle %}
 {% block navlinks %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
-            <i class="fas fa-fw fa-folder"></i>
-            <span> Login</span>
-        </a>
-    </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+        <i class="fas fa-fw fa-folder"></i>
+        <span> Login</span>
+    </a>
+</li>
 {% endblock navlinks %}
 
 {% block content %}
-    {% load static %}
+{% load static %}
 
-    <div class="jumbotron text-center">
-        <h1>Evil and Mean Marketplace</h1>
-        <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
-        <p>Here you can fill the spaces and register!</p>
-    </div>
+<div class="jumbotron text-center">
+    <h1>Evil and Mean Marketplace</h1>
+    <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
+    <p>Here you can fill the spaces and register!</p>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 shadow">
-                <div class="text-center">
-                    <h3>Register Here!</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 shadow">
+            <div class="text-center">
+                <h3>Register Here!</h3>
+            </div>
+
+            {% load widget_tweaks %}
+            <form method="post" id="customer-register-form" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
                 </div>
+                {% endif %}
 
-                {% load widget_tweaks %}
-                <form method="post" id="customer-register-form" novalidate>
-                    {% csrf_token %}
+                {% for field in form.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
 
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
                     {% endif %}
 
-                    {% for field in form.visible_fields %}
-                        <div class="form-group">
-                            {{ field.label_tag }}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
 
-                            {% if form.is_bound %}
-                                {% if field.errors %}
-                                    {% render_field field class="form-control is-invalid" %}
-                                    {% for error in field.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    {% render_field field class="form-control is-valid" %}
-                                {% endif %}
-                            {% else %}
-                                {% render_field field class="form-control" %}
-                            {% endif %}
 
-                            {% if field.help_text %}
-                                <small class="form-text text-muted">{{ field.help_text }}</small>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-4">
+            <div class="card call-sm-6">
+                <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
+            </div>
 
-                </form>
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <li id="message-ajax"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row justify-content-between">
+                    <button type="button" id="abort" class="btn btn-danger">Abort</button>
+                    <button type="button" id="retry" class="btn btn-secondary">Try</button>
+
+                </div>
             </div>
         </div>
     </div>
+</div>
 
 
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/register.js' %}"></script>
-    <script>
-        $(document).ready(function () {
+<script src="{% static 'js/demo/register.js' %}"></script>
+<script>
+$(document).ready(function () {
     var csrftoken = '{% csrf_token %}';
-
-    $('#customer-register-form').on('submit', function (e) {
+    var first = true;
+    var success = false;
+    $('#retry').click(function (e) {
         e.preventDefault();
-        console.log($(this).val());
-        var form = $(this).closest("form");
-        $.ajax({
-            headers: {"X-CSRFToken": csrftoken},
-            url: 'create_customer/',
-            dataType: 'json',
-            data: {
-                "customer_email": $("#customer-email").val(),
-                "customer_name": $("#customer-name").val(),
-                "customer_surname": $("#customer-surname").val(),
-                "customer_password": $("#customer-password").val(),
-                "csrfmiddlewaretoken": "{{ csrf_token }}"
-            },
-            type: 'POST',
-            success: function (result) {
-                console.log(result);
-                var data = JSON.stringify(result);
-                console.log(data.msg);
+        if (!success) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
+                 crossDomain: true,
+                 url: 'http://192.168.1.42/enroll',
+                 dataType: 'json',
+                 type: 'POST',
+                 data: {"key":127},
+                 success: function (result) {
+                   console.log(result);
+                 }
+                });
+
+            if (!first) {
+                $('#retry').text("Retry");
             }
-        });
+        } else {
+            console.log("okkke");
+            $.ajax({
+                headers: {"X-CSRFToken": csrftoken},
+                url: 'create_customer/',
+                dataType: 'json',
+                data: {
+                    "customer_email": $("#customer-email").val(),
+                    "customer_name": $("#customer-name").val(),
+                    "customer_surname": $("#customer-surname").val(),
+                    "customer_password": $("#customer-password").val(),
+                    "fingerprint_id": ,  //TODO, sistemare come passare fingerprint_id
+                    "csrfmiddlewaretoken": "{{ csrf_token }}"
+                },
+                type: 'POST',
+                success: function (result) {
+                    console.log(result);
+                    var data = JSON.stringify(result);
+                    console.log(data.msg);
+                }
+            });
+        }
+
     });
+
+
+
+
+    $('#abort').click(function (e) {
+        e.preventDefault();
+        window.history.back();
+    });
+
+
 });
-    </script>
+
+
+
+
+
+</script>
 {% endblock extrajs %}

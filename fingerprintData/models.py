@@ -19,7 +19,7 @@ class Customer(models.Model):
     customer_password = models.CharField(max_length=16)
     customer_name = models.CharField(max_length=50)
     customer_surname = models.CharField(max_length=50)
-    # customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
+    customer_fingerprint= models.ForeignKey('Fingerprint', on_delete=models.PROTECT)
     customer_register_date = models.DateField(default=timezone.now)
     customer_admin = models.BooleanField(default=False)
 
@@ -55,11 +55,11 @@ class Product(models.Model):
 
 
 class Fingerprint(models.Model):
-    fingerprint_code = models.CharField(max_length=50, primary_key=True)
-    fingerprint_data = models.CharField(max_length=200, blank=False)
+
+    fingerprint_id = models.PositiveIntegerField(primary_key= True, blank=False, validators=[validate_nonzero])
 
     def __str__(self):
-        return "%s %s" % (self.fingerprint_code, self.fingerprint_data)
+        return "%s" % (self.fingerprint_id)
 
 
 class Purchase(models.Model):
