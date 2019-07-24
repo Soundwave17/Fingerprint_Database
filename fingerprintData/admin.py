@@ -29,8 +29,8 @@ class TypeAdmin(admin.ModelAdmin):
 
 
 class FingerprintAdmin(admin.ModelAdmin):
-    list_display = ('fingerprint_code', 'fingerprint_data')
-    search_fields = ['fingerprint_data']
+    list_display = ['fingerprint_id']
+    search_fields = ['fingerprint_id']
 
 
 admin.site.register(Product, ProductAdmin)

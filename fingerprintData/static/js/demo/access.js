@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: {"customer_email": $("#customer-email").val(), "customer_password": $("#customer-password").val()},
             type: 'GET',
             success: function (result) {
-                console.log(result)
+                console.log(result);
                 if (result['success']) {
                     window.location = window.location.pathname + $("#customer-email").val() + "/fingerprint_access/";
                 }

@@ -5,45 +5,44 @@
 {% block activetitle %}Login{% endblock activetitle %}
 
 {% block navlinks %}
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'fingerprintData:register' %}">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Register </span>
-    </a>
-</li>
 {% endblock navlinks %}
 
 
 {% block content %}
-{% load static %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-sm-4">
-            <div class="card call-sm-6">
-                <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
-            </div>
+    {% load static %}
 
-            <div class="card">
-                <div class="card-body" id="message-ajax">
-                    
+    <input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-4">
+                <div class="card call-sm-6">
+                    <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
                 </div>
-            </div>
 
-            <div class="container">
-                <div class="row justify-content-between">
-                    <button type="button" id="abort" class="btn btn-danger">Abort</button>
-                    <button type="button" class="btn btn-secondary" id="retry">Try</button>
+                <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            <li id="message-ajax"></li>
+                        </ul>
+                    </div>
+                </div>
 
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" id="abort" class="btn btn-danger">Abort</button>
+                        <button type="button" class="btn btn-secondary" id="retry">Try</button>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 {% endblock content %}
 
 {% block extrajs %}
-<script src="{% static 'js/demo/fingerprint_access.js' %}"></script>
+    <script src="{% static 'js/demo/fingerprint_access.js' %}"></script>
 
 {% endblock extrajs %}
