@@ -28,6 +28,7 @@ $(document).ready(function () {
                      }
                  },
             });
+
             if(!first){
                 $('#retry').text("Retry");
             }
