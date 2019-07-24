@@ -1,8 +1,8 @@
+
+$(document).ready(function () {
 var csrftoken = '{% csrf_token %}';
 var first = true;
 var success = false;
-$(document).ready(function () {
-
     $('#retry').click(function (e) {
         e.preventDefault();
         if (!success) {
@@ -22,9 +22,9 @@ $(document).ready(function () {
                         $('#message-ajax').text(result['msg']);
                         $('#retry').text("Continue");
                         success = true;
-
                     }
                 },
+                timeout: 100000,
             });
 
             if (!first) {

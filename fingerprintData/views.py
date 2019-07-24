@@ -92,14 +92,15 @@ def customer_login(request):
     return JsonResponse(data)
 
 
-def customer_exists(request):
+def customer_exists(request, customer_email):
     data = {'msg': '', 'success': False}
     if request.method == 'GET':
         email = request.GET.get('customer_email')
         exists = Customer.objects.filter(customer_email=email).exists()
         if exists:
-            data['msg'] = 'This email already exists.'
+            data['msg'] = 'This email exists.'
             data['admin'] = Customer.objects.get(pk=email).customer_admin
+            data['success']=True;
         else:
             data['msg'] = 'The email is not valid.'
             data['success'] = False
