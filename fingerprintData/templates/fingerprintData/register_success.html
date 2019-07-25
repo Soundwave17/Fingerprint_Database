@@ -3,40 +3,35 @@
 {% block title %}Register{% endblock title %}
 {% block activetitle %}Register{% endblock activetitle %}
 {% block navlinks %}
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'fingerprintData:access' %}">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Login</span>
-    </a>
-</li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Login</span>
+        </a>
+    </li>
 {% endblock navlinks %}
 
 {% block content %}
-{% load static %}
+    {% load static %}
 
-<div class="jumbotron text-center">
-    <h1>Evil and Mean Marketplace</h1>
-    <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
-    <p>Here you can fill the spaces and register!</p>
-</div>
-
-<div class="container">
-    <div class="call-sm-6">
-        <li>
-            <h1>
-                Success! You may continue!
-            </h1>
-        </li>
+    <div class="jumbotron text-center ">
+        <h1>Evil and Mean Marketplace</h1>
+        <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
+        <p>Here you can fill the spaces and register!</p>
     </div>
-    <div class="col-sm-6 justify-content-end">
-        <button class="btn btn-primary">
-            <a href="{% url 'fingerprintData:access'%}">
 
-            </a>
-
-        </button>
+    <div class="container">
+        <div class="col-sm-6">
+            <ul>
+                <li>
+                    <h1> Success! You many continue.</h1>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-6 justify-content-end">
+            <button class="btn btn-primary"><a href="{% url 'fingerprintData:access' %}"></a></button>
+        </div>
     </div>
-</div>
 
 
 

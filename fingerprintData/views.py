@@ -18,12 +18,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 """
 
-
-# TODO add contexts where required.
-# TODO learn FORMS, and GET/POST methods.
-# TODO learn Bootstrap4 html tags.
-# TODO Integrate Chart.js in overview.html
-
 class access(View):
     def get(self, request):
         template = 'fingerprintData/access.html'
@@ -67,20 +61,10 @@ class fingerprint_access(View):
         template = 'fingerprintData/fingerprint_access.html'
         return render(request, template, {'customer': customer})
 
-
 class register_success(View):
     def get(self, request):
-        template = 'fingerprintData/register_success.html'
-        return render(request, template)
-
-
-class prova(View):
-    def get(self, request):
-        template = 'fingerprintData/prova.html'
-        return render(request, template)
-
-
-# TODO instead of password checking, use fingerprint checking.
+        template='fingerprintData/register_success.html'
+        return render(request,template)
 
 def customer_login(request):
     data = {'msg': '', 'success': False, 'admin': False}
@@ -114,7 +98,7 @@ def customer_exists(request, customer_email):
 
     return JsonResponse(data)
 
-#TODO add logic to form validation
+#TODO add logic to form validation.
 def create_customer(request):
     data = dict()
     if request.method == 'POST':
@@ -132,7 +116,7 @@ def create_customer(request):
             fingerprint = Fingerprint(fingerprint_id=fingerprint_id)
             fingerprint.save()
             customer = Customer(customer_email=email, customer_password=password, customer_name=name,
-                                customer_surname=surname, customer_fingerprint=fingerprint_id)
+                                customer_surname=surname, customer_fingerprint=Fingerprint.objects.get(pk=fingerprint_id))
 
             customer.save()
             data['msg'] = 'Registered!'
@@ -170,23 +154,19 @@ def get_revenue_by_year(request, customer_email):
         return JsonResponse(data)
 
 
-
 def get_free_id(request):
-    check = False
-
     id = 1
-    while (id<=127) and (check == False):
-        if(Fingerprint.objects.filter(pk=id).exists()):
-            id = id+1
+    check = False
+    while (id <= 127 and check==False) :
+        if (Fingerprint.objects.filter(pk=id).exists()):
+            id = id + 1
         else:
             check = True
-    if(check):
-        data = {"id":id}
+    if (check) :
+        data = {'id': id}
     else:
-        data = {"id": 0}
+        data = {'id': 0}
     return JsonResponse(data)
-
-
 
 
 """
