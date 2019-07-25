@@ -1,0 +1,73 @@
+{% extends 'fingerprintData/access_template.html' %}
+
+{% block title %}Access Page{% endblock title %}
+
+{% block activetitle %}Login{% endblock activetitle %}
+
+{% block navlinks %}
+{% endblock navlinks %}
+
+
+{% block content %}
+    {% load static %}
+
+    <input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
+
+    <div class="container border border-primary">
+        <h1>Instructions:</h1>
+        <hr class="sidebar-divider my-4">
+        <div class="row justify-content-center">
+
+            <div class="col-sm-4">
+                <p class="text-warning ">
+                   Press the "Try" button and wait for the yellow light, then place the finger on the sensor.
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="text-success ">
+                    If the green light appears, you are good to go!
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="text-danger">
+                    If the red light appears, then you shall not pass!
+                </p>
+            </div>
+        </div>
+    </div>
+
+<hr class="sidebar-divider my-4">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-4">
+                <div class="card call-sm-6">
+                    <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            <li id="message-ajax"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" id="abort" class="btn btn-danger">Abort</button>
+                        <button type="button" class="btn btn-secondary" id="retry">Try</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block extrajs %}
+    <script src="{% static 'js/demo/fingerprint_access.js' %}"></script>
+
+{% endblock extrajs %}

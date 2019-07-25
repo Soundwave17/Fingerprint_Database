@@ -1,13 +1,15 @@
 {% extends 'fingerprintData/access_template.html' %}
 
-{% block title %}Absolutely Not Maccaroni Register Page{% endblock title %}
-
+{% block title %}Register{% endblock title %}
 {% block activetitle %}Register{% endblock activetitle %}
-
-{% block hrefoff %}<a class="nav-link" href="{% url 'fingerprintData:access' %}">{% endblock hrefoff %}
-
-
-{% block offtitle %}Login{% endblock offtitle %}
+{% block navlinks %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Login</span>
+        </a>
+    </li>
+{% endblock navlinks %}
 
 {% block content %}
     {% load static %}
@@ -62,9 +64,36 @@
                         </div>
                     {% endfor %}
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
 
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <hr class="sidebar-divider my-4">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-4">
+                <div class="card call-sm-6">
+                    <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            <li id="message-ajax"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" id="abort" class="btn btn-danger">Abort</button>
+                        <button type="button" id="retry" class="btn btn-secondary">Try</button>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -74,4 +103,70 @@
 
 {% block extrajs %}
     <script src="{% static 'js/demo/register.js' %}"></script>
+    <script>
+
+        $(document).ready(function () {
+            var csrftoken = '{% csrf_token %}';
+            var first = true;
+            var success = false;
+            $('#retry').click(function (e) {
+                e.preventDefault();
+                if (!success) {
+                    e.preventDefault();
+                    $.ajax({
+                        headers: {
+                            "X-CSRFToken": csrftoken,
+                        },
+                        crossDomain: true,
+                        url: 'http://192.168.1.42/enroll',
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {"key": 127}, //TODO
+                        success: function (result) {
+                            console.log(result);
+                            //TODO create variable to store fingerprint ID
+                            //TODO morph button to continue
+                        }
+                    });
+
+                    if (!first) {
+                        $('#retry').text("Retry");
+                    }
+                } else {
+                    console.log("okkke");
+                    $.ajax({
+                        headers: {"X-CSRFToken": csrftoken},
+                        url: 'create_customer/',
+                        dataType: 'json',
+                        data: {
+                            "customer_email": $("#customer-email").val(),
+                            "customer_name": $("#customer-name").val(),
+                            "customer_surname": $("#customer-surname").val(),
+                            "customer_password": $("#customer-password").val(),
+                            "fingerprint_id":,  //TODO, sistemare come passare fingerprint_id
+                            "csrfmiddlewaretoken": "{{ csrf_token }}"
+                        },
+                        type: 'POST',
+                        success: function (result) {
+                            console.log(result);
+                            var data = JSON.stringify(result);
+                            console.log(data.msg);
+                            //TODO clean fingerprint id
+                        }
+                    });
+                }
+
+            });
+
+
+            $('#abort').click(function (e) {
+                e.preventDefault();
+                window.history.back();
+            });
+
+
+        });
+
+
+    </script>
 {% endblock extrajs %}
