@@ -15,6 +15,7 @@ var success = false;
                 type: 'GET',
                 success: function (result) {
                     if (!result['response']) {
+                        //TODO add fingerprint matching on views.
                         $('#retry').text("Retry");
                         $('#message-ajax').text(result['msg']);
                     } else {
