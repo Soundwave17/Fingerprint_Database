@@ -20,7 +20,17 @@
         <p>Here you can fill the spaces and register!</p>
     </div>
 
-    <div class="container">
+    <div class="container d-none "  id="enroll-error-div">
+        <div class="col-sm-6 shadow">
+            <ul>
+                <li>
+                    <h1 id="enroll-error"></h1>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container ">
         <div class="row">
             <div class="col-sm-12 shadow">
                 <div class="text-center">
@@ -72,9 +82,9 @@
 
     <hr class="sidebar-divider my-4">
 
-    <div class="container">
+    <div class="container ">
         <div class="row justify-content-center">
-            <div class="col-sm-4">
+            <div class="col-sm-4 shadow">
                 <div class="card call-sm-6">
                     <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
                 </div>
@@ -102,13 +112,29 @@
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/register.js' %}"></script>
     <script>
-
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
-            var first = true;
             var success = false;
+            var fingerprint_id;
+            var id;
+
+            $.ajax({
+                headers: {"X-CSRFToken": csrftoken},
+                url: 'get_free_id/',
+                dataType: 'json',
+                type: 'GET',
+                success: function (result) {
+                    if(result['id']==0){
+                        $("#enroll-error-div").removeClass("d-none");
+                        $("#enroll-error-div").show();
+                        $("#enroll-error").text("Cannot enroll anymore customers, we are sorry for the inconvenience.")
+                    }else {
+                        id = result['id'];
+                    }
+                }
+            });
+
             $('#retry').click(function (e) {
                 e.preventDefault();
                 if (!success) {
@@ -121,17 +147,22 @@
                         url: 'http://192.168.1.42/enroll',
                         dataType: 'json',
                         type: 'POST',
-                        data: {"key": 127}, //TODO
+                        data: {"key": id},
                         success: function (result) {
                             console.log(result);
-                            //TODO create variable to store fingerprint ID
-                            //TODO morph button to continue
+                            if (!result['response']) {
+                                $('#retry').text("Retry");
+                                $('#message-ajax').text(result['msg']);
+                            } else {
+                                fingerprint_id = result['id'];
+                                $('#retry').text("Continue");
+                                $('#message-ajax').text(result['msg']);
+                                success = true;
+                            }
+
                         }
                     });
 
-                    if (!first) {
-                        $('#retry').text("Retry");
-                    }
                 } else {
                     console.log("okkke");
                     $.ajax({
@@ -143,15 +174,15 @@
                             "customer_name": $("#customer-name").val(),
                             "customer_surname": $("#customer-surname").val(),
                             "customer_password": $("#customer-password").val(),
-                            "fingerprint_id":,  //TODO, sistemare come passare fingerprint_id
+                            "fingerprint_id": fingerprint_id,
                             "csrfmiddlewaretoken": "{{ csrf_token }}"
                         },
                         type: 'POST',
                         success: function (result) {
                             console.log(result);
-                            var data = JSON.stringify(result);
-                            console.log(data.msg);
-                            //TODO clean fingerprint id
+                            id=0;
+                            success=false;
+                            window.location= window.location.pathname +"/register_success/";
                         }
                     });
                 }

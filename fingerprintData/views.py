@@ -18,12 +18,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 """
 
-
-# TODO add contexts where required.
-# TODO learn FORMS, and GET/POST methods.
-# TODO learn Bootstrap4 html tags.
-# TODO Integrate Chart.js in overview.html
-
 class access(View):
     def get(self, request):
         template = 'fingerprintData/access.html'
@@ -37,11 +31,13 @@ class register(View):
         form = CustomerCreateForm()
         return render(request, template, {'form': form})
 
+
 class purchase(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email, customer_admin=False)
         template = 'fingerprintData/purchase.html'
         return render(request, template, {'customer': customer})
+
 
 class checkout(View):
     def get(self, request, customer_email):
@@ -65,15 +61,10 @@ class fingerprint_access(View):
         template = 'fingerprintData/fingerprint_access.html'
         return render(request, template, {'customer': customer})
 
-
-
-class prova(View):
+class register_success(View):
     def get(self, request):
-        template = 'fingerprintData/prova.html'
-        return render(request, template)
-
-
-# TODO instead of password checking, use fingerprint checking.
+        template='fingerprintData/register_success-html'
+        return render(request,template)
 
 def customer_login(request):
     data = {'msg': '', 'success': False, 'admin': False}
@@ -100,14 +91,14 @@ def customer_exists(request, customer_email):
         if exists:
             data['msg'] = 'This email exists.'
             data['admin'] = Customer.objects.get(pk=email).customer_admin
-            data['success']=True;
+            data['success'] = True;
         else:
             data['msg'] = 'The email is not valid.'
             data['success'] = False
 
     return JsonResponse(data)
 
-
+#TODO add logic to form validation.
 def create_customer(request):
     data = dict()
     if request.method == 'POST':
@@ -161,6 +152,21 @@ def get_revenue_by_year(request, customer_email):
         data['Dec'] = dataArray[11]
 
         return JsonResponse(data)
+
+
+def get_free_id(request):
+    id = 1
+    check = False
+    while (id <= 127 and check==False) :
+        if (Fingerprint.objects.filter(pk=id).exists()):
+            id = id + 1
+        else:
+            check = True
+    if (check) :
+        data = {'id': id}
+    else:
+        data = {'id': 0}
+    return JsonResponse(data)
 
 
 """
