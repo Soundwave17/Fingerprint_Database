@@ -55,7 +55,7 @@ class overview(View):
         customer = get_object_or_404(Customer, pk=customer_email)
         if (customer.customer_admin):
             template = 'fingerprintData/overview.html'
-            return render(request, template)
+            return render(request, template, {'customer': customer})
         raise Http404("How did you get in here???")
 
 
