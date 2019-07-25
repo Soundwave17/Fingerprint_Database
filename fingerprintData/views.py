@@ -63,7 +63,7 @@ class fingerprint_access(View):
 
 class register_success(View):
     def get(self, request):
-        template='fingerprintData/register_success-html'
+        template='fingerprintData/register_success.html'
         return render(request,template)
 
 def customer_login(request):
@@ -116,7 +116,7 @@ def create_customer(request):
             fingerprint = Fingerprint(fingerprint_id=fingerprint_id)
             fingerprint.save()
             customer = Customer(customer_email=email, customer_password=password, customer_name=name,
-                                customer_surname=surname, customer_fingerprint=fingerprint_id)
+                                customer_surname=surname, customer_fingerprint=Fingerprint.objects.get(pk=fingerprint_id))
 
             customer.save()
             data['msg'] = 'Registered!'

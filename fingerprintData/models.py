@@ -13,7 +13,7 @@ def validate_nonzero(value):
         )
 
 
-# TODO later use the fingerprint, instead of commenting it
+# TODO use cascade on delete of fingerprint field
 class Customer(models.Model):
     customer_email = models.EmailField(primary_key=True)
     customer_password = models.CharField(max_length=16)
