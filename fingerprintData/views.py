@@ -181,3 +181,17 @@ def get_customer_id(request, customer_email):
             data['success'] = False
 
     return JsonResponse(data)
+
+
+def delete_customer(request, customer_email):
+    data = {'msg': ''}
+    if request.method == 'POST':
+        email = request.POST.get('customer_email')
+        customer = Customer.objects.get(customer_email=email)
+        fingerprint = Fingerprint.objects.get(fingerprint_id=customer.customer_fingerprint.fingerprint_id)
+        customer.delete()
+        fingerprint.delete()
+
+
+        data['msg'] = 'Il cliente è stato cancellato.'
+    return JsonResponse(data)

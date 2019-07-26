@@ -183,7 +183,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             success: function (result) {
-                if (!result['response']) {
+                if (result['response']) {
                     $("#templates-number").text(result['id']);
                 } else {
                     $("#templates-number").text(result['msg']);
@@ -193,7 +193,7 @@ $(document).ready(function () {
 
 
         //$("#modal-delete").click(function(){
-        // add esp32 response
+        //
         //});
 
         //$("#modal-delete-all").click(function(){
