@@ -191,15 +191,6 @@ $(document).ready(function () {
             },
         });
 
-
-        //$("#modal-delete").click(function(){
-        // add esp32 response
-        //});
-
-        //$("#modal-delete-all").click(function(){
-        // add esp32 response
-        //});
-
         $("#sensor-control").click(function () {
             $("#accordionSidebar li").removeClass("active");
             $("#active-link").addClass("active");

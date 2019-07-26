@@ -84,12 +84,12 @@
 
             <hr class="sidebar-divider my-5">
 
-            <button class="btn btn-danger btn-lg align-bottom" id="delete-all-ids" data-toggle="modal"
+           <!-- <button class="btn btn-danger btn-lg align-bottom" id="delete-all-ids" data-toggle="modal"
                     data-target="#warning-all-modal">
                 <span>
                     Delete all!
                 </span>
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -128,6 +128,7 @@
         </div>
     </div>
 
+    <!--
     <div class="modal fade" id="warning-all-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -157,11 +158,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 {% endblock content %}
 
 {% block extrajs %}
     <script src="{% static 'js/demo/overview.js' %}"></script>
     <script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
+
+
 {% endblock %}
