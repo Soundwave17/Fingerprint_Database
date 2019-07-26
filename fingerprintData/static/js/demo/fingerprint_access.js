@@ -13,6 +13,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     type: 'GET',
                     success: function (result) {
+                        console.log(result);
                         if (!result['response']) {
                             $('#retry').text("Retry");
                             $('#message-ajax').text(result['msg']);
@@ -29,21 +30,18 @@ $(document).ready(function () {
                                 success: function (answer) {
                                     console.log(answer);
                                     if (answer['success'] && answer['id'] == result['id']) {
-                                        found = true;
-                                    }else if(!answer['success']){
+                                        $('#message-ajax').text(result['msg']);
+                                        $('#retry').text("Continue");
+                                        success = true;
+                                    } else if (!answer['success']) {
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
-                                    }else{
+                                    } else {
                                         $('#retry').text("Retry");
                                         $('#message-ajax').text("Your fingerprint is regsitered, but " +
                                             "it doesn't match the user's.");
                                     }
                                 }
                             });
-                            if (found) {
-                                $('#message-ajax').text(result['msg']);
-                                $('#retry').text("Continue");
-                                success = true;
-                            }
                         }
                     },
                     timeout: 100000,
