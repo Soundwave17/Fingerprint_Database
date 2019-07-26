@@ -108,6 +108,7 @@ def create_customer(request):
         surname = request.POST.get('customer_surname')
         fingerprint_id = request.POST.get('fingerprint_id')
         exists = Customer.objects.filter(customer_email=email).exists()
+        
 
         if exists:
             data['msg'] = 'Email already registered! You fool!'
@@ -179,4 +180,18 @@ def get_customer_id(request, customer_email):
             data['msg'] = 'The email is not valid.'
             data['success'] = False
 
+    return JsonResponse(data)
+
+
+def delete_customer(request, customer_email):
+    data = {'msg': ''}
+    if request.method == 'POST':
+        email = request.POST.get('customer_email')
+        customer = Customer.objects.get(customer_email=email)
+        fingerprint = Fingerprint.objects.get(fingerprint_id=customer.customer_fingerprint.fingerprint_id)
+        customer.delete()
+        fingerprint.delete()
+
+
+        data['msg'] = 'Il cliente è stato cancellato.'
     return JsonResponse(data)
