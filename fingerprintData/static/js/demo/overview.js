@@ -174,6 +174,24 @@ $(document).ready(function () {
         var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         var myLineChart = setupChartPage();
 
+        $.ajax({
+            headers: {
+                "X-CSRFToken": csrftoken,
+            },
+            crossDomain: true,
+            url: 'http://192.168.1.42/getNum',
+            dataType: 'json',
+            type: 'GET',
+            success: function (result) {
+                if (!result['response']) {
+                    $("#templates-number").text(result['id']);
+                } else {
+                    $("#templates-number").text(result['msg']);
+                }
+            },
+        });
+
+
         //$("#modal-delete").click(function(){
         // add esp32 response
         //});

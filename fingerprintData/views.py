@@ -123,7 +123,6 @@ def create_customer(request):
 
         return JsonResponse(data)
 
-
 def get_revenue_by_year(request, customer_email):
     customer = get_object_or_404(Customer, pk=customer_email)
     if request.method == 'GET':
@@ -153,7 +152,6 @@ def get_revenue_by_year(request, customer_email):
 
         return JsonResponse(data)
 
-
 def get_free_id(request):
     id = 1
     check = False
@@ -168,71 +166,17 @@ def get_free_id(request):
         data = {'id': 0}
     return JsonResponse(data)
 
-
-"""
-def create_purchase(request):
-    data = dict()
-    if request.method == 'POST':
-        # Get the form data
-        form = customer_form(request.POST)
-
-        if form.is_valid():
-            form.save()  # insert new row
-
-            # Return some json response back to the user
-            msg = ' Your data has been inserted successfully, thank you!'
-            data = globalfunctions.dict_alert_msg('True', 'Awesome!', msg, 'success')
-
+def get_customer_id(request, customer_email):
+    data = {'msg': '', 'success': False}
+    if request.method == 'GET':
+        email = request.GET.get('customer_email')
+        exists = Customer.objects.filter(customer_email=email).exists()
+        if exists:
+            data['msg'] = 'This email exists.'
+            data['id'] = Customer.objects.get(customer_email=email).customer_fingerprint.fingerprint_id
+            data['success'] = True;
         else:
+            data['msg'] = 'The email is not valid.'
+            data['success'] = False
 
-            # Extract form.errors
-            msg = None
-            msg = [(k, v[0]) for k, v in form.errors.items()]
-            data = globalfunctions.dict_alert_msg('False', 'Oops, Error', msg, 'error')
-
-        return JsonResponse(data)
-
-def create_purchase_list(request):
-    data = dict()
-    if request.method == 'POST':
-        # Get the form data
-        form = customer_form(request.POST)
-
-        if form.is_valid():
-            form.save()  # insert new row
-
-            # Return some json response back to the user
-            msg = ' Your data has been inserted successfully, thank you!'
-            data = globalfunctions.dict_alert_msg('True', 'Awesome!', msg, 'success')
-
-        else:
-
-            # Extract form.errors
-            msg = None
-            msg = [(k, v[0]) for k, v in form.errors.items()]
-            data = globalfunctions.dict_alert_msg('False', 'Oops, Error', msg, 'error')
-
-        return JsonResponse(data)
-
-def create_fingerprint(request):
-    data = dict()
-    if request.method == 'POST':
-        # Get the form data
-        form = customer_form(request.POST)
-
-        if form.is_valid():
-            form.save()  # insert new row
-
-            # Return some json response back to the user
-            msg = ' Your data has been inserted successfully, thank you!'
-            data = globalfunctions.dict_alert_msg('True', 'Awesome!', msg, 'success')
-
-        else:
-
-            # Extract form.errors
-            msg = None
-            msg = [(k, v[0]) for k, v in form.errors.items()]
-            data = globalfunctions.dict_alert_msg('False', 'Oops, Error', msg, 'error')
-
-        return JsonResponse(data)
-"""
+    return JsonResponse(data)
