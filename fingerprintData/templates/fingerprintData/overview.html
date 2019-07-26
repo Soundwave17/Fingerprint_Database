@@ -3,157 +3,156 @@
 {% block title %}Overview{% endblock title %}
 {% block activetitle %}Overview{% endblock activetitle %}
 {% block navlinks %}
-    <li class="nav-item active">
-        <a class="nav-link" href="javascript:void(0)" id="graphs">
-            <i class="fas fa-fw fa-folder"></i>
-            <span> Graphs </span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)" id="sensor-control">
-            <i class="fas fa-fw fa-folder"></i>
-            <span> Sensor Control </span>
-        </a>
-    </li>
+<li class="nav-item active">
+    <a class="nav-link" href="javascript:void(0)" id="graphs">
+        <i class="fas fa-fw fa-folder"></i>
+        <span> Graphs </span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="javascript:void(0)" id="sensor-control">
+        <i class="fas fa-fw fa-folder"></i>
+        <span> Sensor Control </span>
+    </a>
+</li>
 {% endblock navlinks %}
 {% block topbar %}
-    <ul class="navbar-nav ml-auto">
+<ul class="navbar-nav ml-auto">
 
-        <li class="nav-item dropdown arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
+    <li class="nav-item dropdown arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
+        </a>
+        <!-- Dropdown - User Information -->
+        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+             aria-labelledby="userDropdown">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
             </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                 aria-labelledby="userDropdown">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
-        </li>
+        </div>
+    </li>
 
-    </ul>
+</ul>
 {% endblock topbar %}
 
 {% block content %}
-    {% load static %}
-    <div id="graph-wrapper" class="container">
+{% load static %}
+<div id="graph-wrapper" class="container">
 
-        <div class="col-sm-12">
-            <div class="row ">
-                <div class="form-group">
-                    <label for="year-input">Year:</label>
-                    <input type="text" class="form-control" id="year-input" name="year">
-                    <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+    <div class="col-sm-12">
+        <div class="row ">
+            <div class="form-group">
+                <label for="year-input">Year:</label>
+                <input type="text" class="form-control" id="year-input" name="year">
+                <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+            </div>
+            <div id="error-div">
+                <ul class="border-danger">
+                    <li><p id="error-msg" class="text-danger"></p></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class=" text-center">
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
                 </div>
-                <div id="error-div">
-                    <ul class="border-danger">
-                        <li><p id="error-msg" class="text-danger"></p></li>
+            </div>
+            <button class="btn btn-info" id="download-pdf">
+                Download PDF
+            </button>
+        </div>
+    </div>
+</div>
+<div id="sensor-control-wrapper" class="container d-none">
+    <div class="text-center col-sm-12">
+        <p>
+            Sensor has: <span id="templates-number"></span> fingerprints stored.
+        </p>
+
+        <div class="form-group">
+            <label for="id-input">Select customer to delete by typing his email:</label>
+            {% csrf_token %}
+            <input type="text" class="form-control" id="id-input" name="id">
+            <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
+                Delete
+            </button>
+        </div>
+
+        <hr class="sidebar-divider my-5">
+
+        <!-- <button class="btn btn-danger btn-lg align-bottom" id="delete-all-ids" data-toggle="modal"
+                 data-target="#warning-all-modal">
+             <span>
+                 Delete all!
+             </span>
+         </button>-->
+    </div>
+</div>
+
+
+<!--Modal-->
+
+<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Warning!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure you wish to delete this Customer?
+                </p>
+                <div id="modal-delete-error-div" class="d-none">
+                    <ul>
+                        <li id="modal-delete-error-msg"></li>
                     </ul>
                 </div>
             </div>
-
-            <div class=" text-center">
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                        <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
                     </div>
                 </div>
-                <button class="btn btn-info" id="download-pdf">
-                    Download PDF
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="modal fade" id="warning-all-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        </div>
-    </div>
-    <div id="sensor-control-wrapper" class="container d-none">
-        <div class="text-center col-sm-12">
-            <p>
-                Sensor has: <span id="templates-number"></span> fingerprints stored.
-            </p>
+            <div class="modal-body">
 
-            <div class="form-group">
-                <label for="id-input">Select customer to delete by typing his email:</label>
-                <input type="text" class="form-control" id="id-input" name="id">
-                <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
-                    Delete
-                </button>
-            </div>
-
-            <hr class="sidebar-divider my-5">
-
-           <!-- <button class="btn btn-danger btn-lg align-bottom" id="delete-all-ids" data-toggle="modal"
-                    data-target="#warning-all-modal">
-                <span>
-                    Delete all!
-                </span>
-            </button> -->
-        </div>
-    </div>
-
-
-    <!--Modal-->
-
-    <div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Are you sure you wish to delete this Customer?
-                    </p>
-                    <div id="modal-delete-error-div" class="d-none">
-                        <ul>
-                            <li id="modal-delete-error-msg"></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="container">
-                        <div class="row justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
-                            <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
-                        </div>
-                    </div>
+                Are you sure you want to delete all the Customer database?
+                <div id="modal-delete-all-error-div" class="d-none">
+                    <ul>
+                        <li id="modal-delete-all-error-msg"></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!--
-    <div class="modal fade" id="warning-all-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    Are you sure you want to delete all the Customer database?
-                    <div id="modal-delete-all-error-div" class="d-none">
-                        <ul>
-                            <li id="modal-delete-all-error-msg"></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="container">
-                        <div class="row justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
-                            <button type="button" id="modal-delete-all" class="btn btn-danger">Yes, delete</button>
-                        </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                        <button type="button" id="modal-delete-all" class="btn btn-danger">Yes, delete</button>
                     </div>
                 </div>
             </div>
@@ -163,8 +162,80 @@
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/overview.js' %}"></script>
-    <script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
+<script src="{% static 'js/demo/overview.js' %}"></script>
+<script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+        $("#error-div").hide();
+        var csrftoken = '{% csrf_token %}';
+
+        var id;
+        var mail;
+
+        $("#modal-delete").click(function(e){
+            e.preventDefault();
+            mail = $('#id-input').val();
+            $.ajax({
+                  headers: {
+                     "X-CSRFToken": csrftoken,
+                  },
+                  crossDomain: true,
+                  url: 'get_customer_id/',
+                  dataType: 'json',
+                  type: 'GET',
+                  data: {'customer_email': mail},
+                  success: function (result) {
+                      console.log(result);
+                      if (result['success']) {
+                            id = result['id'];
+                            $.ajax({
+                                  headers: {
+                                     "X-CSRFToken": csrftoken,
+                                  },
+                                  crossDomain: true,
+                                  url: 'http://192.168.1.42/delete',
+                                  dataType: 'json',
+                                  type: 'POST',
+                                  data: {"key": id},
+                                  success: function (result1) {
+                                      console.log(result1);
+                                      if (result1['response']) {
+                                            $('#modal-delete').text(result['msg']);
+                                            console.log("First!");
+                                            $.ajax({
+                                                  headers: {
+                                                     "X-CSRFToken": csrftoken,
+                                                  },
+                                                  crossDomain: true,
+                                                  url: 'delete_customer/',
+                                                  dataType: 'json',
+                                                  type: 'POST',
+                                                  data: {"customer_email": mail, "csrfmiddlewaretoken": "{{ csrf_token }}"},
+                                                  success: function (result2) {
+                                                      console.log(result2);
+                                                      console.log("Second!");
+                                                      $('#modal-delete').text(result['msg']);
+                                                  }
+                                            });
+                                      } else {
+                                            $('#modal-delete').text(result1['msg']);
+                                      }
+
+                                  }
+                            });
+                      } else {
+                            $('#modal-delete').text(result['msg']);
+                      }
+
+                  }
+            });
+
+        });
 
 
+});
+
+
+</script>
 {% endblock %}
