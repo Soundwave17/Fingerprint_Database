@@ -29,21 +29,19 @@ $(document).ready(function () {
                                 success: function (answer) {
                                     console.log(answer);
                                     if (answer['success'] && answer['id'] == result['id']) {
-                                        found = true;
+                                        $('#message-ajax').text(result['msg']);
+                                        $('#retry').text("Continue");
+                                        success = true;
                                     }else if(!answer['success']){
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
                                     }else{
                                         $('#retry').text("Retry");
-                                        $('#message-ajax').text("Your fingerprint is regsitered, but " +
+                                        $('#message-ajax').text("Your fingerprint is registered, but " +
                                             "it doesn't match the user's.");
                                     }
                                 }
                             });
-                            if (found) {
-                                $('#message-ajax').text(result['msg']);
-                                $('#retry').text("Continue");
-                                success = true;
-                            }
+                            
                         }
                     },
                     timeout: 100000,
