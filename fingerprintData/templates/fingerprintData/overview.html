@@ -40,15 +40,73 @@
 
 {% block content %}
 {% load static %}
+
+
 <div id="graph-wrapper" class="container">
+
+    <!--
+    <ul class="nav nav-pills m-2">
+        <li class="nav-item">
+            <button class="btn btn-primary" id="year-tab">Year</button>
+        </li>
+        <li class="nav-item">
+            <button class="btn btn-primary" id="type-tab">Type</button>
+        </li>
+        <li class="nav-item">
+            <button class="btn btn-primary" id="product-tab">Product</button>
+        </li>
+        <li class="nav-item">
+            <button class="btn btn-primary" id="customer-tab">Customer</button>
+        </li>
+    </ul>-->
 
     <div class="col-sm-12">
         <div class="row ">
-            <div class="form-group">
-                <label for="year-input">Year:</label>
+            <div class="form-group m-3">
+                <label for="year-input">Year</label>
                 <input type="text" class="form-control" id="year-input" name="year">
+
+            </div>
+
+            <div class="form-group m-3">
+                <label for="type-input">Type</label>
+                <select class="form-control" id="type-input">
+                    <option>Nothing</option>
+                    {% if types %}
+                        {% for type in types %}
+
+                            <option>{{ type }}</option>
+                        {% endfor %}
+                    {% endif %}
+
+                </select>
+            </div>
+
+            <div class="form-group m-3">
+                <label for="product-input">Product</label>
+                <select class="form-control" id="product-input">
+                    <option>Nothing</option>
+
+
+
+                </select>
+
+            </div>
+
+            <div class="form-group m-3">
+                <label for="customer-input">Customer</label>
+                <select class="form-control mb-3" id="customer-input">
+                    <option>Nothing</option>
+                    {% if customers %}
+                        {% for customer in customers %}
+                            <option>{{ customer }}</option>
+                        {% endfor %}
+                    {% endif %}
+
+                </select>
                 <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
             </div>
+
             <div id="error-div">
                 <ul class="border-danger">
                     <li><p id="error-msg" class="text-danger"></p></li>
@@ -68,6 +126,8 @@
         </div>
     </div>
 </div>
+
+
 <div id="sensor-control-wrapper" class="container d-none">
     <div class="text-center col-sm-12">
         <p>
@@ -235,6 +295,18 @@ $(document).ready(function () {
 
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

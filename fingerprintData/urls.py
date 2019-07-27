@@ -9,6 +9,7 @@ urlpatterns = [
     path('<str:customer_email>/fingerprint_access/',views.fingerprint_access.as_view() , name='fingerprint_access'),
     path('<str:customer_email>/fingerprint_access/get_customer_id/',views.get_customer_id , name='get_customer_id'),
     path('<str:customer_email>/fingerprint_access/overview/',views.overview.as_view() , name='overview'),
+    path('<str:customer_email>/fingerprint_access/overview/get_product_by_type/', views.get_product_by_type, name="get_product_by_type"),
     path('<str:customer_email>/fingerprint_access/overview/delete_customer/',views.delete_customer , name='delete_customer'),
     path('<str:customer_email>/fingerprint_access/get_customer_id/',views.get_customer_id , name='get_customer_id'),
     path('<str:customer_email>/fingerprint_access/overview/get_revenue_by_year/', views.get_revenue_by_year, name='revenue'),
