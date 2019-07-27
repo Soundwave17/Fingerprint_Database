@@ -2,6 +2,8 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.core.validators import  MinValueValidator
+from decimal import Decimal
 
 
 # throws exception in case of 0 passed as a paramater for the field.
@@ -44,9 +46,10 @@ class Product(models.Model):
         (AFRICA, 'Africa'),
     ]
 
+    #TODO add TextField for description
     product_code = models.AutoField(primary_key=True)
-    product_name = models.CharField(max_length=50, blank=False)
-    product_price = models.PositiveIntegerField(default=0)
+    product_name = models.CharField(max_length=50, blank=False, unique=True)
+    product_price = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(Decimal('0.01'))] )
     product_type = models.ForeignKey('Type', on_delete=models.CASCADE)
     product_origin = models.CharField(max_length=2, choices=choices_list, blank=False)
 
@@ -74,10 +77,9 @@ class Purchase(models.Model):
     def __str__(self):
         return "%s %s" % (self.purchase_customer, self.purchase_date)
 
-
 class Type(models.Model):
     type_id = models.AutoField(primary_key=True)
-    type_description = models.CharField(max_length=200, blank=False)
+    type_description = models.CharField(max_length=200, blank=False, unique=True)
 
     def __str__(self):
         return self.type_description

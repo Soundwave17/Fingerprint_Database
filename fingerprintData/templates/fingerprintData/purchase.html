@@ -1,4 +1,5 @@
-{% extends 'fingerprintData/access_template.html' %}
+{% extends 'fingerprintData/page_template.html' %}
+
 
 {% block title %}{% endblock title %}
 {% block navtitle %}{% endblock navtitle %}
@@ -40,6 +41,9 @@
 
 {% block content %}
     {% load static %}
+    {% block extracss %}
+        <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
+    {% endblock extracss %}
 
     {% if types %}
 
@@ -69,47 +73,81 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...
 
             </div>
-
             {% for type in types %}
-
                 <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">...
-                    {% if products %}
-                        {% for product in products %}
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://picsum.photos/200/150/?random">
-                                    <div class="card-block">
-                                        <h4 class="card-title">Tawshif Ahsan Khan</h4>
-                                        <div class="meta">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                        <div class="card-text">
-                                            Tawshif is a web designer living in Bangladesh.
+                    <div class="row justify-content-center">
+                        {% if products %}
+                            {% for product in products %}
+                                {% if type == product.product_type %}
+                                    <div class="col-md-3  border p-1 m-1 rounded border-4">
+                                        <div class="card">
+                                            <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                                            <div class="card-block">
+                                                <h4 class="card-title">{{ product.product_name }}</h4>
+                                                <div class="meta">
+                                                    <a href="#">Friends</a>
+                                                </div>
+                                                <div class="card-text">
+                                                    Tawshif is a web designer living in Bangladesh.
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <span class="float-sm-left"><img class="check-image" alt="Check"
+                                                                                 src="{% static 'vendor/img/check.jpg' %}"> </span>
+                                                <span class="float-sm-right"><i></i>{{ product.product_price }} € </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <span><i class=""></i>75 Friends</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
-
             {% endfor %}
-
         </div>
 
         <hr class="sidebar-divider my-4">
 
         <div class="row">
-            <button id="prova" class="btn btn-primary"> Go to Checkout</button>
-            <button class="btn btn-info"> Empty your cart</button>
+            <button id="checkout-btn" class="btn btn-primary"> Go to Checkout</button>
+            <button id="empty-cart" class="btn btn-info"> Empty your cart</button>
         </div>
 
     {% endif %}
 {% endblock content %}
 
 {% block extrajs %}
+    <script src="{% static 'js/demo/purchase.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            var csrftoken = '{% csrf_token %}';
+            var temp = [];
+            $("#checkout-btn").on("click", function (e) {
+                e.preventDefault();
+                var array = $(".selected");
+                if (!array.length) {
+                    console.log("AAAAAAAAAA EMPTY");
+                } else {
+                    console.log("Product list is not empty");
+                    array.each(function (index, value) {
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("h4.card-title").text());
+                        console.log(temp);
+                    });
 
+                    $.ajax({
+                        headers: {"X-CSRFToken": csrftoken},
+                        url: 'checkout/',
+                        dataType: 'text/html',
+                        data: {'products': temp, "csrfmiddlewaretoken": "{{ csrf_token }}"},
+                        type: 'POST',
+                        success: function (result) {
+                            console.log(result);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 {% endblock %}

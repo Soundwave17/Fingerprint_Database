@@ -47,15 +47,28 @@ class checkout(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
         template = 'fingerprintData/checkout.html'
-        return render(request, template, {'customer': customer})
-
+        if request.method == 'POST':
+            products = request.POST.get('products')
+            data=[]
+            temp=[]
+            temp=products
+            for product in temp:
+                data.append(Product.objects.get(product_name=product))
+            return render(request, template, {'customer': customer,
+                                          'products' : data})
+        else: return Http404('What?');
 
 class overview(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
         if (customer.customer_admin):
+            type_list = Type.objects.all()
+            customer_list = Customer.objects.all()
             template = 'fingerprintData/overview.html'
-            return render(request, template, {'customer': customer})
+            return render(request, template, {'customer': customer,
+                                              'types': type_list,
+                                              'customers': customer_list,
+                                              })
         raise Http404("How did you get in here???")
 
 
@@ -199,3 +212,12 @@ def delete_customer(request, customer_email):
 
         data['msg'] = 'Il cliente è stato cancellato.'
     return JsonResponse(data)
+
+def get_product_by_type(request, customer_email):
+    data={'products':[]}
+    if(request.method=='GET'):
+        type= request.GET.get("type")
+        products= Product.objects.filter(product_type=Type.objects.get(type_description=type))
+        for product in products:
+            data['products'].append(product.product_name)
+        return JsonResponse(data)
