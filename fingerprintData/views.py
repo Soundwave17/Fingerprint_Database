@@ -35,8 +35,12 @@ class register(View):
 class purchase(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email, customer_admin=False)
+        type_list = Type.objects.all()
+        product_list = Product.objects.all()
         template = 'fingerprintData/purchase.html'
-        return render(request, template, {'customer': customer})
+        return render(request, template, {'customer': customer,
+                                          'types': type_list,
+                                          'products': product_list})
 
 
 class checkout(View):

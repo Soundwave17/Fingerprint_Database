@@ -13,6 +13,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     type: 'GET',
                     success: function (result) {
+                        console.log(result);
                         if (!result['response']) {
                             $('#retry').text("Retry");
                             $('#message-ajax').text(result['msg']);
@@ -32,16 +33,15 @@ $(document).ready(function () {
                                         $('#message-ajax').text(result['msg']);
                                         $('#retry').text("Continue");
                                         success = true;
-                                    }else if(!answer['success']){
+                                    } else if (!answer['success']) {
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
-                                    }else{
+                                    } else {
                                         $('#retry').text("Retry");
-                                        $('#message-ajax').text("Your fingerprint is registered, but " +
+                                        $('#message-ajax').text("Your fingerprint is regsitered, but " +
                                             "it doesn't match the user's.");
                                     }
                                 }
                             });
-                            
                         }
                     },
                     timeout: 100000,
