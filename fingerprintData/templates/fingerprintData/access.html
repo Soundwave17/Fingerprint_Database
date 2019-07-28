@@ -17,6 +17,12 @@
 {% block content %}
     {% load static %}
 
+    {% block extracss %}
+
+        <link href="{% static 'css/access.css' %}" rel="stylesheet" type="text/css">
+
+    {% endblock %}
+
     <div class="jumbotron text-center">
         <h1>Evil and Mean Marketplace</h1>
         <p>A very safe place where to buy all your product needs!</p>
