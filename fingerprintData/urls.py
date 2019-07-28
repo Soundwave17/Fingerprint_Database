@@ -14,6 +14,7 @@ urlpatterns = [
     path('<str:customer_email>/fingerprint_access/get_customer_id/',views.get_customer_id , name='get_customer_id'),
     path('<str:customer_email>/fingerprint_access/overview/get_product_by_type/', views.get_product_by_type, name="get_product_by_type"),
     path('<str:customer_email>/fingerprint_access/overview/get_revenue_by_year/', views.get_revenue_by_year, name='revenue'),
+    path('<str:customer_email>/fingerprint_access/overview/get_revenue_by_type/', views.get_revenue_by_type, name='revenue_type'),
     path('<str:customer_email>/fingerprint_access/purchase/', views.purchase.as_view(), name='purchase'),
     path('<str:customer_email>/fingerprint_access/purchase/checkout/', views.checkout.as_view(), name='checkout'),
     path('register/create_customer/', views.create_customer, name='create_customer'),
