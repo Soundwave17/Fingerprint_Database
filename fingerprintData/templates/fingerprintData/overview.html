@@ -98,7 +98,7 @@
                     <option>Nothing</option>
                     {% if customers %}
                         {% for customer in customers %}
-                            <option>{{ customer }}</option>
+                            <option>{{ customer.customer_email }}</option>
                         {% endfor %}
                     {% endif %}
 

@@ -210,6 +210,9 @@ $(document).ready(function () {
 
         $("#load-graph").click(function () {
             var year = $("#year-input").val();
+            var type = $("#type-input").val();
+            var product = $("#product-input").val();
+            var customer = $("#customer-input").val();
             var error_div = $("#error-div");
             error_div.hide();
             if (year) {
@@ -218,7 +221,7 @@ $(document).ready(function () {
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'get_revenue_by_year/',
                         dataType: 'json',
-                        data: {"year": year},
+                        data: {"year": year, "type": type, "product": product, "customer": customer},
                         type: 'GET',
                         success: function (result) {
                             console.log(result);

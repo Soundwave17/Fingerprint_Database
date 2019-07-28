@@ -148,13 +148,35 @@ def get_revenue_by_year(request, customer_email):
                 'Jul': 0, 'Aug': 0, 'Sep': 0, 'Oct': 0, 'Nov': 0, 'Dec': 0}
         dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         year = request.GET.get('year')
-        tot_list = Purchase.objects.filter(purchase_date__year=year)
+        type = request.GET.get('type')
+        productName = request.GET.get('product')
+        customer = request.GET.get('customer')
+
+
+        if (customer != 'Nothing'):
+            cust = Customer.objects.get(customer_email=customer)
+            tot_list = Purchase.objects.filter(purchase_date__year=year, purchase_customer=cust)
+        else:
+            tot_list = Purchase.objects.filter(purchase_date__year=year)
+
         for m in tot_list:
             p_code = m.purchase_code
             purchase_list = PurchaseList.objects.filter(purchaseList_code=p_code)
+
             for p in purchase_list:
-                product = Product.objects.get(product_code=p.purchaseList_product.product_code)
-                dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                if (type != 'Nothing'):
+                    t = Type.objects.get(type_description=type)
+                    if (productName != 'Nothing' and p.purchaseList_product.product_name == productName ):
+                        product = Product.objects.get(product_name=productName, product_code=p.purchaseList_product.product_code)
+                        dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                    elif (p.purchaseList_product.product_type == t  and productName == 'Nothing'):
+
+                        product = Product.objects.get(product_code=p.purchaseList_product.product_code)
+                        dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                else:
+                    product = Product.objects.get(product_code=p.purchaseList_product.product_code)
+                    dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+
         data['Jan'] = dataArray[0]
         data['Feb'] = dataArray[1]
         data['Mar'] = dataArray[2]
