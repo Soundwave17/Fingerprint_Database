@@ -192,6 +192,46 @@ def get_revenue_by_year(request, customer_email):
 
         return JsonResponse(data)
 
+
+def get_revenue_by_type(request, customer_email):
+    customer = get_object_or_404(Customer, pk=customer_email)
+    if request.method == 'GET':
+        dataTot = {}
+        labels = {}
+        data = []
+        year = request.GET.get('year')
+        customer = request.GET.get('customer')
+        types = Type.objects.filter()
+        i = 0
+        for type in types:
+            data.append(0)
+            labels[type.type_description] = i
+            i = i+1
+        if customer == 'Nothing':
+            if year is '':
+                tot_list = Purchase.objects.filter()
+            else:
+                tot_list = Purchase.objects.filter(purchase_date__year=year)
+        else:
+            if year is '':
+                tot_list = Purchase.objects.filter(purchase_customer=customer)
+            else:
+                tot_list = Purchase.objects.filter(purchase_date__year=year, purchase_customer=customer)
+
+        for purchase in tot_list:
+            purchaseCode = purchase.purchase_code
+            purchase_list = PurchaseList.objects.filter(purchaseList_code=purchaseCode)
+            for prod in purchase_list:
+                product = Product.objects.get(product_code=prod.purchaseList_product.product_code)
+                data[labels[product.product_type.type_description]] += (product.product_price) * (prod.purchaseList_qty)
+
+        dataTot['types'] = labels
+        dataTot['data'] = data
+
+        return JsonResponse(dataTot)
+
+
+
 def get_free_id(request):
     id = 1
     check = False
