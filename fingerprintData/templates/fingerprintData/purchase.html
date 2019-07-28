@@ -87,19 +87,29 @@
                             {% if products %}
                                 {% for product in products %}
                                     {% if type == product.product_type %}
-                                        <div class="col-md-2  border p-1 m-1 rounded border-4">
+                                        <div class="col-md-3  border p-1 m-1 rounded border-4">
                                             <div class="card">
                                                 <img class="card-img-top" src="https://picsum.photos/200/150/?random">
                                                 <div class="card-block">
                                                     <h4 class="card-title">{{ product.product_name }}</h4>
                                                     <div class="card-text">
-                                                        Tawshif is a web designer living in Bangladesh.
+                                                       Lorem Ipsum Sir Dolor Amet
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
-                                                <span class="float-sm-left"><img class="check-image" alt="Check"
-                                                                                 src="{% static 'vendor/img/check.jpg' %}"> </span>
-                                                    <span class="float-sm-right"><i></i>{{ product.product_price }} € </span>
+                                                    <div class="row align-content-center">
+                                                        <div class=" col-md-2 float-sm-left">
+                                                            <img class="check-image mx-1" alt="Check"
+                                                                 src="{% static 'vendor/img/check.jpg' %}">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" type="text" value="1">
+                                                        </div>
+
+                                                        <div class=" col-md-6 text-center my-auto">
+                                                            {{ product.product_price }} €
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,36 +133,9 @@
 
         <div class="container d-none border rounded shadow" id="checkout-panel">
             <div class="row">
-                <div class="col-md-12">
-                    <ul class="list-group my-3">
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-light">
-                            <div class="text-success">
-                                <h6 class="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span class="text-success">-$5</span>
-                        </li>
+                <div class="col-md-12" id="checkout-table">
+                    <ul class="list-group my-3" id="checkout-table-ul">
+
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>
                             <strong>$20</strong>
@@ -183,32 +166,46 @@
 
             $("#checkout-btn").on("click", function (e) {
                 e.preventDefault();
-                var temp = {};
+                var products= {};
                 var array = $(".selected");
                 if (!array.length) {
                     console.log("AAAAAAAAAA EMPTY");
                 } else {
-                    var lenght = 0;
                     console.log("Product list is not empty");
                     array.each(function (index, value) {
-                        temp[index] = ($(this).children("div.card")
+                        var temp = [];
+                        temp.push($(this).children("div.card")
                             .children("div.card-block")
                             .children("h4.card-title").text());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-4")
+                            .children("input.form-control").val());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-6.text-center.my-auto")
+                            .text());
+                        products[index]= temp;
                     });
-                    console.log(length);
-                    JSON.stringify(temp);
-                    temp['length'] = length;
-                    console.log(temp);
-                    $.ajax({
-                        headers: {"X-CSRFToken": csrftoken},
-                        url: 'checkout/',
-                        dataType: 'HttpResponse',
-                        data: temp,
-                        type: 'GET',
-                        success: function (result) {
-                            console.log(result);
-                        }
-                    });
+                    console.log(products);
+                    for (var key in products){
+                        $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
+                        '                               <div>\n' +
+                        '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                        '                                   <small class="text-muted">'+ products[key][1] +'</small>\n' +
+                        '                               </div>\n' +
+                        '                               <span class="text-muted">'+ products[key][2] +'</span>\n' +
+                        '                           </li>');
+                    }
+
+                    $("#checkout-table.ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
+                        '                               <span>Total (USD)</span>\n' +
+                        '                               <strong>$20</strong>\n' +
+                        '                           </li>')
+
+
                 }
             });
         });
