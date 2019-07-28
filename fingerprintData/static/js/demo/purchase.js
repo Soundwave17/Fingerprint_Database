@@ -40,7 +40,6 @@ $(document).ready(function () {
         });
     card_wrapper.on('click', function () {
         if ($(this).hasClass('border-primary')) {
-
             $(this).removeClass('border-primary');
             $(this).remove("selected");
             $(this).children("div.card")
@@ -49,7 +48,6 @@ $(document).ready(function () {
                 .children("div.col-md-2.float-sm-left")
                 .children("img.check-image").hide();
         } else {
-
             $(this).addClass('border-primary');
             $(this).addClass('selected');
             $(this).children("div.card")
@@ -63,7 +61,6 @@ $(document).ready(function () {
     $("#empty-cart").on("click", function () {
         card_wrapper.each(function (index, value) {
             if ($(this).hasClass('border-primary')) {
-
                 $(this).removeClass('border-primary');
                 $(this).remove("selected");
                 $(this).children("div.card")

@@ -5,207 +5,209 @@
 {% block navtitle %}{% endblock navtitle %}
 {% block activetitle %}Purchase{% endblock activetitle %}
 {% block navlinks %}
-<li class="nav-item active">
-    <a class="nav-link " href="javascript:void(0)" id="products-nav">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Products </span>
-    </a>
-</li>
+    <li class="nav-item active">
+        <a class="nav-link " href="javascript:void(0)" id="products-nav">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Products </span>
+        </a>
+    </li>
 
-<li class="nav-item">
-    <a class="nav-link" href="javascript:void(0)" id="cart-nav">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Your cart </span>
-    </a>
-</li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" id="cart-nav">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Your cart </span>
+        </a>
+    </li>
 {% endblock navlinks %}
 
 
 {% block topbar %}
 
-<input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
+    <input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
 
-<ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto">
 
-    <li class="nav-item dropdown arrow ">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
-        </a>
-        <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-             aria-labelledby="userDropdown">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
+        <li class="nav-item dropdown arrow ">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
             </a>
-        </div>
-    </li>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
 
-</ul>
+    </ul>
 {% endblock topbar %}
 
 {% block content %}
-{% load static %}
+    {% load static %}
 
-{% block extracss %}
-<link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
+    {% block extracss %}
+        <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
+    {% endblock %}
 
-{% if types %}
-<div class="container mx-0" id="purchase-panel">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item border-left-success rounded">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-               aria-controls="home"
-               aria-selected="true">Home</a>
-        </li>
+    {% if types %}
+        <div class="container mx-0" id="purchase-panel">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item border-left-success rounded">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                       aria-controls="home"
+                       aria-selected="true">Home</a>
+                </li>
 
-        {% for type in types %}
-        <li class="nav-item border-left-success rounded">
-            <a class="nav-link"
-               id="{{ type }}-tab"
-               data-toggle="tab"
-               href="#{{ type }}"
-               role="tab"
-               aria-controls="{{ type }}"
-               aria-selected="false">{{ type }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
+                {% for type in types %}
+                    <li class="nav-item border-left-success rounded">
+                        <a class="nav-link"
+                           id="{{ type }}-tab"
+                           data-toggle="tab"
+                           href="#{{ type }}"
+                           role="tab"
+                           aria-controls="{{ type }}"
+                           aria-selected="false">{{ type }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
 
-    <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...
 
-        </div>
-        {% for type in types %}
-        <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">...
-            <div class="row justify-content-center">
-                {% if products %}
-                {% for product in products %}
-                {% if type == product.product_type %}
-                <div class="col-md-3  border p-1 m-1 rounded border-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://picsum.photos/200/150/?random">
-                        <div class="card-block">
-                            <h4 class="card-title">{{ product.product_name }}</h4>
-                            <div class="card-text">
-                                Tawshif is a web designer living in Bangladesh.
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row align-content-center">
-                                <div class="col-md-2 float-sm-left">
-                                    <img class="check-image" alt="Check"
-                                         src="{% static 'vendor/img/check.jpg' %}">
-                                </div>
-                                <div class="col-md-4">
-                                    <input class="form-control" type="text" value="1">
-                                </div>
+                </div>
+                {% for type in types %}
+                    <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">...
+                        <div class="row justify-content-center">
+                            {% if products %}
+                                {% for product in products %}
+                                    {% if type == product.product_type %}
+                                        <div class="col-md-3  border p-1 m-1 rounded border-4">
+                                            <div class="card">
+                                                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                                                <div class="card-block">
+                                                    <h4 class="card-title">{{ product.product_name }}</h4>
+                                                    <div class="card-text">
+                                                       Lorem Ipsum Sir Dolor Amet
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row align-content-center">
+                                                        <div class=" col-md-2 float-sm-left">
+                                                            <img class="check-image mx-1" alt="Check"
+                                                                 src="{% static 'vendor/img/check.jpg' %}">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" type="text" value="1">
+                                                        </div>
 
-                                <div class=" col-md-6 text-center my-auto">
-                                    {{ product.product_price }} €
-                                </div>
-                            </div>
+                                                        <div class=" col-md-6 text-center my-auto">
+                                                            {{ product.product_price }} €
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-                {% endif %}
                 {% endfor %}
-                {% endif %}
+            </div>
+
+            <hr class="sidebar-divider my-4">
+
+            <div class="row justify-content-center text-center">
+                <button id="checkout-btn" class="btn btn-primary"> Go to Checkout</button>
+                <button id="empty-cart" class="btn btn-danger"> Empty your cart</button>
+            </div>
+
+
+        </div>
+
+        <div class="container d-none border rounded shadow" id="checkout-panel">
+            <div class="row">
+                <div class="col-md-12" id="checkout-table">
+                    <ul class="list-group my-3" id="checkout-table-ul">
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <strong>$20</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+
+                </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
 
-    <hr class="sidebar-divider my-4">
-
-    <div class="row justify-content-center text-center">
-        <button id="checkout-btn" class="btn btn-primary"> Go to Checkout</button>
-        <button id="empty-cart" class="btn btn-danger"> Empty your cart</button>
-    </div>
-
-
-</div>
-
-<div class="container d-none border rounded shadow" id="checkout-panel">
-    <div class="row">
-        <div class="col-md-12" id="checkout-table">
-            <ul class="list-group my-3" id="checkout-table-ul">
-
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (USD)</span>
-                    <strong>$20</strong>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-
-        </div>
-    </div>
-</div>
-
-{% endif %}
+    {% endif %}
 {% endblock content %}
 
 {% block extrajs %}
-<script src="{% static 'js/demo/purchase.js' %}"></script>
-<script>
+    <script src="{% static 'js/demo/purchase.js' %}"></script>
+    <script>
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
 
             $("#checkout-btn").on("click", function (e) {
                 e.preventDefault();
-                var products = [];
-                var temp = [];
+                var products= {};
                 var array = $(".selected");
                 if (!array.length) {
                     console.log("AAAAAAAAAA EMPTY");
                 } else {
-                    var lenght = 0;
                     console.log("Product list is not empty");
                     array.each(function (index, value) {
-                        temp.push(($(this).children("div.card")
+                        var temp = [];
+                        temp.push($(this).children("div.card")
                             .children("div.card-block")
                             .children("h4.card-title").text());
-                        temp.push($(this).children("div.card").children("div.card-footer").children("div.row.align-content-center").children("div.col-md-4").children("input.form-control").val());
-                        temp.push($(this).children("div.card").children("div.card-footer").children("div.row.align-content-center").children("div.col-md-6.text-center.my-auto").text());
-                        products[index] = temp;
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-4")
+                            .children("input.form-control").val());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-6.text-center.my-auto")
+                            .text());
+                        products[index]= temp;
                     });
-                    console.log(length);
                     console.log(products);
                     for (var key in products){
-                    $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">
-                                ""+ products[key[0]] +""
-                            </h6>
-                            <small class="text-muted">
-                                ""+ products[key[1]] +""
-                            </small>
-                        </div>
-                        <span class="text-muted">
-                            ""+ products[key[2]] + ""
-                        </span>
-                    </li>');
+                        $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
+                        '                               <div>\n' +
+                        '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                        '                                   <small class="text-muted">'+ products[key][1] +'</small>\n' +
+                        '                               </div>\n' +
+                        '                               <span class="text-muted">'+ products[key][2] +'</span>\n' +
+                        '                           </li>');
                     }
+
+                    $("#checkout-table.ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
+                        '                               <span>Total (USD)</span>\n' +
+                        '                               <strong>$20</strong>\n' +
+                        '                           </li>')
+
+
                 }
             });
         });
-
-
-
-
-
-</script>
+    </script>
 {% endblock %}
