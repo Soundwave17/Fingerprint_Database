@@ -1,22 +1,11 @@
 import json
-from django.http import HttpResponse, JsonResponse, Http404
-from django.template import loader
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
-from fingerprintData import globalfunctions
 from fingerprintData.models import Customer, Purchase, Product, PurchaseList, Fingerprint, Type
 from fingerprintData.forms import CustomerCreateForm, CustomerAccessForm
 
-"""
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    template = loader.get_template('polls/index.html')
-    context = {
-        'latest_question_list': latest_question_list,
-    }
-    return HttpResponse(template.render(context, request))
-"""
 
 class access(View):
     def get(self, request):
@@ -44,32 +33,19 @@ class purchase(View):
 
 
 class checkout(View):
-
-    def post(self,request,customer_email):
-        customer = get_object_or_404(Customer, pk=customer_email)
-        template = 'fingerprintData/checkout.html'
-        if request.method == 'POST':
-            products = request.POST.get('products')
-            data = []
-            for product in products:
-                data.append(Product.objects.get(product_name=product))
-            return render(request, template, {'customer': customer,
-                                              'products': data})
-        else:
-            return Http404('What?')
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
         template = 'fingerprintData/checkout.html'
         if request.method == 'GET':
-            products = request.GET.get('products')
+            length = int(request.GET.get("length"))
             data=[]
-            temp=[]
-            temp=products
-            for product in temp:
-                data.append(Product.objects.get(product_name=product))
-            return render(request, template, {'customer': customer,
-                                          'products' : data})
-        else: return Http404('What?');
+            while length>=0 :
+                data.append(request.GET.get(length.__str__()))
+                length=length-1;
+            return render(request, template, {'customer': customer})
+        else:
+            return Http404('What?')
+
 
 class overview(View):
     def get(self, request, customer_email):
@@ -91,10 +67,12 @@ class fingerprint_access(View):
         template = 'fingerprintData/fingerprint_access.html'
         return render(request, template, {'customer': customer})
 
+
 class register_success(View):
     def get(self, request):
-        template='fingerprintData/register_success.html'
-        return render(request,template)
+        template = 'fingerprintData/register_success.html'
+        return render(request, template)
+
 
 def customer_login(request):
     data = {'msg': '', 'success': False, 'admin': False}
@@ -121,14 +99,15 @@ def customer_exists(request, customer_email):
         if exists:
             data['msg'] = 'This email exists.'
             data['admin'] = Customer.objects.get(pk=email).customer_admin
-            data['success'] = True;
+            data['success'] = True
         else:
             data['msg'] = 'The email is not valid.'
             data['success'] = False
 
     return JsonResponse(data)
 
-#TODO add logic to form validation.
+
+# TODO add logic to form validation.
 def create_customer(request):
     data = dict()
     if request.method == 'POST':
@@ -138,7 +117,6 @@ def create_customer(request):
         surname = request.POST.get('customer_surname')
         fingerprint_id = request.POST.get('fingerprint_id')
         exists = Customer.objects.filter(customer_email=email).exists()
-        
 
         if exists:
             data['msg'] = 'Email already registered! You fool!'
@@ -147,12 +125,14 @@ def create_customer(request):
             fingerprint = Fingerprint(fingerprint_id=fingerprint_id)
             fingerprint.save()
             customer = Customer(customer_email=email, customer_password=password, customer_name=name,
-                                customer_surname=surname, customer_fingerprint=Fingerprint.objects.get(pk=fingerprint_id))
+                                customer_surname=surname,
+                                customer_fingerprint=Fingerprint.objects.get(pk=fingerprint_id))
 
             customer.save()
             data['msg'] = 'Registered!'
 
         return JsonResponse(data)
+
 
 def get_revenue_by_year(request, customer_email):
     customer = get_object_or_404(Customer, pk=customer_email)
@@ -183,19 +163,21 @@ def get_revenue_by_year(request, customer_email):
 
         return JsonResponse(data)
 
+
 def get_free_id(request):
     id = 1
     check = False
-    while (id <= 127 and check==False) :
+    while (id <= 127 and check == False):
         if (Fingerprint.objects.filter(pk=id).exists()):
             id = id + 1
         else:
             check = True
-    if (check) :
+    if (check):
         data = {'id': id}
     else:
         data = {'id': 0}
     return JsonResponse(data)
+
 
 def get_customer_id(request, customer_email):
     data = {'msg': '', 'success': False}
@@ -222,15 +204,15 @@ def delete_customer(request, customer_email):
         customer.delete()
         fingerprint.delete()
 
-
         data['msg'] = 'Il cliente è stato cancellato.'
     return JsonResponse(data)
 
+
 def get_product_by_type(request, customer_email):
-    data={'products':[]}
-    if(request.method=='GET'):
-        type= request.GET.get("type")
-        products= Product.objects.filter(product_type=Type.objects.get(type_description=type))
+    data = {'products': []}
+    if (request.method == 'GET'):
+        type = request.GET.get("type")
+        products = Product.objects.filter(product_type=Type.objects.get(type_description=type))
         for product in products:
             data['products'].append(product.product_name)
         return JsonResponse(data)

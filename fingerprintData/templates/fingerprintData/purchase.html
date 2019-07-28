@@ -42,14 +42,10 @@
 
 {% block content %}
     {% load static %}
+
     {% block extracss %}
         <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
-    {% endblock extracss %}
-
-    {% block extracss %}
-    <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
-    {% endblock extracss %}
-
+    {% endblock %}
 
     {% if types %}
 
@@ -90,9 +86,6 @@
                                             <img class="card-img-top" src="https://picsum.photos/200/150/?random">
                                             <div class="card-block">
                                                 <h4 class="card-title">{{ product.product_name }}</h4>
-                                                <div class="meta">
-                                                    <a href="#">Friends</a>
-                                                </div>
                                                 <div class="card-text">
                                                     Tawshif is a web designer living in Bangladesh.
                                                 </div>
@@ -127,28 +120,33 @@
     <script>
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
-            var temp = [];
+
             $("#checkout-btn").on("click", function (e) {
                 e.preventDefault();
+                var temp = {};
                 var array = $(".selected");
                 if (!array.length) {
                     console.log("AAAAAAAAAA EMPTY");
                 } else {
+                    var lenght = 0;
                     console.log("Product list is not empty");
                     array.each(function (index, value) {
-                        temp.push($(this).children("div.card")
+                        length=length+1;
+                        temp[index]=($(this).children("div.card")
                             .children("div.card-block")
                             .children("h4.card-title").text());
                         console.log(temp);
                     });
-
+                    console.log(length);
+                    JSON.stringify(temp);
+                    temp['length']=length;
+                    console.log(temp);
                     $.ajax({
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'checkout/',
-                        dataType: 'text/html',
-                        contentType: 'application/json',
-                        data: {'products': temp, "csrfmiddlewaretoken": "{{ csrf_token }}"},
-                        type: 'POST',
+                        dataType: 'HttpResponse',
+                        data: temp,
+                        type: 'GET',
                         success: function (result) {
                             console.log(result);
                         }
