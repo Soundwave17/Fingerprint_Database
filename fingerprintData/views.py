@@ -141,13 +141,35 @@ def get_revenue_by_year(request, customer_email):
                 'Jul': 0, 'Aug': 0, 'Sep': 0, 'Oct': 0, 'Nov': 0, 'Dec': 0}
         dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         year = request.GET.get('year')
-        tot_list = Purchase.objects.filter(purchase_date__year=year)
+        type = request.GET.get('type')
+        productName = request.GET.get('product')
+        customer = request.GET.get('customer')
+
+
+        if (customer != 'Nothing'):
+            cust = Customer.objects.get(customer_email=customer)
+            tot_list = Purchase.objects.filter(purchase_date__year=year, purchase_customer=cust)
+        else:
+            tot_list = Purchase.objects.filter(purchase_date__year=year)
+
         for m in tot_list:
             p_code = m.purchase_code
             purchase_list = PurchaseList.objects.filter(purchaseList_code=p_code)
+
             for p in purchase_list:
-                product = Product.objects.get(product_code=p.purchaseList_product.product_code)
-                dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                if (type != 'Nothing'):
+                    t = Type.objects.get(type_description=type)
+                    if (productName != 'Nothing' and p.purchaseList_product.product_name == productName ):
+                        product = Product.objects.get(product_name=productName, product_code=p.purchaseList_product.product_code)
+                        dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                    elif (p.purchaseList_product.product_type == t  and productName == 'Nothing'):
+
+                        product = Product.objects.get(product_code=p.purchaseList_product.product_code)
+                        dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+                else:
+                    product = Product.objects.get(product_code=p.purchaseList_product.product_code)
+                    dataArray[m.purchase_date.month - 1] += (product.product_price) * (p.purchaseList_qty)
+
         data['Jan'] = dataArray[0]
         data['Feb'] = dataArray[1]
         data['Mar'] = dataArray[2]
@@ -162,6 +184,45 @@ def get_revenue_by_year(request, customer_email):
         data['Dec'] = dataArray[11]
 
         return JsonResponse(data)
+
+
+def get_revenue_by_type(request, customer_email):
+    customer = get_object_or_404(Customer, pk=customer_email)
+    if request.method == 'GET':
+        dataTot = {}
+        labels = {}
+        data = []
+        year = request.GET.get('year')
+        customer = request.GET.get('customer')
+        types = Type.objects.filter()
+        i = 0
+        for type in types:
+            data.append(0)
+            labels[type.type_description] = i
+            i = i+1
+        if customer == 'Nothing':
+            if year is '':
+                tot_list = Purchase.objects.filter()
+            else:
+                tot_list = Purchase.objects.filter(purchase_date__year=year)
+        else:
+            if year is '':
+                tot_list = Purchase.objects.filter(purchase_customer=customer)
+            else:
+                tot_list = Purchase.objects.filter(purchase_date__year=year, purchase_customer=customer)
+
+        for purchase in tot_list:
+            purchaseCode = purchase.purchase_code
+            purchase_list = PurchaseList.objects.filter(purchaseList_code=purchaseCode)
+            for prod in purchase_list:
+                product = Product.objects.get(product_code=prod.purchaseList_product.product_code)
+                data[labels[product.product_type.type_description]] += (product.product_price) * (prod.purchaseList_qty)
+
+        dataTot['types'] = labels
+        dataTot['data'] = data
+
+        return JsonResponse(dataTot)
+
 
 
 def get_free_id(request):

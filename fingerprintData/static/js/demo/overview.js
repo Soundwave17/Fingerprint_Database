@@ -2,6 +2,7 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+
 function number_format(number, decimals, dec_point, thousands_sep) {
     // *     example: number_format(1234.56, 2, ',', ' ');
     // *     return: '1 234,56'
@@ -72,6 +73,47 @@ function downloadPDF() {
     doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150);
     doc.save('canvas.pdf');
 }
+
+
+
+
+function setupPieChartPage() {
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+          hoverBorderColor: "rgba(234, 236, 244, 1)",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
+        },
+        legend: {
+          display: false
+        },
+        cutoutPercentage: 80,
+      },
+    });
+
+
+    return myPieChart;
+}
+
+
 
 function setupChartPage() {
     var ctx = document.getElementById("myAreaChart");
@@ -173,6 +215,39 @@ $(document).ready(function () {
         var csrftoken = '{% csrf_token %}';
         var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         var myLineChart = setupChartPage();
+        var myPieChart = setupPieChartPage();
+        var sumType = [];
+
+
+
+        $.ajax({
+            headers: {
+                "X-CSRFToken": csrftoken,
+            },
+            crossDomain: true,
+            url: 'get_revenue_by_type/',
+            dataType: 'json',
+            type: 'GET',
+            data: {"year": $('#year-pie-input').val(), "customer": $('#customer-pie-input').val()},
+            success: function (result) {
+                var types = result['types'];
+                var labels = Object.keys(types);
+                var data1 = result['data'];
+
+                myPieChart.data = {
+                                labels: labels,
+                                datasets: [{
+                                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                                      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                                      hoverBorderColor: "rgba(234, 236, 244, 1)",
+
+                                    data: data1,
+                                }]
+                            };
+                            myPieChart.update();
+
+            },
+        });
 
         $.ajax({
             headers: {
@@ -189,6 +264,38 @@ $(document).ready(function () {
                     $("#templates-number").text(result['msg']);
                 }
             },
+        });
+
+
+        $("#load-pie-graph").click(function () {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
+                crossDomain: true,
+                url: 'get_revenue_by_type/',
+                dataType: 'json',
+                type: 'GET',
+                data: {"year": $('#year-pie-input').val(), "customer": $('#customer-pie-input').val()},
+                success: function (result) {
+                    var types = result['types'];
+                    var labels = Object.keys(types);
+                    var data1 = result['data'];
+
+                    myPieChart.data = {
+                                    labels: labels,
+                                    datasets: [{
+                                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                                          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                                          hoverBorderColor: "rgba(234, 236, 244, 1)",
+
+                                        data: data1,
+                                    }]
+                                };
+                                myPieChart.update();
+
+                },
+            });
         });
 
         $("#sensor-control").click(function () {
@@ -210,6 +317,9 @@ $(document).ready(function () {
 
         $("#load-graph").click(function () {
             var year = $("#year-input").val();
+            var type = $("#type-input").val();
+            var product = $("#product-input").val();
+            var customer = $("#customer-input").val();
             var error_div = $("#error-div");
             error_div.hide();
             if (year) {
@@ -218,7 +328,7 @@ $(document).ready(function () {
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'get_revenue_by_year/',
                         dataType: 'json',
-                        data: {"year": year},
+                        data: {"year": year, "type": type, "product": product, "customer": customer},
                         type: 'GET',
                         success: function (result) {
                             console.log(result);
@@ -280,6 +390,10 @@ $(document).ready(function () {
                 myLineChart.update();
             }
         });
+
+
+
+
 
         //add event listener to button
         $("#download-pdf").click(downloadPDF);

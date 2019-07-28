@@ -40,72 +40,134 @@
 {% block content %}
 {% load static %}
 
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="line-chart-tab" data-toggle="tab" href="#line-chart" role="tab"
+           aria-controls="home"
+           aria-selected="true">Line Chart</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pie-chart-tab" data-toggle="tab" href="#pie-chart" role="tab"
+           aria-controls="home"
+           aria-selected="true">Pie Chart</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="line-chart" role="tabpanel" aria-labelledby="home-tab">
+        <div id="graph-wrapper" class="container">
 
-<div id="graph-wrapper" class="container">
 
-    <div class="col-sm-12">
-        <div class="row ">
-            <div class="form-group m-3">
-                <label for="year-input">Year</label>
-                <input type="text" class="form-control" id="year-input" name="year">
+            <div class="col-sm-12">
+                <div class="row ">
+                    <div class="form-group m-3">
+                        <label for="year-input">Year</label>
+                        <input type="text" class="form-control" id="year-input" name="year">
 
-            </div>
+                    </div>
 
-            <div class="form-group m-3">
-                <label for="type-input">Type</label>
-                <select class="form-control" id="type-input">
-                    <option>Nothing</option>
-                    {% if types %}
-                        {% for type in types %}
+                    <div class="form-group m-3">
+                        <label for="type-input">Type</label>
+                        <select class="form-control" id="type-input">
+                            <option>Nothing</option>
+                            {% if types %}
+                            {% for type in types %}
 
                             <option>{{ type }}</option>
-                        {% endfor %}
-                    {% endif %}
+                            {% endfor %}
+                            {% endif %}
 
-                </select>
-            </div>
+                        </select>
+                    </div>
 
-            <div class="form-group m-3">
-                <label for="product-input">Product</label>
-                <select class="form-control" id="product-input">
-                    <option>Nothing</option>
+                    <div class="form-group m-3">
+                        <label for="product-input">Product</label>
+                        <select class="form-control" id="product-input">
+                            <option>Nothing</option>
 
 
+                        </select>
 
-                </select>
+                    </div>
 
-            </div>
+                    <div class="form-group m-3">
+                        <label for="customer-input">Customer</label>
+                        <select class="form-control mb-3" id="customer-input">
+                            <option>Nothing</option>
+                            {% if customers %}
+                            {% for customer in customers %}
+                            <option>{{ customer.customer_email }}</option>
+                            {% endfor %}
+                            {% endif %}
 
-            <div class="form-group m-3">
-                <label for="customer-input">Customer</label>
-                <select class="form-control mb-3" id="customer-input">
-                    <option>Nothing</option>
-                    {% if customers %}
-                        {% for customer in customers %}
-                            <option>{{ customer }}</option>
-                        {% endfor %}
-                    {% endif %}
+                        </select>
+                        <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+                    </div>
 
-                </select>
-                <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
-            </div>
+                    <div id="error-div">
+                        <ul class="border-danger">
+                            <li><p id="error-msg" class="text-danger"></p></li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div id="error-div">
-                <ul class="border-danger">
-                    <li><p id="error-msg" class="text-danger"></p></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class=" text-center">
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                <div class=" text-center">
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
+                        </div>
+                    </div>
+                    <button class="btn btn-info" id="download-pdf">
+                        Download PDF
+                    </button>
                 </div>
             </div>
-            <button class="btn btn-info" id="download-pdf">
-                Download PDF
-            </button>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pie-chart" role="tabpanel" aria-labelledby="home-tab">
+        <div id="graph-pie-wrapper" class="container">
+
+
+            <div class="col-sm-12">
+                <div class="row ">
+                    <div class="form-group m-3">
+                        <label for="year-pie-input">Year</label>
+                        <input type="text" class="form-control" id="year-pie-input" name="year">
+
+                    </div>
+
+                    <div class="form-group m-3">
+                        <label for="customer-pie-input">Customer</label>
+                        <select class="form-control mb-3" id="customer-pie-input">
+                            <option>Nothing</option>
+                            {% if customers %}
+                            {% for customer in customers %}
+                            <option>{{ customer.customer_email }}</option>
+                            {% endfor %}
+                            {% endif %}
+
+                        </select>
+                        <button class="btn btn-primary" id="load-pie-graph"> Load the graph!</button>
+                    </div>
+
+
+                    <div id="error-pie-div">
+                        <ul class="border-danger">
+                            <li><p id="error-pie-msg" class="text-danger"></p></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class=" text-center">
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myPieChart"></canvas>
+                        </div>
+                    </div>
+                    <button class="btn btn-info" id="download-pie-pdf">
+                        Download PDF
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -278,6 +340,12 @@ $(document).ready(function () {
 
 
 });
+
+
+
+
+
+
 
 
 
