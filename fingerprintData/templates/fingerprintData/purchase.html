@@ -1,6 +1,7 @@
 {% extends 'fingerprintData/page_template.html' %}
 
 
+
 {% block title %}{% endblock title %}
 {% block navtitle %}{% endblock navtitle %}
 {% block activetitle %}Purchase{% endblock activetitle %}
@@ -44,6 +45,11 @@
     {% block extracss %}
         <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
     {% endblock extracss %}
+
+    {% block extracss %}
+    <link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
+    {% endblock extracss %}
+
 
     {% if types %}
 
