@@ -283,6 +283,40 @@ $(document).ready(function () {
 
         //add event listener to button
         $("#download-pdf").click(downloadPDF);
-    }
-);
+
+
+    var products = [];
+
+    $("#type-input").change(function () {
+        $.ajax({
+            headers: {
+                "X-CSRFToken": csrftoken,
+            },
+
+            url: 'get_product_by_type/',
+            dataType: 'json',
+            type: 'GET',
+            data: {"type": $("#type-input").val()},
+            success: function (result) {
+                products = result['products'];
+                console.log(products);
+
+                $("#product-input").empty();
+                var o = new Option("Nothing", "Nothing");
+                $(o).html("Nothing");
+                $("#product-input").append(o);
+
+                for (pr in products) {
+                    o = new Option(products[pr], products[pr]);
+                    /// jquerify the DOM object 'o' so we can use the html method
+                    $(o).html(products[pr]);
+                    $("#product-input").append(o);
+                }
+
+            },
+        });
+     });
+
+
+});
 
