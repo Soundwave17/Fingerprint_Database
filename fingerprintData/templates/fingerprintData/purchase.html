@@ -140,6 +140,7 @@
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'checkout/',
                         dataType: 'text/html',
+                        contentType: 'application/json',
                         data: {'products': temp, "csrfmiddlewaretoken": "{{ csrf_token }}"},
                         type: 'POST',
                         success: function (result) {

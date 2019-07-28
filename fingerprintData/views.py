@@ -44,11 +44,24 @@ class purchase(View):
 
 
 class checkout(View):
-    def get(self, request, customer_email):
+
+    def post(self,request,customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
         template = 'fingerprintData/checkout.html'
         if request.method == 'POST':
             products = request.POST.get('products')
+            data = []
+            for product in products:
+                data.append(Product.objects.get(product_name=product))
+            return render(request, template, {'customer': customer,
+                                              'products': data})
+        else:
+            return Http404('What?')
+    def get(self, request, customer_email):
+        customer = get_object_or_404(Customer, pk=customer_email)
+        template = 'fingerprintData/checkout.html'
+        if request.method == 'GET':
+            products = request.GET.get('products')
             data=[]
             temp=[]
             temp=products
