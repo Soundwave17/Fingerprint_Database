@@ -303,7 +303,7 @@ $(document).ready(function () {
             $("#active-link").addClass("active");
             $(this).closest("li").addClass(" active");
             $("#sensor-control-wrapper").removeClass("d-none");
-            $("#sensor-control-wrapper").show();
+            $("#sensor-control-wrapper").fadeIn('slow');
             $("#graph-wrapper").hide();
         });
 
@@ -311,7 +311,7 @@ $(document).ready(function () {
             $("#accordionSidebar li").removeClass("active");
             $("#active-link").addClass("active");
             $(this).closest("li").addClass(" active");
-            $("#graph-wrapper").show();
+            $("#graph-wrapper").fadeIn('slow');
             $("#sensor-control-wrapper").hide();
         });
 

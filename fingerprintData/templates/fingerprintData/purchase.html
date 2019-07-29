@@ -89,11 +89,11 @@
                                     {% if type == product.product_type %}
                                         <div class="col-md-3  border p-1 m-1 rounded border-4">
                                             <div class="card">
-                                                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                                                <img class="card-img-top" src="{{ product.product_image.url }}">
                                                 <div class="card-block">
                                                     <h4 class="card-title">{{ product.product_name }}</h4>
                                                     <div class="card-text">
-                                                       Lorem Ipsum Sir Dolor Amet
+                                                        {{ product.product_description }}
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
@@ -103,7 +103,7 @@
                                                                  src="{% static 'vendor/img/check.jpg' %}">
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <input class="form-control" type="text" value="1">
+                                                            <input class="form-control" type="text" value="0">
                                                         </div>
 
                                                         <div class=" col-md-6 text-center my-auto">
@@ -121,7 +121,7 @@
                 {% endfor %}
             </div>
 
-            <hr class="sidebar-divider my-4">
+            <hr class="sidebar-divider my-1">
 
             <div class="row justify-content-center text-center">
                 <button id="checkout-btn" class="btn btn-primary"> Go to Checkout</button>
@@ -131,7 +131,7 @@
 
         </div>
 
-        <div class="container d-none border rounded shadow" id="checkout-panel">
+        <div class="container d-none border rounded shadow border-left-success" id="checkout-panel">
             <div class="row">
                 <div class="col-md-12" id="checkout-table">
                     <ul class="list-group my-3" id="checkout-table-ul">
@@ -139,14 +139,83 @@
                     </ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
 
+            <hr class="sidebar-divider my-4">
+
+            <div class="row text-center justify-content-center">
+                <div class="col-sm-4 text-center">
+                    <button class="btn-lg btn-primary"
+                            id="pay-button"
+                            data-toggle="modal"
+                            data-target="#checkout-modal">Proceed to payment
+                    </button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <button class="btn-lg btn-danger" id="checkout-empty-cart">Empty your cart</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
 
+            <hr class="sidebar-divider my-4">
+        </div>
+
+        <div class="modal fade" id="checkout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Checkout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Are you sure you wish to buy these products?
+                        </p>
+                        <div id="modal-checkout" class="d-none">
+                            <ul>
+                                <li id="modal-checkout-msg"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container">
+                            <div class="row justify-content-between" id="modal-buttons">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, return to
+                                    checkout.
+                                </button>
+                                <button type="button" id="checkout-modal-yes-btn" class="btn btn-danger">Yes, I'm sure
+                                </button>
+                            </div>
+
+                            <div class="row justify-content-center" id="fingerprint-modal">
+                                <div class="col-sm-4 shadow">
+                                    <div class="card call-sm-6">
+                                        <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li id="message-modal"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="container">
+                                        <div class="row justify-content-between">
+                                            <button type="button"
+                                                    id="abort-btn"
+                                                    class="btn btn-danger"
+                                                    data-dismiss="modal">Abort</button>
+                                            <button type="button" id="retry-btn" class="btn btn-secondary">Try</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,8 +228,6 @@
     <script>
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
-
-
         });
     </script>
 {% endblock %}

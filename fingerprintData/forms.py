@@ -2,9 +2,6 @@ from django import forms
 from fingerprintData.models import Customer, Purchase, PurchaseList, Product, Fingerprint, Type
 
 
-# TODO add Create forms for all models.
-# TODO add more general use forms.
-
 # Forms
 
 class CustomerCreateForm(forms.ModelForm):

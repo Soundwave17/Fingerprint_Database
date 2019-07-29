@@ -106,8 +106,6 @@ def customer_exists(request, customer_email):
 
     return JsonResponse(data)
 
-
-# TODO add logic to form validation.
 def create_customer(request):
     data = dict()
     if request.method == 'POST':
