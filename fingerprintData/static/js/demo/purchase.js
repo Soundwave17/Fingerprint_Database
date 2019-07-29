@@ -7,6 +7,54 @@ $(document).ready(function () {
         $("#checkout-panel").removeClass("d-none");
         $("#checkout-panel").show();
         $("#purchase-panel").hide();
+                e.preventDefault();
+                var products= {};
+                var array = $(".selected");
+
+
+                $("#checkout-table-ul").empty();
+
+
+                if (!array.length) {
+                    console.log("AAAAAAAAAA EMPTY");
+                } else {
+                    console.log("Product list is not empty");
+                    array.each(function (index, value) {
+                        var temp = [];
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("h4.card-title").text());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-footer")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-4")
+                            .children("input.form-control").val());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-footer")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-6.text-center.my-auto")
+                            .text());
+                        products[index]= temp;
+                    });
+                    console.log(products);
+                    for (var key in products){
+                        $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
+                        '                               <div>\n' +
+                        '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                        '                                   <small class="text-muted">'+ products[key][1] +'</small>\n' +
+                        '                               </div>\n' +
+                        '                               <span class="text-muted">'+ products[key][2] +'</span>\n' +
+                        '                           </li>');
+                    }
+
+                    $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
+                        '                               <span>Total (USD)</span>\n' +
+                        '                               <strong>$20</strong>\n' +
+                        '                           </li>');
+
+
+                }
+
     });
 
     $("#checkout-btn").click(function () {
@@ -71,5 +119,59 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
+    $("#checkout-btn").on("click", function () {
+
+                var products= {};
+                var array = $(".selected");
+
+
+                $("#checkout-table-ul").empty();
+
+
+                if (!array.length) {
+                    console.log("AAAAAAAAAA EMPTY");
+                } else {
+                    console.log("Product list is not empty");
+                    array.each(function (index, value) {
+                        var temp = [];
+                        temp.push($(this).children("div.card")
+                            .children("div.card-block")
+                            .children("h4.card-title").text());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-footer")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-4")
+                            .children("input.form-control").val());
+                        temp.push($(this).children("div.card")
+                            .children("div.card-footer")
+                            .children("div.row.align-content-center")
+                            .children("div.col-md-6.text-center.my-auto")
+                            .text());
+                        products[index]= temp;
+                    });
+                    console.log(products);
+                    for (var key in products){
+                        $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
+                        '                               <div>\n' +
+                        '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                        '                                   <small class="text-muted">'+ products[key][1] +'</small>\n' +
+                        '                               </div>\n' +
+                        '                               <span class="text-muted">'+ products[key][2] +'</span>\n' +
+                        '                           </li>');
+                    }
+
+                    $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
+                        '                               <span>Total (USD)</span>\n' +
+                        '                               <strong>$20</strong>\n' +
+                        '                           </li>');
+
+
+                }
+            });
+
+
 
 });

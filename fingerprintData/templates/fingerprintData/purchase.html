@@ -136,10 +136,7 @@
                 <div class="col-md-12" id="checkout-table">
                     <ul class="list-group my-3" id="checkout-table-ul">
 
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -160,54 +157,5 @@
 
 {% block extrajs %}
     <script src="{% static 'js/demo/purchase.js' %}"></script>
-    <script>
-        $(document).ready(function () {
-            var csrftoken = '{% csrf_token %}';
 
-            $("#checkout-btn").on("click", function (e) {
-                e.preventDefault();
-                var products= {};
-                var array = $(".selected");
-                if (!array.length) {
-                    console.log("AAAAAAAAAA EMPTY");
-                } else {
-                    console.log("Product list is not empty");
-                    array.each(function (index, value) {
-                        var temp = [];
-                        temp.push($(this).children("div.card")
-                            .children("div.card-block")
-                            .children("h4.card-title").text());
-                        temp.push($(this).children("div.card")
-                            .children("div.card-block")
-                            .children("div.row.align-content-center")
-                            .children("div.col-md-4")
-                            .children("input.form-control").val());
-                        temp.push($(this).children("div.card")
-                            .children("div.card-block")
-                            .children("div.row.align-content-center")
-                            .children("div.col-md-6.text-center.my-auto")
-                            .text());
-                        products[index]= temp;
-                    });
-                    console.log(products);
-                    for (var key in products){
-                        $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
-                        '                               <div>\n' +
-                        '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
-                        '                                   <small class="text-muted">'+ products[key][1] +'</small>\n' +
-                        '                               </div>\n' +
-                        '                               <span class="text-muted">'+ products[key][2] +'</span>\n' +
-                        '                           </li>');
-                    }
-
-                    $("#checkout-table.ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
-                        '                               <span>Total (USD)</span>\n' +
-                        '                               <strong>$20</strong>\n' +
-                        '                           </li>')
-
-
-                }
-            });
-        });
-    </script>
 {% endblock %}
