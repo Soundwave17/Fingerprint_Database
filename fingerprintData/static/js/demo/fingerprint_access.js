@@ -32,12 +32,14 @@ $(document).ready(function () {
                                     if (answer['success'] && answer['id'] == result['id']) {
                                         $('#message-ajax').text(result['msg']);
                                         $('#retry').text("Continue");
+                                        $('#retry').removeClass('btn-secondary');
+                                        $('#retry').addClass('btn-success');
                                         success = true;
                                     } else if (!answer['success']) {
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
                                     } else {
                                         $('#retry').text("Retry");
-                                        $('#message-ajax').text("Your fingerprint is regsitered, but " +
+                                        $('#message-ajax').text("Your fingerprint is registered, but " +
                                             "it doesn't match the user's.");
                                     }
                                 }

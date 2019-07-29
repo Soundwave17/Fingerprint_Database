@@ -30,23 +30,6 @@ class purchase(View):
         return render(request, template, {'customer': customer,
                                           'types': type_list,
                                           'products': product_list})
-
-
-class checkout(View):
-    def get(self, request, customer_email):
-        customer = get_object_or_404(Customer, pk=customer_email)
-        template = 'fingerprintData/checkout.html'
-        if request.method == 'GET':
-            length = int(request.GET.get("length"))
-            data=[]
-            while length>=0 :
-                data.append(request.GET.get(length.__str__()))
-                length=length-1;
-            return render(request, template, {'customer': customer})
-        else:
-            return Http404('What?')
-
-
 class overview(View):
     def get(self, request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
@@ -275,3 +258,28 @@ def get_product_by_type(request, customer_email):
         for product in products:
             data['products'].append(product.product_name)
         return JsonResponse(data)
+
+def checkout(request, customer_email):
+        customer = get_object_or_404(Customer, pk=customer_email)
+        if request.method == 'POST':
+            cart={}
+            lenght=int(request.POST.get('lenght'))
+            cart=request.POST.get('products')
+
+            purchase= Purchase(purchase_customer=customer)
+            purchase.save();
+
+            while lenght>=0 :
+                lenght=lenght-1
+                product= cart[lenght][0]
+                quantity= cart[lenght][1]
+                list_item = PurchaseList(purchaseList_code=purchase,
+                                         purchaseList_product=product,
+                                         purchaseList_qty=quantity)
+                list_item.save()
+
+            data={}
+            data['msg']="Success!"
+            data['success']=True
+
+            return JsonResponse(data)
