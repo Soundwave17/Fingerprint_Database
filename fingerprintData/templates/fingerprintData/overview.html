@@ -86,26 +86,54 @@
 
                         </div>
 
-                        <div class="form-group m-3">
-                            <label for="customer-input">Customer</label>
-                            <select class="form-control mb-3" id="customer-input">
-                                <option>Nothing</option>
-                                {% if customers %}
-                                    {% for customer in customers %}
-                                        <option>{{ customer.customer_email }}</option>
-                                    {% endfor %}
-                                {% endif %}
+                        <div class="col">
+                            <div class="form-group m-3">
+                                <label for="customer-input">Customer</label>
+                                <select class="form-control mb-3" id="customer-input">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
 
-                            </select>
-                            <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+                                </select>
+                                <label for="customer-input-2">Customer</label>
+                                <select class="form-control mb-3" id="customer-input-2">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                                <label for="customer-input-3">Customer</label>
+                                <select class="form-control mb-3" id="customer-input-3">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
                         </div>
-
+                    
                         <div id="error-div">
                             <ul class="border-danger">
                                 <li><p id="error-msg" class="text-danger"></p></li>
                             </ul>
                         </div>
                     </div>
+
+                    <hr class="sidebar-divider my-4">
+
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+                    </div>
+
 
                     <div class=" text-center">
                         <div class="card-body">
@@ -289,7 +317,7 @@
                                     }
 
                                 },
-                                error: function(err){
+                                error: function (err) {
                                     $('#modal-delete').text("Error! Sensor not found!");
                                 }
                             });
