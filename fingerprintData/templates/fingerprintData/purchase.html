@@ -229,10 +229,8 @@
     <script>
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
-            var success = false;
             $('#retry-btn').click(function (e) {
                 e.preventDefault();
-                if (!success) {
                     $.ajax({
                             headers: {
                                 "X-CSRFToken": csrftoken,
@@ -259,11 +257,41 @@
                                         success: function (answer) {
                                             console.log(answer);
                                             if (answer['success'] && answer['id'] == result['id']) {
-                                                $('#message-ajax').text(result['msg']);
-                                                $('#retry-btn').text("Continue");
-                                                $('#retry-btn').removeClass('btn-secondary');
-                                                $('#retry-btn').addClass('btn-success');
-                                                success = true;
+
+                                                var array = $(".selected");
+                                                var name = [];
+                                                var quantity = [];
+                                                array.each(function (index, value) {
+
+                                                    name.push($(this).children("div.card")
+                                                        .children("div.card-block")
+                                                        .children("h4.card-title").text().toString());
+                                                    quantity.push(parseInt($(this).children("div.card")
+                                                        .children("div.card-footer")
+                                                        .children("div.row.align-content-center")
+                                                        .children("div.col-md-4")
+                                                        .children("input.form-control").val().toString()));
+
+                                                });
+                                                console.log(name);
+                                                console.log(quantity);
+
+                                                var lenght= array.length;
+                                                $.ajax({
+                                                    headers: {"X-CSRFToken": csrftoken},
+                                                    url: 'checkout/',
+                                                    dataType: 'json',
+                                                    data: {"json":JSON.stringify({'name': name , 'quantity':quantity, 'lenght': lenght}) , "csrfmiddlewaretoken": "{{ csrf_token }}"},
+                                                    type: 'POST',
+                                                    success: function (result) {
+                                                        console.log(result);
+                                                        if (result['success']) {
+                                                            console.log(result['msg']);
+
+                                                        }
+                                                    }
+                                                });
+
                                             } else if (!answer['success']) {
                                                 $('#message-ajax').text("Your email is invalid, please return to login.");
                                             } else {
@@ -276,46 +304,9 @@
                                 }
                             },
                             timeout: 100000,
-                        }
-                    );
+                        });
 
-                } else {
-                    console.log("OK, YOU SHALL PASS.");
 
-                    var array = $(".selected");
-                    var name = [];
-                    var quantity = [];
-                    array.each(function (index, value) {
-
-                        name.push($(this).children("div.card")
-                            .children("div.card-block")
-                            .children("h4.card-title").text().toString());
-                        quantity.push(parseInt($(this).children("div.card")
-                            .children("div.card-footer")
-                            .children("div.row.align-content-center")
-                            .children("div.col-md-4")
-                            .children("input.form-control").val().toString()));
-
-                    });
-                    console.log(name);
-                    console.log(quantity);
-
-                    var lenght= array.length;
-                    $.ajax({
-                        headers: {"X-CSRFToken": csrftoken},
-                        url: 'checkout/',
-                        dataType: 'json',
-                        data: {"json":JSON.stringify({'name': name , 'quantity':quantity, 'lenght': lenght}) , "csrfmiddlewaretoken": "{{ csrf_token }}"},
-                        type: 'POST',
-                        success: function (result) {
-                            console.log(result);
-                            if (result['success']) {
-                                console.log(result['msg']);
-
-                            }
-                        }
-                    });
-                }
             });
         });
     </script>
