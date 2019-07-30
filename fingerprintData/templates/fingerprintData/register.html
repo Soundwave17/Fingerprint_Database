@@ -137,53 +137,62 @@
 
             $('#retry').click(function (e) {
                 e.preventDefault();
-                if (!success) {
-                    $.ajax({
-                        headers: {
-                            "X-CSRFToken": csrftoken,
-                        },
-                        crossDomain: true,
-                        url: 'http://192.168.1.42/enroll',
-                        dataType: 'json',
-                        type: 'POST',
-                        data: {"key": id},
-                        success: function (result) {
-                            console.log(result);
-                            if (!result['response']) {
+                if(emailIsValid($("#customer-email").val())){
+
+                    if (!success) {
+                        $.ajax({
+                            headers: {
+                                "X-CSRFToken": csrftoken,
+                            },
+                            crossDomain: true,
+                            url: 'http://192.168.1.42/enroll',
+                            dataType: 'json',
+                            type: 'POST',
+                            data: {"key": id},
+                            success: function (result) {
+                                console.log(result);
+                                if (!result['response']) {
+                                    $('#retry').text("Retry");
+                                    $('#message-ajax').text(result['msg']);
+                                } else {
+                                    fingerprint_id = result['id'];
+                                    $('#retry').text("Continue");
+                                    $('#message-ajax').text(result['msg']);
+                                    success = true;
+                                }
+
+                            },
+                            error: function(err){
                                 $('#retry').text("Retry");
-                                $('#message-ajax').text(result['msg']);
-                            } else {
-                                fingerprint_id = result['id'];
-                                $('#retry').text("Continue");
-                                $('#message-ajax').text(result['msg']);
-                                success = true;
+                                $('#message-ajax').text("Error! Sensor not found!");
                             }
+                        });
 
-                        }
-                    });
-
-                } else {
-                    console.log("okkke");
-                    $.ajax({
-                        headers: {"X-CSRFToken": csrftoken},
-                        url: 'create_customer/',
-                        dataType: 'json',
-                        data: {
-                            "customer_email": $("#customer-email").val(),
-                            "customer_name": $("#customer-name").val(),
-                            "customer_surname": $("#customer-surname").val(),
-                            "customer_password": $("#customer-password").val(),
-                            "fingerprint_id": fingerprint_id,
-                            "csrfmiddlewaretoken": "{{ csrf_token }}"
-                        },
-                        type: 'POST',
-                        success: function (result) {
-                            console.log(result);
-                            id=0;
-                            success=false;
-                            window.location= window.location.pathname +"register_success/";
-                        }
-                    });
+                    } else {
+                        console.log("okkke");
+                        $.ajax({
+                            headers: {"X-CSRFToken": csrftoken},
+                            url: 'create_customer/',
+                            dataType: 'json',
+                            data: {
+                                "customer_email": $("#customer-email").val(),
+                                "customer_name": $("#customer-name").val(),
+                                "customer_surname": $("#customer-surname").val(),
+                                "customer_password": $("#customer-password").val(),
+                                "fingerprint_id": fingerprint_id,
+                                "csrfmiddlewaretoken": "{{ csrf_token }}"
+                            },
+                            type: 'POST',
+                            success: function (result) {
+                                console.log(result);
+                                id=0;
+                                success=false;
+                                window.location= window.location.pathname +"register_success/";
+                            }
+                        });
+                    }
+                }else{
+                    window.alert("Error! Email is not valid!");
                 }
 
             });
@@ -193,6 +202,10 @@
                 e.preventDefault();
                 window.history.back();
             });
+
+            function emailIsValid (email) {
+              return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            }
 
 
         });
