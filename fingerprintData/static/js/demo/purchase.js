@@ -1,13 +1,9 @@
 $(document).ready(function () {
 
-    $("#cart-nav").click(function () {
-        $("#accordionSidebar li").removeClass("active");
-        $("#active-link").addClass("active");
-        $(this).closest("li").addClass(" active");
-        $("#checkout-panel").removeClass("d-none");
-        $("#checkout-panel").show();
-        $("#purchase-panel").hide();
+    $(".check-image").hide();
+    $("#fingerprint-modal").hide();
 
+    $("#cart-nav").click(function () {
         $("#checkout-table-ul").html('');
 
         var products = {};
@@ -34,44 +30,45 @@ $(document).ready(function () {
                 products[index] = temp;
             });
             console.log(products);
-            var total=0;
+            var total = 0;
             for (var key in products) {
                 $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
                     '                               <div>\n' +
                     '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                    '                                   <hr class="sidebar-divider my-1">\n' +
                     '                                   <small class="text-muted"> x' + products[key][1] + '</small>\n' +
                     '                               </div>\n' +
-                    '                               <span class="text-muted">' + products[key][2] + '</span>\n' +
+                    '                               <div>\n' +
+                    '                                   <span class="text-muted">' + products[key][2] + '</span><br>\n' +
+                    '                                   <hr class="sidebar-divider my-1">\n' +
+                    '                                   <span class="text-muted">' + (parseFloat(products[key][2]) * parseFloat(products[key][1])).toFixed(2) + '€</span>\n' +
+                    '                               </div>\n' +
                     '                           </li>');
-                    total=total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
-
+                total = total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
             }
-            total=total.toFixed(2);
+            total = total.toFixed(2);
             $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
                 '                               <span><strong>Total:</strong></span>\n' +
-                '                               <strong>'+ total +' €</strong>\n' +
+                '                               <strong>' + total + ' €</strong>\n' +
                 '                           </li>');
-        }
-    });
 
-    $("#checkout-btn").click(function () {
-        $("#accordionSidebar li").removeClass("active");
-        $("#active-link").addClass("active");
-        $("#cart-nav").closest("li").addClass(" active");
-        $("#checkout-panel").removeClass("d-none");
-        $("#checkout-panel").show();
-        $("#purchase-panel").hide();
+            $("#accordionSidebar li").removeClass("active");
+            $("#active-link").addClass("active");
+            $(this).closest("li").addClass(" active");
+            $("#checkout-panel").removeClass("d-none");
+            $("#checkout-panel").fadeIn('slow');
+            $("#purchase-panel").hide();
+        }
     });
 
     $("#products-nav").click(function () {
         $("#accordionSidebar li").removeClass("active");
         $("#active-link").addClass("active");
         $(this).closest("li").addClass(" active");
-        $("#purchase-panel").show();
+        $("#purchase-panel").fadeIn('slow');
         $("#checkout-panel").hide();
     });
 
-    $(".check-image").hide();
     var card_wrapper = $(".border.col-md-3.p-1.m-1");
 
     card_wrapper.hover(
@@ -99,23 +96,49 @@ $(document).ready(function () {
                 .children("div.card-footer")
                 .children("div.row.align-content-center")
                 .children("div.col-md-2.float-sm-left")
-                .children("img.check-image").show()
+                .children("img.check-image").fadeIn('slow');
         }
     });
 
     $("#empty-cart").on("click", function () {
         card_wrapper.each(function (index, value) {
             if ($(this).hasClass('border-primary')) {
+                $(this).children("div.card")
+                    .children("div.card-footer")
+                    .children("div.row.align-content-center")
+                    .children("div.col-md-4")
+                    .children("input.form-control").val("0");
                 $(this).removeClass('border-primary');
-                $(this).remove("selected");
+                $(this).removeClass("selected");
                 $(this).children("div.card")
                     .children("div.card-footer")
                     .children("div.row.align-content-center")
                     .children("div.col-md-2.float-sm-left")
                     .children("img.check-image").hide();
             }
+            $("#checkout-table-ul").empty();
         });
 
+    });
+
+    $("#checkout-empty-cart").on("click", function () {
+        card_wrapper.each(function (index, value) {
+            if ($(this).hasClass('border-primary')) {
+                $(this).children("div.card")
+                    .children("div.card-footer")
+                    .children("div.row.align-content-center")
+                    .children("div.col-md-4")
+                    .children("input.form-control").val("0");
+                $(this).removeClass('border-primary');
+                $(this).removeClass("selected");
+                $(this).children("div.card")
+                    .children("div.card-footer")
+                    .children("div.row.align-content-center")
+                    .children("div.col-md-2.float-sm-left")
+                    .children("img.check-image").hide();
+            }
+            $("#checkout-table-ul").empty();
+        });
     });
 
     $("#checkout-btn").on("click", function () {
@@ -145,24 +168,55 @@ $(document).ready(function () {
                 products[index] = temp;
             });
             console.log(products);
-            var total=0;
+            var total = 0;
             for (var key in products) {
                 $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
                     '                               <div>\n' +
                     '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
+                    '                                   <hr class="sidebar-divider my-1">\n' +
                     '                                   <small class="text-muted"> x' + products[key][1] + '</small>\n' +
                     '                               </div>\n' +
-                    '                               <span class="text-muted">' + products[key][2] + '</span>\n' +
+                    '                               <div>\n' +
+                    '                                   <span class="text-muted">' + products[key][2] + '</span><br>\n' +
+                    '                                   <hr class="sidebar-divider my-1">\n' +
+                    '                                   <span class="text-muted">' + (parseFloat(products[key][2]) * parseFloat(products[key][1])).toFixed(2) + '€</span>\n' +
+                    '                               </div>\n' +
                     '                           </li>');
-                total=total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
+                total = total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
             }
-            total=total.toFixed(2);
-
+            total = total.toFixed(2);
             $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
                 '                               <span><strong>Total:</strong></span>\n' +
-                '                               <strong>'+ total +' €</strong>\n' +
+                '                               <strong>' + total + ' €</strong>\n' +
                 '                           </li>');
+
+            $("#accordionSidebar li").removeClass("active");
+            $("#active-link").addClass("active");
+            $("#cart-nav").closest("li").addClass(" active");
+            $("#checkout-panel").removeClass("d-none");
+            $("#checkout-panel").fadeIn('slow');
+            $("#purchase-panel").hide();
         }
     });
 
+    $("#checkout-modal-yes-btn").on("click", function () {
+        var array = $(".selected");
+        if (!array.length) {
+            console.log("AAAAAAAAAA EMPTY");
+            $("#modal-checkout-msg-div").removeClass("d-none")
+            $("#modal-checkout-msg-div").show();
+            $("#modal-checkout-msg").text("Your cart is empty.")
+        } else {
+            $("#fingerprint-modal").removeClass("d-none");
+            $("#modal-buttons").hide();
+            $("#fingerprint-modal").show();
+
+        }
+    });
+
+    $("#abort-btn").on('click', function(){
+        $("#fingerprint-modal").hide();
+        $("#modal-buttons").show();
+
+    });
 });

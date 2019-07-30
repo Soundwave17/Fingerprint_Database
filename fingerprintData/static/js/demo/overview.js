@@ -303,15 +303,17 @@ $(document).ready(function () {
             $("#active-link").addClass("active");
             $(this).closest("li").addClass(" active");
             $("#sensor-control-wrapper").removeClass("d-none");
-            $("#sensor-control-wrapper").show();
+            $("#sensor-control-wrapper").fadeIn('slow');
             $("#graph-wrapper").hide();
+            $("#nav-tab").hide();
         });
 
         $("#graphs").click(function () {
             $("#accordionSidebar li").removeClass("active");
             $("#active-link").addClass("active");
             $(this).closest("li").addClass(" active");
-            $("#graph-wrapper").show();
+            $("#graph-wrapper").fadeIn('slow');
+            $("#nav-tab").fadeIn('slow');
             $("#sensor-control-wrapper").hide();
         });
 
