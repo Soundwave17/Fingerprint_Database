@@ -74,6 +74,19 @@ function downloadPDF() {
     doc.save('canvas.pdf');
 }
 
+function downloadPiePDF() {
+    var canvas = document.querySelector('#myPieChart');
+    //creates image
+    var canvasImg = canvas.toDataURL("image/jpeg", 1.0);
+
+    //creates PDF from img
+    var doc = new jsPDF('landscape');
+    doc.setFontSize(20);
+    doc.text(15, 15, "Cool Chart");
+    doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150);
+    doc.save('canvas.pdf');
+}
+
 
 
 
@@ -264,6 +277,9 @@ $(document).ready(function () {
                     $("#templates-number").text(result['msg']);
                 }
             },
+            error: function(err){
+                $("#finger-count-p").html("Error! Sensor not found!");
+            }
         });
 
 
@@ -399,6 +415,7 @@ $(document).ready(function () {
 
         //add event listener to button
         $("#download-pdf").click(downloadPDF);
+        $("#download-pie-pdf").click(downloadPiePDF);
 
 
     var products = [];

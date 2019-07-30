@@ -267,12 +267,7 @@ def checkout(request, customer_email):
             p=[]
             q=[]
             dict=ast.literal_eval(request.POST.get('json'))
-            #lenght=int(request.POST.get('lenght'))
-            #n=request.POST.get('name')
-            #q=request.POST.get('quantity')
 
-            #name = ast.literal_eval(n)
-            #quantity = ast.literal_eval(q)
 
             lenght= int(dict['lenght'])
             p=dict['name']

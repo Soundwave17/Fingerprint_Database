@@ -43,8 +43,14 @@ $(document).ready(function () {
                                             "it doesn't match the user's.");
                                     }
                                 }
+
                             });
                         }
+                    }
+                    ,
+                    error: function(err){
+                        $('#retry').text("Retry");
+                        $('#message-ajax').text("Error! Sensor not found!");
                     },
                     timeout: 100000,
                 }

@@ -172,7 +172,7 @@
 
     <div id="sensor-control-wrapper" class="container d-none">
         <div class="text-center col-sm-12">
-            <p>
+            <p id="finger-count-p">
                 Sensor has: <span id="templates-number"></span> fingerprints stored.
             </p>
 
@@ -288,6 +288,9 @@
                                         $('#modal-delete').text(result1['msg']);
                                     }
 
+                                },
+                                error: function(err){
+                                    $('#modal-delete').text("Error! Sensor not found!");
                                 }
                             });
                         } else {

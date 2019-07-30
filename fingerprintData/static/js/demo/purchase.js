@@ -10,6 +10,7 @@ $(document).ready(function () {
         var array = $(".selected");
         if (!array.length) {
             console.log("AAAAAAAAAA EMPTY");
+            window.alert("Ahhh the cart is empty! Go buy something. NOW!");
         } else {
             console.log("Product list is not empty");
             array.each(function (index, value) {
@@ -147,6 +148,7 @@ $(document).ready(function () {
         var products = {};
         var array = $(".selected");
         if (!array.length) {
+            window.alert("Ahhh the cart is empty! Go buy something. NOW!");
             console.log("AAAAAAAAAA EMPTY");
         } else {
             console.log("Product list is not empty");
@@ -206,6 +208,7 @@ $(document).ready(function () {
             $("#modal-checkout-msg-div").removeClass("d-none")
             $("#modal-checkout-msg-div").show();
             $("#modal-checkout-msg").text("Your cart is empty.")
+
         } else {
             $("#fingerprint-modal").removeClass("d-none");
             $("#modal-buttons").hide();

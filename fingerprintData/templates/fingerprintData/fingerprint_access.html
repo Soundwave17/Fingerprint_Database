@@ -2,9 +2,16 @@
 
 {% block title %}Access Page{% endblock title %}
 
-{% block activetitle %}Login{% endblock activetitle %}
+{% block activetitle %}Fingerprint Access{% endblock activetitle %}
 
 {% block navlinks %}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Login</span>
+        </a>
+    </li>
 {% endblock navlinks %}
 
 
