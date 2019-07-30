@@ -88,44 +88,41 @@ function downloadPiePDF() {
 }
 
 
-
-
 function setupPieChartPage() {
     var ctx = document.getElementById("myPieChart");
     var myPieChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          hoverBorderColor: "rgba(234, 236, 244, 1)",
-        }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: false,
-          caretPadding: 10,
+        type: 'doughnut',
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
         },
-        legend: {
-          display: false
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+            },
+            legend: {
+                display: false
+            },
+            cutoutPercentage: 80,
         },
-        cutoutPercentage: 80,
-      },
     });
 
 
     return myPieChart;
 }
-
 
 
 function setupChartPage() {
@@ -232,7 +229,6 @@ $(document).ready(function () {
         var sumType = [];
 
 
-
         $.ajax({
             headers: {
                 "X-CSRFToken": csrftoken,
@@ -248,16 +244,16 @@ $(document).ready(function () {
                 var data1 = result['data'];
 
                 myPieChart.data = {
-                                labels: labels,
-                                datasets: [{
-                                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                                      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                                      hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    labels: labels,
+                    datasets: [{
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
 
-                                    data: data1,
-                                }]
-                            };
-                            myPieChart.update();
+                        data: data1,
+                    }]
+                };
+                myPieChart.update();
 
             },
         });
@@ -277,7 +273,7 @@ $(document).ready(function () {
                     $("#templates-number").text(result['msg']);
                 }
             },
-            error: function(err){
+            error: function (err) {
                 $("#finger-count-p").html("Error! Sensor not found!");
             }
         });
@@ -299,16 +295,16 @@ $(document).ready(function () {
                     var data1 = result['data'];
 
                     myPieChart.data = {
-                                    labels: labels,
-                                    datasets: [{
-                                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                                          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                                          hoverBorderColor: "rgba(234, 236, 244, 1)",
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                            hoverBorderColor: "rgba(234, 236, 244, 1)",
 
-                                        data: data1,
-                                    }]
-                                };
-                                myPieChart.update();
+                            data: data1,
+                        }]
+                    };
+                    myPieChart.update();
 
                 },
             });
@@ -338,6 +334,8 @@ $(document).ready(function () {
             var type = $("#type-input").val();
             var product = $("#product-input").val();
             var customer = $("#customer-input").val();
+            var customer_2 = $("#customer-input-2").val();
+            var customer_3 = $("#customer-input-3").val();
             var error_div = $("#error-div");
             error_div.hide();
             if (year) {
@@ -381,36 +379,124 @@ $(document).ready(function () {
                                 }]
                             };
                             myLineChart.update();
+
+                            if (customer_2 != "Nothing") {
+                                // Second Ajax
+                                $.ajax({
+                                    headers: {"X-CSRFToken": csrftoken},
+                                    url: 'get_revenue_by_year/',
+                                    dataType: 'json',
+                                    data: {"year": year, "type": type, "product": product, "customer": customer_2},
+                                    type: 'GET',
+                                    success: function (result_2) {
+                                        console.log(result_2);
+                                        sum[0] = result_2['Jan'];
+                                        sum[1] = result_2['Feb'];
+                                        sum[2] = result_2['Mar'];
+                                        sum[3] = result_2['Apr'];
+                                        sum[4] = result_2['May'];
+                                        sum[5] = result_2['Jun'];
+                                        sum[6] = result_2['Jul'];
+                                        sum[7] = result_2['Aug'];
+                                        sum[8] = result_2['Sep'];
+                                        sum[9] = result_2['Oct'];
+                                        sum[10] = result_2['Nov'];
+                                        sum[11] = result_2['Dec'];
+                                        myLineChart.data.datasets.push(
+                                            {
+                                                label: "Revenue",
+                                                lineTension: 0.3,
+                                                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                                borderColor: "rgb(223,5,0)",
+                                                pointRadius: 3,
+                                                pointBackgroundColor: "rgb(223,9,0)",
+                                                pointBorderColor: "rgb(223,0,12)",
+                                                pointHoverRadius: 3,
+                                                pointHoverBackgroundColor: "rgb(223,0,37)",
+                                                pointHoverBorderColor: "rgb(223,0,5)",
+                                                pointHitRadius: 10,
+                                                pointBorderWidth: 2,
+                                                data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
+                                            }
+                                        );
+                                        myLineChart.update();
+
+                                        if (customer_3 != "Nothing") {
+                                            $.ajax({
+                                                headers: {"X-CSRFToken": csrftoken},
+                                                url: 'get_revenue_by_year/',
+                                                dataType: 'json',
+                                                data: {
+                                                    "year": year,
+                                                    "type": type,
+                                                    "product": product,
+                                                    "customer": customer_3
+                                                },
+                                                type: 'GET',
+                                                success: function (result_2) {
+                                                    console.log(result_2);
+                                                    sum[0] = result_2['Jan'];
+                                                    sum[1] = result_2['Feb'];
+                                                    sum[2] = result_2['Mar'];
+                                                    sum[3] = result_2['Apr'];
+                                                    sum[4] = result_2['May'];
+                                                    sum[5] = result_2['Jun'];
+                                                    sum[6] = result_2['Jul'];
+                                                    sum[7] = result_2['Aug'];
+                                                    sum[8] = result_2['Sep'];
+                                                    sum[9] = result_2['Oct'];
+                                                    sum[10] = result_2['Nov'];
+                                                    sum[11] = result_2['Dec'];
+                                                    myLineChart.data.datasets.push(
+                                                        {
+                                                            label: "Revenue",
+                                                            lineTension: 0.3,
+                                                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                                            borderColor: "rgb(2,223,0)",
+                                                            pointRadius: 3,
+                                                            pointBackgroundColor: "rgb(8,223,5)",
+                                                            pointBorderColor: "rgb(2,223,0)",
+                                                            pointHoverRadius: 3,
+                                                            pointHoverBackgroundColor: "rgb(2,223,0)",
+                                                            pointHoverBorderColor: "rgb(2,223,0)",
+                                                            pointHitRadius: 10,
+                                                            pointBorderWidth: 2,
+                                                            data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
+                                                        }
+                                                    );
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
                         }
                     });
+                } else {
+                    error_div.show();
+                    $("#error-msg").html("You must input something!");
+                    myLineChart.data = {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        datasets: [{
+                            label: "Revenue",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                            borderColor: "rgba(78, 115, 223, 1)",
+                            pointRadius: 3,
+                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        }]
+                    };
+                    myLineChart.update();
                 }
-            } else {
-                error_div.show();
-                $("#error-msg").html("You must input something!");
-                myLineChart.data = {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    datasets: [{
-                        label: "Revenue",
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    }]
-                };
-                myLineChart.update();
             }
         });
-
-
-
 
 
         //add event listener to button
@@ -418,38 +504,51 @@ $(document).ready(function () {
         $("#download-pie-pdf").click(downloadPiePDF);
 
 
-    var products = [];
+        var products = [];
 
-    $("#type-input").change(function () {
-        $.ajax({
-            headers: {
-                "X-CSRFToken": csrftoken,
-            },
+        $("#type-input").change(function () {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
 
-            url: 'get_product_by_type/',
-            dataType: 'json',
-            type: 'GET',
-            data: {"type": $("#type-input").val()},
-            success: function (result) {
-                products = result['products'];
-                console.log(products);
+                url: 'get_product_by_type/',
+                dataType: 'json',
+                type: 'GET',
+                data: {"type": $("#type-input").val()},
+                success: function (result) {
+                    products = result['products'];
+                    console.log(products);
 
-                $("#product-input").empty();
-                var o = new Option("Nothing", "Nothing");
-                $(o).html("Nothing");
-                $("#product-input").append(o);
-
-                for (pr in products) {
-                    o = new Option(products[pr], products[pr]);
-                    /// jquerify the DOM object 'o' so we can use the html method
-                    $(o).html(products[pr]);
+                    $("#product-input").empty();
+                    var o = new Option("Nothing", "Nothing");
+                    $(o).html("Nothing");
                     $("#product-input").append(o);
-                }
 
-            },
+                    for (pr in products) {
+                        o = new Option(products[pr], products[pr]);
+                        /// jquerify the DOM object 'o' so we can use the html method
+                        $(o).html(products[pr]);
+                        $("#product-input").append(o);
+                    }
+
+                },
+            });
         });
-     });
 
+        $("#customer-input").change(function () {
+            if ($(this).val() != "Nothing") {
+                $("#customer-div-2").removeClass("d-none");
+                $("#customer-div-2").show();
+            }
+        });
+        $("#customer-input-2").change(function () {
+            if ($(this).val() != "Nothing") {
+                $("#customer-div-3").removeClass("d-none");
+                $("#customer-div-3").show();
+            }
+        });
 
-});
+    }
+);
 
