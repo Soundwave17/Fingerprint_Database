@@ -382,6 +382,46 @@ $(document).ready(function () {
 
                             if (customer_2 != "Nothing") {
                                 // Second Ajax
+                            //second ajax
+                            if(customer_2 != "Nothing"){
+                            $.ajax({
+                                headers: {"X-CSRFToken": csrftoken},
+                                url: 'get_revenue_by_year/',
+                                dataType: 'json',
+                                data: {"year": year, "type": type, "product": product, "customer": customer_2},
+                                type: 'GET',
+                                success: function (result_2) {
+                                    sum[0] = result_2['Jan'];
+                                    sum[1] = result_2['Feb'];
+                                    sum[2] = result_2['Mar'];
+                                    sum[3] = result_2['Apr'];
+                                    sum[4] = result_2['May'];
+                                    sum[5] = result_2['Jun'];
+                                    sum[6] = result_2['Jul'];
+                                    sum[7] = result_2['Aug'];
+                                    sum[8] = result_2['Sep'];
+                                    sum[9] = result_2['Oct'];
+                                    sum[10] = result_2['Nov'];
+                                    sum[11] = result_2['Dec'];
+                                    myLineChart.data.datasets.push({
+                                        label: "Revenue",
+                                        lineTension: 0.3,
+                                        backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                        borderColor: "rgb(223,5,0)",
+                                        pointRadius: 3,
+                                        pointBackgroundColor: "rgb(223,9,0)",
+                                        pointBorderColor: "rgb(223,0,12)",
+                                        pointHoverRadius: 3,
+                                        pointHoverBackgroundColor: "rgb(223,0,37)",
+                                        pointHoverBorderColor: "rgb(223,0,5)",
+                                        pointHitRadius: 10,
+                                        pointBorderWidth: 2,
+                                        data: [sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9], sum[10], sum[11]],
+                                });
+                                myLineChart.update();
+
+                                //third ajax
+                                if(customer_3 != "Nothing"){
                                 $.ajax({
                                     headers: {"X-CSRFToken": csrftoken},
                                     url: 'get_revenue_by_year/',
@@ -450,6 +490,23 @@ $(document).ready(function () {
                                                     myLineChart.data.datasets.push(
                                                         {
                                                             label: "Revenue",
+                                    data: {"year": year, "type": type, "product": product, "customer": customer_3},
+                                    type: 'GET',
+                                    success: function (result_3) {
+                                        sum[0] = result_3['Jan'];
+                                        sum[1] = result_3['Feb'];
+                                        sum[2] = result_3['Mar'];
+                                        sum[3] = result_3['Apr'];
+                                        sum[4] = result_3['May'];
+                                        sum[5] = result_3['Jun'];
+                                        sum[6] = result_3['Jul'];
+                                        sum[7] = result_3['Aug'];
+                                        sum[8] = result_3['Sep'];
+                                        sum[9] = result_3['Oct'];
+                                        sum[10] = result_3['Nov'];
+                                        sum[11] = result_3['Dec'];
+                                        myLineChart.data.datasets.push({
+                                            label: "Revenue",
                                                             lineTension: 0.3,
                                                             backgroundColor: "rgba(78, 115, 223, 0.05)",
                                                             borderColor: "rgb(2,223,0)",
@@ -470,7 +527,15 @@ $(document).ready(function () {
                                     }
                                 });
                             }
+                                    });
+                                    myLineChart.update();
+                                    }
+                                    });
+                                }
+                             }
+                            });
                         }
+                       }
                     });
                 } else {
                     error_div.show();
@@ -536,6 +601,7 @@ $(document).ready(function () {
             });
         });
 
+<<<<<<< HEAD
         $("#customer-input").change(function () {
             if ($(this).val() != "Nothing") {
                 $("#customer-div-2").removeClass("d-none");
@@ -548,6 +614,22 @@ $(document).ready(function () {
                 $("#customer-div-3").show();
             }
         });
+=======
+     $("#customer-input").change(function(){
+        if($(this).val()!="Nothing"){
+            $("#customer-div-2").removeClass("d-none");
+            $("#customer-div-2").show();
+        }
+     });
+
+     $("#customer-input-2").change(function(){
+        if($(this).val()!="Nothing"){
+            $("#customer-div-3").removeClass("d-none");
+            $("#customer-div-3").show();
+        }
+     });
+
+>>>>>>> 1fe43ce6eb4cda7c7d5089c354e0de7c8d80548c
 
     }
 );
