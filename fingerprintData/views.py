@@ -272,7 +272,7 @@ def checkout(request, customer_email):
             while lenght>=0 :
                 lenght=lenght-1
                 product= cart[lenght][0]
-                quantity= cart[lenght][1]
+                quantity= int(cart[lenght][1])
                 list_item = PurchaseList(purchaseList_code=purchase,
                                          purchaseList_product=product,
                                          purchaseList_qty=quantity)

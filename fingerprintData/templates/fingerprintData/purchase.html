@@ -289,11 +289,11 @@
                         temp.push($(this).children("div.card")
                             .children("div.card-block")
                             .children("h4.card-title").text().toString());
-                        temp.push(parseFloat($(this).children("div.card")
+                        temp.push(parseInt($(this).children("div.card")
                             .children("div.card-footer")
                             .children("div.row.align-content-center")
                             .children("div.col-md-4")
-                            .children("input.form-control").val().toString()).toFixed(2));
+                            .children("input.form-control").val().toString()));
                         cart[index]=temp;
                     });
 
@@ -301,7 +301,7 @@
                     $.ajax({
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'checkout/',
-                        dataType: 'json',
+                        dataType: 'application/json',
                         data: {"products": cart , "lenght": lenght, "csrfmiddlewaretoken": "{{ csrf_token }}"},
                         type: 'POST',
                         success: function (result) {
