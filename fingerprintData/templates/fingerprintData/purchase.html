@@ -230,7 +230,7 @@
         $(document).ready(function () {
             var csrftoken = '{% csrf_token %}';
             var success = false;
-            $('#retry').click(function (e) {
+            $('#retry-btn').click(function (e) {
                 e.preventDefault();
                 if (!success) {
                     $.ajax({
@@ -283,31 +283,35 @@
                     console.log("OK, YOU SHALL PASS.");
 
                     var array = $(".selected");
-                    var cart = {};
+                    var name = [];
+                    var quantity = [];
                     array.each(function (index, value) {
-                        var temp = [];
-                        temp.push($(this).children("div.card")
+
+                        name.push($(this).children("div.card")
                             .children("div.card-block")
                             .children("h4.card-title").text().toString());
-                        temp.push(parseFloat($(this).children("div.card")
+                        quantity.push(parseInt($(this).children("div.card")
                             .children("div.card-footer")
                             .children("div.row.align-content-center")
                             .children("div.col-md-4")
-                            .children("input.form-control").val().toString()).toFixed(2));
-                        cart[index]=temp;
+                            .children("input.form-control").val().toString()));
+
                     });
+                    console.log(name);
+                    console.log(quantity);
 
                     var lenght= array.length;
                     $.ajax({
                         headers: {"X-CSRFToken": csrftoken},
                         url: 'checkout/',
                         dataType: 'json',
-                        data: {"products": cart , "lenght": lenght, "csrfmiddlewaretoken": "{{ csrf_token }}"},
+                        data: {"json":JSON.stringify({'name': name , 'quantity':quantity, 'lenght': lenght}) , "csrfmiddlewaretoken": "{{ csrf_token }}"},
                         type: 'POST',
                         success: function (result) {
                             console.log(result);
                             if (result['success']) {
                                 console.log(result['msg']);
+                                
                             }
                         }
                     });

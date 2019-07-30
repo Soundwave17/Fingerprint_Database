@@ -5,6 +5,7 @@ from django.views import View
 
 from fingerprintData.models import Customer, Purchase, Product, PurchaseList, Fingerprint, Type
 from fingerprintData.forms import CustomerCreateForm, CustomerAccessForm
+import ast
 
 
 class access(View):
@@ -262,21 +263,33 @@ def get_product_by_type(request, customer_email):
 def checkout(request, customer_email):
         customer = get_object_or_404(Customer, pk=customer_email)
         if request.method == 'POST':
-            cart={}
-            lenght=int(request.POST.get('lenght'))
-            cart=request.POST.get('products')
+            dict={}
+            p=[]
+            q=[]
+            dict=ast.literal_eval(request.POST.get('json'))
+            #lenght=int(request.POST.get('lenght'))
+            #n=request.POST.get('name')
+            #q=request.POST.get('quantity')
+
+            #name = ast.literal_eval(n)
+            #quantity = ast.literal_eval(q)
+
+            lenght= int(dict['lenght'])
+            p=dict['name']
+            q=dict['quantity']
 
             purchase= Purchase(purchase_customer=customer)
-            purchase.save();
+            purchase.save()
+            i = 0
+            while i<lenght :
+                product = p[i]
+                quantity = q[i]
 
-            while lenght>=0 :
-                lenght=lenght-1
-                product= cart[lenght][0]
-                quantity= cart[lenght][1]
                 list_item = PurchaseList(purchaseList_code=purchase,
-                                         purchaseList_product=product,
+                                         purchaseList_product=Product.objects.get(product_name=product),
                                          purchaseList_qty=quantity)
                 list_item.save()
+                i=i+1
 
             data={}
             data['msg']="Success!"
