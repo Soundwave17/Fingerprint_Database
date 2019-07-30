@@ -89,7 +89,7 @@
                                     {% if type == product.product_type %}
                                         <div class="col-md-3  border p-1 m-1 rounded border-4">
                                             <div class="card">
-                                                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                                                <img class="card-img-top" src="{{ product.product_image.url }}">
                                                 <div class="card-block">
                                                     <h4 class="card-title">{{ product.product_name }}</h4>
                                                     <div class="card-text">
@@ -103,7 +103,7 @@
                                                                  src="{% static 'vendor/img/check.jpg' %}">
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <input class="form-control" type="text" value="1">
+                                                            <input class="form-control" type="text" value="0">
                                                         </div>
 
                                                         <div class=" col-md-6 text-center my-auto">

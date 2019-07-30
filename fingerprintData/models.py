@@ -15,7 +15,6 @@ def validate_nonzero(value):
         )
 
 
-# TODO use cascade on delete of fingerprint field
 class Customer(models.Model):
     customer_email = models.EmailField(primary_key=True)
     customer_password = models.CharField(max_length=16)
@@ -52,6 +51,8 @@ class Product(models.Model):
     product_price = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(Decimal('0.01'))] )
     product_type = models.ForeignKey('Type', on_delete=models.CASCADE)
     product_origin = models.CharField(max_length=2, choices=choices_list, blank=False)
+    product_description = models.TextField(max_length=200, default='New product!')
+    product_image = models.ImageField(upload_to = 'gallery', default = 'gallery/no-img.jpg')
 
     def __str__(self):
         return "%s %s %s %s" % (self.product_name, self.product_price, self.product_type, self.product_origin)

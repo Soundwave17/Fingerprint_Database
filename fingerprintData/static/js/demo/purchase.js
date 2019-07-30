@@ -34,18 +34,22 @@ $(document).ready(function () {
                 products[index] = temp;
             });
             console.log(products);
+            var total=0;
             for (var key in products) {
                 $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between lh-condensed">\n' +
                     '                               <div>\n' +
                     '                                   <h6 class="my-0">' + products[key][0] + '</h6>\n' +
-                    '                                   <small class="text-muted">' + products[key][1] + '</small>\n' +
+                    '                                   <small class="text-muted"> x' + products[key][1] + '</small>\n' +
                     '                               </div>\n' +
                     '                               <span class="text-muted">' + products[key][2] + '</span>\n' +
                     '                           </li>');
+                    total=total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
+
             }
+            total=total.toFixed(2);
             $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
-                '                               <span>Total (USD)</span>\n' +
-                '                               <strong>$20</strong>\n' +
+                '                               <span><strong>Total:</strong></span>\n' +
+                '                               <strong>'+ total +' €</strong>\n' +
                 '                           </li>');
         }
     });
@@ -152,6 +156,8 @@ $(document).ready(function () {
                     '                           </li>');
                 total=total + (parseFloat(products[key][2]) * parseFloat(products[key][1]));
             }
+            total=total.toFixed(2);
+
             $("#checkout-table-ul").append('<li class="list-group-item d-flex justify-content-between">\n' +
                 '                               <span><strong>Total:</strong></span>\n' +
                 '                               <strong>'+ total +' €</strong>\n' +
