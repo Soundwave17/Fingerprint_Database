@@ -1,12 +1,12 @@
 {% extends 'fingerprintData/page_template.html' %}
 
-{% block title %}Register{% endblock title %}
-{% block activetitle %}Register{% endblock activetitle %}
+{% block title %}Success!{% endblock title %}
+{% block activetitle %}Success!{% endblock activetitle %}
 {% block navlinks %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'fingerprintData:access' %}">
+        <a class="nav-link" href="{% url 'fingerprintData:purchase' customer_email=customer.customer_email %}">
             <i class="fas fa-fw fa-folder"></i>
-            <span> Login</span>
+            <span>Back to products</span>
         </a>
     </li>
 {% endblock navlinks %}
@@ -26,7 +26,7 @@
         <div class="col-sm-12 my-2 text-center ">
             <ul class="list-group rounded border border-success shadow">
                 <li class="list-group-item ">
-                    <h3> Success! You may continue.</h3>
+                    <h3> Success! Your order is on its way to you!</h3>
                 </li>
             </ul>
         </div>
@@ -41,8 +41,8 @@
         <hr class="sidebar-divider my-4">
 
         <div class="col-sm-12 text-center">
-            <a href="{% url 'fingerprintData:access' %}" class="text-white">
-                <button class="btn-lg btn-primary" id="continue-btn">Continue</button>
+            <a href="{% url 'fingerprintData:purchase' customer_email=customer.customer_email %}" class="text-white">
+                <button class="btn-lg btn-primary" id="continue-btn">Back to products!</button>
             </a>
         </div>
     </div>

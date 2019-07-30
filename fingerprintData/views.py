@@ -57,6 +57,11 @@ class register_success(View):
         template = 'fingerprintData/register_success.html'
         return render(request, template)
 
+class purchase_success(View):
+    def get(self,request, customer_email):
+        customer=get_object_or_404(Customer, pk=customer_email)
+        template='fingerprintData/purchase_success.html'
+        return render(request,template,{'customer':customer})
 
 def customer_login(request):
     data = {'msg': '', 'success': False, 'admin': False}
@@ -267,13 +272,6 @@ def checkout(request, customer_email):
             p=[]
             q=[]
             dict=ast.literal_eval(request.POST.get('json'))
-            #lenght=int(request.POST.get('lenght'))
-            #n=request.POST.get('name')
-            #q=request.POST.get('quantity')
-
-            #name = ast.literal_eval(n)
-            #quantity = ast.literal_eval(q)
-
             lenght= int(dict['lenght'])
             p=dict['name']
             q=dict['quantity']
