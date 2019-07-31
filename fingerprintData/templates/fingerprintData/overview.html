@@ -3,269 +3,290 @@
 {% block title %}Overview{% endblock title %}
 {% block activetitle %}Overview{% endblock activetitle %}
 {% block navlinks %}
-<li class="nav-item active">
-    <a class="nav-link" href="javascript:void(0)" id="graphs">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Graphs </span>
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="javascript:void(0)" id="sensor-control">
-        <i class="fas fa-fw fa-folder"></i>
-        <span> Sensor Control </span>
-    </a>
-</li>
+    <li class="nav-item active">
+        <a class="nav-link" href="javascript:void(0)" id="graphs">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Graphs </span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" id="sensor-control">
+            <i class="fas fa-fw fa-folder"></i>
+            <span> Sensor Control </span>
+        </a>
+    </li>
 {% endblock navlinks %}
 {% block topbar %}
-<ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto">
 
-    <li class="nav-item dropdown arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
-        </a>
-        <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-             aria-labelledby="userDropdown">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
+        <li class="nav-item dropdown arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600 small">Welcome, {{ customer.customer_name }}</span>
             </a>
-        </div>
-    </li>
-</ul>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+    </ul>
 {% endblock topbar %}
 
 {% block content %}
-{% load static %}
-<div id="graph-wrapper" class="container">
-    <ul class="nav nav-tabs" id="nav-tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="line-chart-tab" data-toggle="tab" href="#line-chart" role="tab"
-               aria-controls="home"
-               aria-selected="true">Line Chart</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="pie-chart-tab" data-toggle="tab" href="#pie-chart" role="tab"
-               aria-controls="home"
-               aria-selected="true">Pie Chart</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="line-chart" role="tabpanel" aria-labelledby="home-tab">
-            <div class="col-sm-12">
-                <div class="row ">
-                    <div class="form-group m-3">
-                        <label for="year-input">Year</label>
-                        <input type="text" class="form-control" id="year-input" name="year">
-
+    {% load static %}
+    <div id="graph-wrapper" class="container">
+        <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link border-left-danger rounded active" id="home-tab" data-toggle="tab" href="#home"
+                   role="tab"
+                   aria-controls="home"
+                   aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link border-left-success rounded" id="line-chart-tab" data-toggle="tab" href="#line-chart"
+                   role="tab"
+                   aria-controls="home"
+                   aria-selected="true">Line Chart</a>
+            </li>
+            <li class="nav-item border-left-success rounded">
+                <a class="nav-link" id="pie-chart-tab" data-toggle="tab" href="#pie-chart" role="tab"
+                   aria-controls="home"
+                   aria-selected="true">Pie Chart</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="jumbotron text-center m-5">
+                        <h1>Welcome to the administration page</h1>
+                        <hr class="sidebar-divider my-4">
+                        <p>Here you can view data and infos about the site, its customers, and how well the sales are going!</p>
+                        <p>Just select the chart you wish to see, and follow the guides!</p>
+                        <hr class="sidebar-divider my-4">
+                        <p>You can also check on the sensor by clicking on the "Sensor Control" link on the sidebar. </p>
                     </div>
-
-                    <div class="form-group m-3">
-                        <label for="type-input">Type</label>
-                        <select class="form-control" id="type-input">
-                            <option>Nothing</option>
-                            {% if types %}
-                            {% for type in types %}
-
-                            <option>{{ type }}</option>
-                            {% endfor %}
-                            {% endif %}
-
-                        </select>
-                    </div>
-
-                    <div class="form-group m-3">
-                        <label for="product-input">Product</label>
-                        <select class="form-control" id="product-input">
-                            <option>Nothing</option>
-
-
-                        </select>
-
-                    </div>
-
-                    <div class="col sm-6">
-                        <div class="form-group m-3" id="customer-div-1">
-                            <label for="customer-input">Customer</label>
-                            <select class="form-control mb-3" id="customer-input">
-                                <option>Nothing</option>
-                                {% if customers %}
-                                {% for customer in customers %}
-                                <option>{{ customer.customer_email }}</option>
-                                {% endfor %}
-                                {% endif %}
-
-                            </select>
-                        </div>
-                        <div class="form-group m-3 d-none" id="customer-div-2">
-                            <label for="customer-input-2">Customer</label>
-                            <select class="form-control mb-3" id="customer-input-2">
-                                <option>Nothing</option>
-                                {% if customers %}
-                                {% for customer in customers %}
-                                <option>{{ customer.customer_email }}</option>
-                                {% endfor %}
-                                {% endif %}
-
-                            </select>
-                        </div>
-                        <div class="form-group m-3 d-none" id="customer-div-3">
-                            <label for="customer-input-3">Customer</label>
-                            <select class="form-control mb-3" id="customer-input-3">
-                                <option>Nothing</option>
-                                {% if customers %}
-                                {% for customer in customers %}
-                                <option>{{ customer.customer_email }}</option>
-                                {% endfor %}
-                                {% endif %}
-
-                            </select>
-                        </div>
-
-                    </div>
-
-
-                    <div id="error-div">
-                        <ul class="border-danger">
-                            <li><p id="error-msg" class="text-danger"></p></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <hr class="sidebar-divider my-4">
-
-                <div class="col-sm-12 text-center">
-                    <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
-                </div>
-
-
-                <div class=" text-center">
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
-                        </div>
-                    </div>
-                    <button class="btn btn-info" id="download-pdf">
-                        Download PDF
-                    </button>
-                </div>
             </div>
-        </div>
-        <div class="tab-pane fade" id="pie-chart" role="tabpanel" aria-labelledby="home-tab">
-            <div id="graph-pie-wrapper" class="container">
-
-
+            <div class="tab-pane fade show" id="line-chart" role="tabpanel" aria-labelledby="line chart">
                 <div class="col-sm-12">
                     <div class="row ">
                         <div class="form-group m-3">
-                            <label for="year-pie-input">Year</label>
-                            <input type="text" class="form-control" id="year-pie-input" name="year">
+                            <label for="year-input">Year</label>
+                            <input type="text" class="form-control" id="year-input" name="year">
 
                         </div>
 
                         <div class="form-group m-3">
-                            <label for="customer-pie-input">Customer</label>
-                            <select class="form-control mb-3" id="customer-pie-input">
+                            <label for="type-input">Type</label>
+                            <select class="form-control" id="type-input">
                                 <option>Nothing</option>
-                                {% if customers %}
-                                {% for customer in customers %}
-                                <option>{{ customer.customer_email }}</option>
-                                {% endfor %}
+                                {% if types %}
+                                    {% for type in types %}
+
+                                        <option>{{ type }}</option>
+                                    {% endfor %}
                                 {% endif %}
 
                             </select>
-                            <button class="btn btn-primary" id="load-pie-graph"> Load the graph!</button>
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="product-input">Product</label>
+                            <select class="form-control" id="product-input">
+                                <option>Nothing</option>
+
+
+                            </select>
+
+                        </div>
+
+                        <div class="col sm-6">
+                            <div class="form-group m-3" id="customer-div-1">
+                                <label for="customer-input">Customer</label>
+                                <select class="form-control mb-3" id="customer-input">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
+                            <div class="form-group m-3 d-none" id="customer-div-2">
+                                <label for="customer-input-2">Compare with:</label>
+                                <select class="form-control mb-3" id="customer-input-2">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
+                            <div class="form-group m-3 d-none" id="customer-div-3">
+                                <label for="customer-input-3">Compare with:</label>
+                                <select class="form-control mb-3" id="customer-input-3">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
+
                         </div>
 
 
-                        <div id="error-pie-div">
+                        <div id="error-div">
                             <ul class="border-danger">
-                                <li><p id="error-pie-msg" class="text-danger"></p></li>
+                                <li><p id="error-msg" class="text-danger"></p></li>
                             </ul>
                         </div>
                     </div>
 
+                    <hr class="sidebar-divider my-4">
+
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-primary" id="load-graph"> Load the graph!</button>
+                    </div>
+
+
                     <div class=" text-center">
                         <div class="card-body">
                             <div class="chart-area">
-                                <canvas id="myPieChart"></canvas>
+                                <canvas id="myAreaChart"></canvas>
                             </div>
                         </div>
-                        <button class="btn btn-info" id="download-pie-pdf">
+
+                         <hr class="sidebar-divider my-4">
+
+                        <button class="btn btn-info" id="download-pdf">
                             Download PDF
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="tab-pane fade" id="pie-chart" role="tabpanel" aria-labelledby="pie-chart-tab">
+                <div id="graph-pie-wrapper" class="container">
 
 
-<div id="sensor-control-wrapper" class="container d-none">
-    <div class="text-center col-sm-12">
-        <p id="finger-count-p">
-            Sensor has: <span id="templates-number"></span> fingerprints stored.
-        </p>
+                    <div class="col-sm-12">
+                        <div class="row ">
+                            <div class="form-group m-3">
+                                <label for="year-pie-input">Year</label>
+                                <input type="text" class="form-control" id="year-pie-input" name="year">
 
-        <div class="form-group">
-            <label for="id-input">Select customer to delete by typing his email:</label>
-            {% csrf_token %}
-            <input type="text" class="form-control" id="id-input" name="id">
-            <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
-                Delete
-            </button>
-        </div>
+                            </div>
 
-        <hr class="sidebar-divider my-5">
+                            <div class="form-group m-3">
+                                <label for="customer-pie-input">Customer</label>
+                                <select class="form-control mb-3" id="customer-pie-input">
+                                    <option>Nothing</option>
+                                    {% if customers %}
+                                        {% for customer in customers %}
+                                            <option>{{ customer.customer_email }}</option>
+                                        {% endfor %}
+                                    {% endif %}
 
-    </div>
-</div>
+                                </select>
+                                <button class="btn btn-primary" id="load-pie-graph"> Load the graph!</button>
+                            </div>
 
 
-<!--Modal-->
+                            <div id="error-pie-div">
+                                <ul class="border-danger">
+                                    <li><p id="error-pie-msg" class="text-danger"></p></li>
+                                </ul>
+                            </div>
+                        </div>
 
-<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Warning!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Are you sure you wish to delete this Customer?
-                </p>
-                <div id="modal-delete-error-div" class="d-none">
-                    <ul>
-                        <li id="modal-delete-error-msg"></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
-                        <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
+                        <div class=" text-center">
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myPieChart"></canvas>
+                                </div>
+                            </div>
+
+                             <hr class="sidebar-divider my-4">
+
+                            <button class="btn btn-info" id="download-pie-pdf">
+                                Download PDF
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
+    <div id="sensor-control-wrapper" class="container d-none">
+        <div class="text-center col-sm-12">
+            <p id="finger-count-p">
+                Sensor has: <span id="templates-number"></span> fingerprints stored.
+            </p>
+
+            <div class="form-group">
+                <label for="id-input">Select customer to delete by typing his email:</label>
+                {% csrf_token %}
+                <input type="text" class="form-control" id="id-input" name="id">
+                 <hr class="sidebar-divider my-4">
+                <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modal-->
+
+    <div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Warning!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Are you sure you wish to delete this Customer?
+                    </p>
+                    <div id="modal-delete-error-div" class="d-none">
+                        <ul>
+                            <li id="modal-delete-error-msg"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="row justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                            <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
 
 {% block extrajs %}
-<script src="{% static 'js/demo/overview.js' %}"></script>
-<script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
+    <script src="{% static 'js/demo/overview.js' %}"></script>
+    <script src="{% static 'js/demo/jspdf.debug.js' %}"></script>
 
-<script>
+    <script>
         $(document).ready(function () {
             $("#error-div").hide();
             var csrftoken = '{% csrf_token %}';
@@ -340,7 +361,5 @@
         });
 
 
-
-
-</script>
+    </script>
 {% endblock %}
