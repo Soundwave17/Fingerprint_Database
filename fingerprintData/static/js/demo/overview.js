@@ -367,9 +367,9 @@ $(document).ready(function () {
                             myLineChart.data = {
                                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                                 datasets: [{
-                                    label: "Revenue",
+                                    label: "Revenue 1",
                                     lineTension: 0.3,
-                                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                    backgroundColor: "rgba(78,115,223,0.17)",
                                     borderColor: "rgba(78, 115, 223, 1)",
                                     pointRadius: 3,
                                     pointBackgroundColor: "rgba(78, 115, 223, 1)",
@@ -406,9 +406,9 @@ $(document).ready(function () {
                                     sum[10] = result_2['Nov'];
                                     sum[11] = result_2['Dec'];
                                     myLineChart.data.datasets.push({
-                                        label: "Revenue",
+                                        label: "Revenue 2",
                                         lineTension: 0.3,
-                                        backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                        backgroundColor: "rgba(223,5,0,0.31)",
                                         borderColor: "rgb(223,5,0)",
                                         pointRadius: 3,
                                         pointBackgroundColor: "rgb(223,9,0)",
@@ -444,9 +444,9 @@ $(document).ready(function () {
                                         sum[10] = result_3['Nov'];
                                         sum[11] = result_3['Dec'];
                                         myLineChart.data.datasets.push({
-                                            label: "Revenue",
+                                            label: "Revenue 3",
                                                             lineTension: 0.3,
-                                                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                                            backgroundColor: "rgba(2,223,0,0.19)",
                                                             borderColor: "rgb(2,223,0)",
                                                             pointRadius: 3,
                                                             pointBackgroundColor: "rgb(8,223,5)",
@@ -538,6 +538,8 @@ $(document).ready(function () {
         if($(this).val()!="Nothing"){
             $("#customer-div-2").removeClass("d-none");
             $("#customer-div-2").show();
+        }else{
+
         }
      });
 
