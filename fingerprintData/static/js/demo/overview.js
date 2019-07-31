@@ -536,6 +536,8 @@ $(document).ready(function () {
         if ($(this).val() != "Nothing") {
             $("#customer-div-2").removeClass("d-none");
             $("#customer-div-2").show();
+        }else{
+
         }
     });
 
