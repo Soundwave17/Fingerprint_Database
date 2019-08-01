@@ -23,24 +23,36 @@
 
 {% endblock %}
 
-<div class="jumbotron text-center border border-success rounded">
-    <div class="col-sm-2 m-auto">
-        <img src="{% static 'vendor/img/Brand_Logo.png' %}" class="img-fluid">
+    <div class="jumbotron text-center border border-success rounded">
+        <div class="col-sm-2 m-auto">
+            <img src="{% static 'vendor/img/Brand_Logo.png' %}" class="img-fluid">
+        </div>
+
+        <h1>Evil and Mean Marketplace</h1>
+        <p>A very safe place where to buy all your product needs!</p>
     </div>
     <h1>Evil and Mean Marketplace</h1>
     <p>A very safe place where to buy all your product needs!</p>
 </div>
 
-<div class="container my-2">
-    <div class="row">
-        <div class="col-sm-4">
-        </div>
-        <div class="col-sm-4 text-center shadow">
-            <h3>Welcome</h3>
-            {% load widget_tweaks %}
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4 text-center shadow">
+                <h3>Welcome</h3>
+                {% load widget_tweaks %}
 
-            <form method="get" id="customer-access-form" novalidate>
-                {% csrf_token %}
+                <form method="get" id="customer-access-form" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
                 {% if form.non_field_errors %}
                 <div class="alert alert-danger" role="alert">
