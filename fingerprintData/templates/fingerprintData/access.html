@@ -5,85 +5,88 @@
 {% block activetitle %}Login{% endblock activetitle %}
 
 {% block navlinks %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'fingerprintData:register' %}">
-            <i class="fas fa-fw fa-folder"></i>
-            <span> Register </span>
-        </a>
-    </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'fingerprintData:register' %}">
+        <i class="fas fa-fw fa-folder"></i>
+        <span> Register </span>
+    </a>
+</li>
 {% endblock navlinks %}
 
 
 {% block content %}
-    {% load static %}
+{% load static %}
 
-    {% block extracss %}
+{% block extracss %}
 
-        <link href="{% static 'css/access.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/access.css' %}" rel="stylesheet" type="text/css">
 
-    {% endblock %}
+{% endblock %}
 
-    <div class="jumbotron text-center border border-success rounded">
-        <h1>Evil and Mean Marketplace</h1>
-        <p>A very safe place where to buy all your product needs!</p>
+<div class="jumbotron text-center border border-success rounded">
+    <div class="col-sm-2 m-auto">
+        <img src="{% static 'vendor/img/Brand_Logo.png' %}" class="img-fluid">
     </div>
+    <h1>Evil and Mean Marketplace</h1>
+    <p>A very safe place where to buy all your product needs!</p>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-4 text-center shadow">
-                <h3>Welcome</h3>
-                {% load widget_tweaks %}
+<div class="container my-2">
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4 text-center shadow">
+            <h3>Welcome</h3>
+            {% load widget_tweaks %}
 
-                <form method="get" id="customer-access-form" novalidate>
-                    {% csrf_token %}
+            <form method="get" id="customer-access-form" novalidate>
+                {% csrf_token %}
 
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% for field in form.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
                     {% endif %}
 
-                    {% for field in form.visible_fields %}
-                        <div class="form-group">
-                            {{ field.label_tag }}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
 
-                            {% if form.is_bound %}
-                                {% if field.errors %}
-                                    {% render_field field class="form-control is-invalid" %}
-                                    {% for error in field.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    {% render_field field class="form-control is-valid" %}
-                                {% endif %}
-                            {% else %}
-                                {% render_field field class="form-control" %}
-                            {% endif %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{% url 'fingerprintData:register' %}" class="btn btn-info" role="button">Register</a>
 
-                            {% if field.help_text %}
-                                <small class="form-text text-muted">{{ field.help_text }}</small>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="{% url 'fingerprintData:register' %}" class="btn btn-info" role="button">Register</a>
-
-                </form>
-            </div>
-            <div class="col-sm-4">
-            </div>
+            </form>
+        </div>
+        <div class="col-sm-4">
         </div>
     </div>
+</div>
 
 {% endblock content %}
 
 {% block extrajs %}
-    <script src="{% static 'js/demo/access.js' %}"></script>
+<script src="{% static 'js/demo/access.js' %}"></script>
 {% endblock extrajs %}

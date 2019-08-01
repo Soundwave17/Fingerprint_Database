@@ -73,8 +73,8 @@
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
 
-        <div class="d-md-inline text-center">
-            <img src="{% static 'vendor/img/banner-placeholder.jpg' %}" class="img-responsive">
+        <div class="d-md-inline text-center d-sm-none d-none py-4">
+            <img src="{% static 'vendor/img/banner-placeholder.jpg' %}" id="banner-placeholder" class="img-fluid">
         </div>
 
     </ul>
@@ -87,6 +87,7 @@
 
             <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
 
                 {% block topbar %}
 
@@ -159,6 +160,14 @@
 
 <!-- Page level plugins -->
 <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+       $("#sidebarToggle").on('click', function(){
+          $("#banner-placeholder").toggle();
+       });
+    });
+</script>
 
 {% block extrajs %}
 
