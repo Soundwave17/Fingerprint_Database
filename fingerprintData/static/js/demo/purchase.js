@@ -131,6 +131,8 @@ $(document).ready(function () {
                     .children("img.check-image").hide();
             }
             $("#checkout-table-ul").empty();
+            nav_counter.text(0);
+            nav_counter.hide();
         });
 
     });
@@ -152,6 +154,8 @@ $(document).ready(function () {
                     .children("img.check-image").hide();
             }
             $("#checkout-table-ul").empty();
+            nav_counter.text(0);
+            nav_counter.hide();
         });
     });
 

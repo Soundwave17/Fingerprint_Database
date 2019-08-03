@@ -45,7 +45,7 @@
                 <a class="nav-link border-left-danger rounded active" id="home-tab" data-toggle="tab" href="#home"
                    role="tab"
                    aria-controls="home"
-                   aria-selected="true">Home</a>
+                   aria-selected="true"> <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link border-left-success rounded" id="line-chart-tab" data-toggle="tab" href="#line-chart"
@@ -61,22 +61,29 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="jumbotron text-center m-5">
-                        <h1>Welcome to the administration page</h1>
-                        <hr class="sidebar-divider my-4">
-                        <p>Here you can view data and infos about the site, its customers, and how well the sales are going!</p>
-                        <p>Just select the chart you wish to see, and follow the guides!</p>
-                        <hr class="sidebar-divider my-4">
-                        <p>You can also check on the sensor by clicking on the "Sensor Control" link on the sidebar. </p>
-                    </div>
+                <div class="jumbotron text-center m-5">
+                    <h1>Welcome to the administration page</h1>
+                    <hr class="sidebar-divider my-4">
+                    <p>Here you can view data and infos about the site, its customers, and how well the sales are
+                        going!</p>
+                    <p>Just select the chart you wish to see, and follow the guides!</p>
+                    <hr class="sidebar-divider my-4">
+                    <p>You can also check on the sensor by clicking on the "Sensor Control" link on the sidebar. </p>
+                </div>
             </div>
             <div class="tab-pane fade show" id="line-chart" role="tabpanel" aria-labelledby="line chart">
                 <div class="col-sm-12">
                     <div class="row ">
                         <div class="form-group m-3">
                             <label for="year-input">Year</label>
-                            <input type="text" class="form-control" id="year-input" name="year">
-
+                            <select id="year-input" class="form-control mb-3">
+                                <option> None</option>
+                                {% if years %}
+                                    {% for year in years %}
+                                        <option>{{ year }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
                         </div>
 
                         <div class="form-group m-3">
@@ -144,7 +151,7 @@
                         </div>
 
 
-                        <div id="error-div">
+                        <div id="error-div" class="my-auto d-none">
                             <ul class="border-danger">
                                 <li><p id="error-msg" class="text-danger"></p></li>
                             </ul>
@@ -165,7 +172,7 @@
                             </div>
                         </div>
 
-                         <hr class="sidebar-divider my-4">
+                        <hr class="sidebar-divider my-4">
 
                         <button class="btn btn-info" id="download-pdf">
                             Download PDF
@@ -181,8 +188,14 @@
                         <div class="row ">
                             <div class="form-group m-3">
                                 <label for="year-pie-input">Year</label>
-                                <input type="text" class="form-control" id="year-pie-input" name="year">
-
+                                <select id="year-pie-input" class="form-control mb-3">
+                                    <option> None</option>
+                                    {% if years %}
+                                        {% for year in years %}
+                                            <option>{{ year }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
                             </div>
 
                             <div class="form-group m-3">
@@ -200,7 +213,7 @@
                             </div>
 
 
-                            <div id="error-pie-div">
+                            <div id="error-pie-div" class="my-auto d-none">
                                 <ul class="border-danger">
                                     <li><p id="error-pie-msg" class="text-danger"></p></li>
                                 </ul>
@@ -214,7 +227,7 @@
                                 </div>
                             </div>
 
-                             <hr class="sidebar-divider my-4">
+                            <hr class="sidebar-divider my-4">
 
                             <button class="btn btn-info" id="download-pie-pdf">
                                 Download PDF
@@ -236,8 +249,15 @@
             <div class="form-group">
                 <label for="id-input">Select customer to delete by typing his email:</label>
                 {% csrf_token %}
-                <input type="text" class="form-control" id="id-input" name="id">
-                 <hr class="sidebar-divider my-4">
+                <select class="form-control mb-3" id="id-input">
+                    <option> None</option>
+                    {% if customers %}
+                        {% for customer in customers %}
+                            <option>{{ customer.customer_email }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+                <hr class="sidebar-divider my-4">
                 <button class="btn btn-primary" id="delete-id" data-toggle="modal" data-target="#warning-modal">
                     Delete
                 </button>
@@ -271,7 +291,9 @@
                 <div class="modal-footer">
                     <div class="container">
                         <div class="row justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                            <button type="button" id="modal-delete-close" class="btn btn-secondary"
+                                    data-dismiss="modal">No, close
+                            </button>
                             <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
                         </div>
                     </div>
@@ -322,8 +344,13 @@
                                 success: function (result1) {
                                     console.log(result1);
                                     if (result1['response']) {
-                                        $('#modal-delete').text(result['msg']);
-                                        console.log("First!");
+                                        $("#modal-delete-error-div").removeClass("d-none");
+                                        $("#modal-delete-error-div").show();
+                                        $("#modal-delete-error-msg").addClass("text-success");
+                                        $('#modal-delete-error-msg').text(result['msg'] + "you will be returned to the page in 3 seconds.");
+                                        $("#modal-delete").hide();
+                                        $.delay(3000);
+
                                         $.ajax({
                                             headers: {
                                                 "X-CSRFToken": csrftoken,
@@ -335,21 +362,37 @@
                                             data: {"customer_email": mail, "csrfmiddlewaretoken": "{{ csrf_token }}"},
                                             success: function (result2) {
                                                 console.log(result2);
-                                                console.log("Second!");
-                                                $('#modal-delete').text(result['msg']);
+                                                $("#modal-delete-error-div").removeClass("d-none");
+                                                $("#modal-delete-error-div").show();
+                                                $("#modal-delete-error-msg").addClass("text-success");
+                                                $('#modal-delete-error-msg').text(result['msg'] + "you will be returned to the page in 3 seconds.");
+                                                $("#modal-delete").hide();
+                                                $.delay(3000);
                                             }
                                         });
                                     } else {
+                                        $("#modal-delete-error-div").removeClass("d-none");
+                                        $("#modal-delete-error-div").show();
+                                        $("#modal-delete-error-msg").addClass("text-danger");
                                         $('#modal-delete').text(result1['msg']);
+                                        $("#modal-delete").text("Retry");
                                     }
 
                                 },
                                 error: function (err) {
-                                    $('#modal-delete').text("Error! Sensor not found!");
+                                    $("#modal-delete-error-div").removeClass("d-none");
+                                    $("#modal-delete-error-div").show();
+                                    $("#modal-delete-error-msg").addClass("text-danger");
+                                    $('#modal-delete-error-msg').text("Error! Sensor not found!");
+                                    $("#modal-delete").text("Retry");
                                 }
                             });
                         } else {
-                            $('#modal-delete').text(result['msg']);
+                            $("#modal-delete-error-div").removeClass("d-none");
+                            $("#modal-delete-error-div").show();
+                            $("#modal-delete-error-msg").addClass("text-danger");
+                            $('#modal-delete-error-msg').text(result['msg']);
+                            $("#modal-delete").text("Retry");
                         }
 
                     }

@@ -65,7 +65,7 @@
                 <li class="nav-item border-left-danger rounded">
                     <a class="nav-link active " id="home-tab" data-toggle="tab" href="#home" role="tab"
                        aria-controls="home"
-                       aria-selected="true">Home</a>
+                       aria-selected="true"><i class="fas fa-home"></i> Home</a>
 
                 </li>
 
@@ -211,7 +211,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <ul>
-                                                <li id="message-modal"></li>
+                                                <li id="message-modal" class="d-none"></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -242,6 +242,8 @@
     <script src="{% static 'js/demo/purchase.js' %}"></script>
     <script>
         $(document).ready(function () {
+            $('#message-modal').removeClass('d-none');
+            $("#message-modal").hide();
             var csrftoken = '{% csrf_token %}';
             $('#retry-btn').click(function (e) {
                 e.preventDefault();
@@ -257,6 +259,7 @@
                         console.log(result);
                         if (!result['response']) {
                             $('#retry-btn').text("Retry");
+                            $("#message-modal").show();
                             $('#message-modal').text(result['msg']);
                         } else {
                             var found = false;
@@ -313,9 +316,11 @@
                                         });
 
                                     } else if (!answer['success']) {
+                                        $("#message-modal").show();
                                         $('#message-modal').text("Your email is invalid, please return to login.");
                                     } else {
                                         $('#retry-btn').text("Retry");
+                                        $("#message-modal").show();
                                         $('#message-modal').text("Your fingerprint is registered, but " +
                                             "it doesn't match the user's.");
                                     }
@@ -325,6 +330,7 @@
                     },
                     error: function (err) {
                         $('#retry-btn').text("Retry");
+                        $("#message-modal").show();
                         $('#message-modal').text("Error! Sensor not found!");
                     },
                     timeout: 100000,

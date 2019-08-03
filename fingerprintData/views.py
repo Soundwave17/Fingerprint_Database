@@ -1,4 +1,5 @@
 import json
+import datetime
 from django.http import JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views import View
@@ -37,10 +38,17 @@ class overview(View):
         if (customer.customer_admin):
             type_list = Type.objects.all()
             customer_list = Customer.objects.all()
+            year_list=[]
+            temp= 1920
+            while(temp <= datetime.datetime.now().year):
+                if(Purchase.objects.filter(purchase_date__year=temp).exists()):
+                    year_list.append(temp)
+                temp=temp+1
             template = 'fingerprintData/overview.html'
             return render(request, template, {'customer': customer,
                                               'types': type_list,
                                               'customers': customer_list,
+                                              'years' : year_list,
                                               })
         raise Http404("How did you get in here???")
 
@@ -188,12 +196,12 @@ def get_revenue_by_type(request, customer_email):
             labels[type.type_description] = i
             i = i+1
         if customer == 'Nothing':
-            if year is '':
+            if year == 'None':
                 tot_list = Purchase.objects.filter()
             else:
                 tot_list = Purchase.objects.filter(purchase_date__year=year)
         else:
-            if year is '':
+            if year == 'None':
                 tot_list = Purchase.objects.filter(purchase_customer=customer)
             else:
                 tot_list = Purchase.objects.filter(purchase_date__year=year, purchase_customer=customer)

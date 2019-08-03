@@ -29,7 +29,46 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 //validates year
-function yearValidation(year) {
+function yearValidationPie(year) {
+
+    var error_div = $("#error-pie-div");
+    var error_msg = $("#error-pie-msg");
+
+    var text = /^[0-9]+$/;
+
+    if(year=='None'){
+        error_div.show();
+        error_msg.html("Please enter a valid year.");
+        return false;
+    }
+
+    if (year != 0) {
+        if ((year != "") && (!text.test(year))) {
+            error_div.show();
+            error_msg.html("Please enter numeric values only.");
+            return false;
+        }
+
+        if (year.length != 4) {
+            error_div.show();
+            error_msg.html("Please enter a 4 digit number.");
+            return false;
+        }
+        var current_year = new Date().getFullYear();
+        if ((year < 1920) || (year > current_year)) {
+            error_div.show();
+            error_msg.html("Year should be in range 1920 to current year");
+            return false;
+        }
+        return true;
+    }
+    error_div.show();
+    error_msg.html("Please enter a 4 digit number.");
+    return false;
+}
+
+
+function yearValidationLine(year) {
 
     var error_div = $("#error-div");
     var error_msg = $("#error-msg");
@@ -38,7 +77,7 @@ function yearValidation(year) {
     if (year != 0) {
         if ((year != "") && (!text.test(year))) {
             error_div.show();
-            error_msg.html("Please enter numeric values only.");
+            error_msg.html("Please enter a valid year.");
             return false;
         }
 
@@ -221,6 +260,7 @@ function setupChartPage() {
 
 // Area Chart Example
 $(document).ready(function () {
+    $("#error-div").removeClass("d-none");
     $("#error-div").hide();
     var csrftoken = '{% csrf_token %}';
     var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -280,34 +320,39 @@ $(document).ready(function () {
 
 
     $("#load-pie-graph").click(function () {
-        $.ajax({
-            headers: {
-                "X-CSRFToken": csrftoken,
-            },
-            crossDomain: true,
-            url: 'get_revenue_by_type/',
-            dataType: 'json',
-            type: 'GET',
-            data: {"year": $('#year-pie-input').val(), "customer": $('#customer-pie-input').val()},
-            success: function (result) {
-                var types = result['types'];
-                var labels = Object.keys(types);
-                var data1 = result['data'];
+        var error_div = $("#error-pie-div");
+        error_div.removeClass("d-none");
+        error_div.hide();
+        if (yearValidationPie($('#year-pie-input').val())) {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                },
+                crossDomain: true,
+                url: 'get_revenue_by_type/',
+                dataType: 'json',
+                type: 'GET',
+                data: {"year": $('#year-pie-input').val(), "customer": $('#customer-pie-input').val()},
+                success: function (result) {
+                    var types = result['types'];
+                    var labels = Object.keys(types);
+                    var data1 = result['data'];
 
-                myPieChart.data = {
-                    labels: labels,
-                    datasets: [{
-                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    myPieChart.data = {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                            hoverBorderColor: "rgba(234, 236, 244, 1)",
 
-                        data: data1,
-                    }]
-                };
-                myPieChart.update();
+                            data: data1,
+                        }]
+                    };
+                    myPieChart.update();
 
-            },
-        });
+                },
+            });
+        }
     });
 
     $("#sensor-control").click(function () {
@@ -339,7 +384,7 @@ $(document).ready(function () {
         var error_div = $("#error-div");
         error_div.hide();
         if (year) {
-            if (yearValidation(year)) {
+            if (yearValidationLine(year)) {
                 $.ajax({
                     headers: {"X-CSRFToken": csrftoken},
                     url: 'get_revenue_by_year/',
@@ -591,5 +636,8 @@ $(document).ready(function () {
         }
     });
 
+    $("#modal-delete-close").on("click", function () {
+        $("#modal-delete-error-div").hide();
+    });
 
 });
