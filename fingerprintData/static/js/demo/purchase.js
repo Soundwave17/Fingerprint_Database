@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    var nav_counter = $("#nav-cart-counter");
     $(".check-image").hide();
     $("#fingerprint-modal").hide();
 
@@ -90,6 +90,11 @@ $(document).ready(function () {
                 .children("div.row.align-content-center")
                 .children("div.col-md-2.float-sm-left")
                 .children("img.check-image").hide();
+            counter = parseInt(nav_counter.text()) - 1;
+            nav_counter.text(counter);
+            if (counter == 0) {
+                nav_counter.hide();
+            }
         } else {
             $(this).addClass('border-primary');
             $(this).addClass('selected');
@@ -98,6 +103,14 @@ $(document).ready(function () {
                 .children("div.row.align-content-center")
                 .children("div.col-md-2.float-sm-left")
                 .children("img.check-image").fadeIn('slow');
+            if (nav_counter.hasClass("d-none")) {
+                nav_counter.removeClass("d-none");
+            }
+            counter = parseInt(nav_counter.text());
+            if (counter == 0) {
+                nav_counter.show();
+            }
+            nav_counter.text(counter + 1);
         }
     });
 
@@ -217,7 +230,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#abort-btn").on('click', function(){
+    $("#abort-btn").on('click', function () {
         $("#fingerprint-modal").hide();
         $("#modal-buttons").show();
 

@@ -17,8 +17,8 @@
         <a class="nav-link align-content-center" href="javascript:void(0)" id="cart-nav">
             <i class="fas fa-fw fa-arrow-right"></i>
             <span> Your cart
-                <span class="border bg-danger rounded px-1 mx-3 d-none" id="nav-cart-counter">
-                    <!-- Cart-counter -->
+                <span class="border border-danger bg-danger rounded px-1 mx-3 d-none" id="nav-cart-counter">
+                    0
                 </span>
             </span>
         </a>
@@ -104,8 +104,9 @@
                                             <div class="card">
                                                 <img class="card-img-top" src="{{ product.product_image.url }}">
                                                 <div class="card-block">
-                                                    <h4 class="card-title">{{ product.product_name }}</h4>
-                                                    <div class="card-text">
+                                                    <h4 class="card-title p-2">{{ product.product_name }}</h4>
+                                                    <hr class="sidebar-divider my-1">
+                                                    <div class="card-text p-2">
                                                         {{ product.product_description }}
                                                     </div>
                                                 </div>
@@ -119,7 +120,7 @@
                                                             <input class="form-control" type="text" value="0">
                                                         </div>
 
-                                                        <div class=" col-md-6 text-center my-auto">
+                                                        <div class=" col-md-6 text-center my-auto border border-info rounded">
                                                             {{ product.product_price }} €
                                                         </div>
                                                     </div>
@@ -137,8 +138,8 @@
             <hr class="sidebar-divider my-1">
 
             <div class="row justify-content-center text-center">
-                <button id="checkout-btn" class="btn btn-primary"> Go to Checkout</button>
-                <button id="empty-cart" class="btn btn-danger"> Empty your cart</button>
+                <button id="checkout-btn" class="btn btn-primary mx-3"> Go to Checkout</button>
+                <button id="empty-cart" class="btn btn-danger mx-3"> Empty your cart</button>
             </div>
 
 
