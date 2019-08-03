@@ -71,6 +71,14 @@ $(document).ready(function () {
         $("#checkout-panel").hide();
     });
 
+    $("#return-products").click(function () {
+        $("#accordionSidebar li").removeClass("active");
+        $("#active-link").addClass("active");
+        $("#products-nav").closest("li").addClass(" active");
+        $("#purchase-panel").fadeIn('slow');
+        $("#checkout-panel").hide();
+    });
+
     var card_wrapper = $(".border.col-md-12.p-1.m-1");
 
     card_wrapper.hover(
