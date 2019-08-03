@@ -83,35 +83,6 @@
                 {% endfor %}
             </ul>
 
-{% block extracss %}
-<link href="{% static 'css/purchase.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-
-{% if types %}
-<div class="container mx-auto" id="purchase-panel">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item border-left-danger rounded">
-            <a class="nav-link active " id="home-tab" data-toggle="tab" href="#home" role="tab"
-               aria-controls="home"
-               aria-selected="true">Home</a>
-
-        </li>
-
-        {% for type in types %}
-        <li class="nav-item border-left-success rounded">
-            <a class="nav-link"
-               id="{{ type }}-tab"
-               data-toggle="tab"
-               href="#{{ type }}"
-               role="tab"
-               aria-controls="{{ type }}"
-               aria-selected="false">{{ type }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-
     <div class="tab-content" id="myTabContent">
 
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
