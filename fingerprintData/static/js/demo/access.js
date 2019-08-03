@@ -2,6 +2,7 @@
 // add this to every ajax call attributes : headers: { "X-CSRFToken": token },
 
 $(document).ready(function () {
+$('#warning-access-modal').modal({ show: false});
     var csrftoken = '{% csrf_token %}';
 
     $('#customer-access-form').on('submit', function (e) {
@@ -20,7 +21,7 @@ $(document).ready(function () {
                         window.location = window.location.pathname + $("#customer-email").val() + "/fingerprint_access/";
                 }
                 else{
-                    window.alert("Error! The email/password isn't correct! Try again!");
+                    $('#warning-access-modal').modal('show');
                 }
             }
         });

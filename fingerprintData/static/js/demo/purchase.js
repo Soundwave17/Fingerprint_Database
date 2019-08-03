@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#warning-checkout-modal').modal({ show: false});
     var nav_counter = $("#nav-cart-counter");
     $(".check-image").hide();
     $("#fingerprint-modal").hide();
@@ -10,7 +11,7 @@ $(document).ready(function () {
         var array = $(".selected");
         if (!array.length) {
             console.log("AAAAAAAAAA EMPTY");
-            window.alert("Ahhh the cart is empty! Go buy something. NOW!");
+            $('#warning-checkout-modal').modal('show');
         } else {
             console.log("Product list is not empty");
             array.each(function (index, value) {
@@ -70,7 +71,7 @@ $(document).ready(function () {
         $("#checkout-panel").hide();
     });
 
-    var card_wrapper = $(".border.col-md-3.p-1.m-1");
+    var card_wrapper = $(".border.col-md-12.p-1.m-1");
 
     card_wrapper.hover(
         function () {
@@ -165,7 +166,7 @@ $(document).ready(function () {
         var products = {};
         var array = $(".selected");
         if (!array.length) {
-            window.alert("The cart is empty! Go buy something!");
+            $('#warning-checkout-modal').modal('show');
             console.log("AAAAAAAAAA EMPTY");
         } else {
             console.log("Product list is not empty");

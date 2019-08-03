@@ -50,7 +50,7 @@ class Product(models.Model):
     product_price = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(Decimal('0.01'))] )
     product_type = models.ForeignKey('Type', on_delete=models.CASCADE)
     product_origin = models.CharField(max_length=2, choices=choices_list, blank=False)
-    product_description= models.TextField(max_length=200, default="A new product.")
+    product_description= models.TextField(max_length=50, default="A new product.")
     product_image = models.ImageField(upload_to = 'gallery', default = 'gallery/no-img.jpg')
 
     def __str__(self):
