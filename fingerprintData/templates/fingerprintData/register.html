@@ -108,12 +108,44 @@
         </div>
     </div>
 
+    <div class="modal fade" id="warning-register-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="warning-register">Warning!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    The email you choose is not valid! Enter a correct email address.
+                </p>
+                <div id="modal-delete-error-div" class="d-none">
+                    <ul>
+                        <li id="modal-delete-error-msg"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <button type="button" id="modal-delete" class="btn btn-danger" data-dismiss="modal">Ok, close window.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock content %}
 
 {% block extrajs %}
     <script>
         $(document).ready(function () {
+            $('#warning-register-modal').modal({ show: false});
             var csrftoken = '{% csrf_token %}';
             var success = false;
             var fingerprint_id;
@@ -192,7 +224,7 @@
                         });
                     }
                 }else{
-                    window.alert("Error! Email is not valid!");
+                    $('#warning-register-modal').modal('show');
                 }
 
             });

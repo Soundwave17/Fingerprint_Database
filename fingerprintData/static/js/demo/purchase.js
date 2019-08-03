@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#warning-checkout-modal').modal({ show: false});
     var nav_counter = $("#nav-cart-counter");
     $(".check-image").hide();
     $("#fingerprint-modal").hide();
@@ -10,7 +11,7 @@ $(document).ready(function () {
         var array = $(".selected");
         if (!array.length) {
             console.log("AAAAAAAAAA EMPTY");
-            window.alert("Ahhh the cart is empty! Go buy something. NOW!");
+            $('#warning-checkout-modal').modal('show');
         } else {
             console.log("Product list is not empty");
             array.each(function (index, value) {
@@ -161,7 +162,7 @@ $(document).ready(function () {
         var products = {};
         var array = $(".selected");
         if (!array.length) {
-            window.alert("The cart is empty! Go buy something!");
+            $('#warning-checkout-modal').modal('show');
             console.log("AAAAAAAAAA EMPTY");
         } else {
             console.log("Product list is not empty");
