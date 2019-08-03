@@ -35,21 +35,21 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand d-flex align-items-center justify-content-center" >
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
             <div class="sidebar-brand-text mx-3">{% block navtitle %}{% endblock navtitle %}</div>
-        </a>
+        </div>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active" id="active-link">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>{% block activetitle %}{% endblock activetitle %}</span></a>
+            <span class="nav-link">
+                <i class="fas fa-fw fa-anchor"></i>
+                <span>{% block activetitle %}{% endblock activetitle %}</span></span>
         </li>
 
         <!-- Divider -->
