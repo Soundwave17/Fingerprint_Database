@@ -66,7 +66,7 @@ $(document).ready(function () {
     $("#products-nav").click(function () {
         $("#accordionSidebar li").removeClass("active");
         $("#active-link").addClass("active");
-        $(this).closest("li").addClass(" active");
+        $("").closest("li").addClass(" active");
         $("#purchase-panel").fadeIn('slow');
         $("#checkout-panel").hide();
     });
@@ -247,5 +247,13 @@ $(document).ready(function () {
         $("#fingerprint-modal").hide();
         $("#modal-buttons").show();
 
+    });
+
+    $("#return-products").click(function () {
+        $("#accordionSidebar li").removeClass("active");
+        $("#active-link").addClass("active");
+        $("#products-nav").closest("li").addClass(" active");
+        $("#purchase-panel").fadeIn('slow');
+        $("#checkout-panel").hide();
     });
 });

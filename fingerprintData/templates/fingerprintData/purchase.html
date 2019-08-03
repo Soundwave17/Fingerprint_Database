@@ -6,49 +6,49 @@
 {% block activetitle %}Purchase{% endblock activetitle %}
 {% block navlinks %}
 
-<li class="nav-item active">
-    <a class="nav-link " href="javascript:void(0)" id="products-nav">
-        <i class="fas fa-fw fa-arrow-right"></i>
-        <span> Products </span>
-    </a>
-</li>
+    <li class="nav-item active">
+        <a class="nav-link " href="javascript:void(0)" id="products-nav">
+            <i class="fas fa-fw fa-arrow-right"></i>
+            <span> Products </span>
+        </a>
+    </li>
 
-<li class="nav-item">
-    <a class="nav-link align-content-center" href="javascript:void(0)" id="cart-nav">
-        <i class="fas fa-fw fa-arrow-right"></i>
-        <span> Your cart
+    <li class="nav-item">
+        <a class="nav-link align-content-center" href="javascript:void(0)" id="cart-nav">
+            <i class="fas fa-fw fa-arrow-right"></i>
+            <span> Your cart
                 <span class="border border-danger bg-danger rounded px-1 mx-3 d-none" id="nav-cart-counter">
                     0
                 </span>
             </span>
-    </a>
-</li>
+        </a>
+    </li>
 {% endblock navlinks %}
 
 
 {% block topbar %}
 
-<input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
+    <input type="hidden" id="myVar" name="variable" value="{{ customer.customer_email }}">
 
-<ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto">
 
-    <li class="nav-item dropdown arrow ">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-lg-inline text-gray-600">Welcome, {{ customer.customer_name }}</span>
-        </a>
-        <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-             aria-labelledby="userDropdown">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
+        <li class="nav-item dropdown arrow ">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-lg-inline text-gray-600">Welcome, {{ customer.customer_name }}</span>
             </a>
-        </div>
-    </li>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
 
-</ul>
+    </ul>
 {% endblock topbar %}
 
 {% block content %}
@@ -83,170 +83,166 @@
                 {% endfor %}
             </ul>
 
-    <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="jumbotron text-center m-5 border border-success rounded">
-                <h1>Hello There!</h1>
-                <p>Here you can choose between a lot of products, of various types. and buy them !</p>
-                <p>Just select the amount you want, be sure the green icon is next to your desired amount
-                    and then go to your cart to proceed to checkout !</p>
-            </div>
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="jumbotron text-center m-5 border border-success rounded">
+                        <h1>Hello There!</h1>
+                        <p>Here you can choose between a lot of products, of various types. and buy them !</p>
+                        <p>Just select the amount you want, be sure the green icon is next to your desired amount
+                            and then go to your cart to proceed to checkout !</p>
+                    </div>
 
-        </div>
-        {% for type in types %}
-        <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">
-            <div class="row justify-content-center my-3">
-                {% if products %}
-                {% for product in products %}
-                {% if type == product.product_type %}
-                <div class="col-md-12 col-lg-4 col-xl-3  border p-1 m-1 rounded border-4">
-                    <div class="card h-100 d-sm-flex">
-                        <img class="card-img-top flex-fill" src="{{ product.product_image.url }}">
-                        <div class="card-block">
-                            <h4 class="card-title p-2">{{ product.product_name }}</h4>
-                            <hr class="sidebar-divider my-1">
-                            <div class="card-text p-2">
-                                {{ product.product_description }}
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row align-content-center">
-                                <div class=" col-md-2 float-sm-left">
-                                    <img class="check-image mx-1" alt="Check"
-                                         src="{% static 'vendor/img/check.jpg' %}">
-                                </div>
-                                <div class="col-md-4 my-1">
-                                    <input class="form-control" type="text" value="0">
-                                </div>
+                </div>
+                {% for type in types %}
+                    <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">
+                        <div class="row justify-content-center my-3">
+                            {% if products %}
+                                {% for product in products %}
+                                    {% if type == product.product_type %}
+                                        <div class="col-md-12 col-lg-4 col-xl-3  border p-1 m-1 rounded border-4">
+                                            <div class="card h-100 d-sm-flex">
+                                                <img class="card-img-top flex-fill"
+                                                     src="{{ product.product_image.url }}">
+                                                <div class="card-block">
+                                                    <h4 class="card-title p-2">{{ product.product_name }}</h4>
+                                                    <hr class="sidebar-divider my-1">
+                                                    <div class="card-text p-2">
+                                                        {{ product.product_description }}
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row align-content-center">
+                                                        <div class=" col-md-2 float-sm-left">
+                                                            <img class="check-image mx-1" alt="Check"
+                                                                 src="{% static 'vendor/img/check.jpg' %}">
+                                                        </div>
+                                                        <div class="col-md-4 my-1">
+                                                            <input class="form-control" type="text" value="0">
+                                                        </div>
 
-                                <div class=" col-md-6 text-center my-auto border border-info rounded">
-                                    {{ product.product_price }} €
-                                </div>
-                            </div>
+                                                        <div class=" col-md-6 text-center my-auto border border-info rounded">
+                                                            {{ product.product_price }} €
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-                {% endif %}
                 {% endfor %}
-                {% endif %}
             </div>
-        </div>
-        {% endfor %}
-    </div>
 
-    <hr class="sidebar-divider my-1">
+            <hr class="sidebar-divider my-1">
 
-    <div class="row justify-content-center text-center">
-        <button id="checkout-btn" class="btn btn-primary mx-3"> Go to Checkout</button>
-        <button id="empty-cart" class="btn btn-danger mx-3"> Empty your cart</button>
-    </div>
-
-
-</div>
-
-<div class="container d-none border rounded shadow border-left-success" id="checkout-panel">
-    <div class="row">
-        <div class="col-md-12" id="checkout-table">
-            <ul class="list-group my-3" id="checkout-table-ul">
-
-            </ul>
-        </div>
-    </div>
-
-    <hr class="sidebar-divider my-4">
-
-    <div class="row text-center justify-content-center">
-        <div class="col-sm-4 text-center">
-            <button class="btn-lg btn-primary"
-                    id="pay-button"
-                    data-toggle="modal"
-                    data-target="#checkout-modal">Proceed to payment
-            </button>
-        </div>
-        <div class="col-sm-4 text-center">
-            <button class="btn-lg btn-danger" id="checkout-empty-cart">Empty your cart</button>
-        </div>
-    </div>
-
-    <hr class="sidebar-divider my-4">
-
-    <div class="row text-center justify-content-center">
-
-        <div class="col-sm-4 text-center">
-            <button class="btn-lg btn-info my-3" id="return-products">Return to products</button>
-        </div>
-    </div>
-
-
-</div>
-
-
-<div class="modal fade" id="warning-checkout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="warning-checkout">Warning!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="row justify-content-center text-center">
+                <button id="checkout-btn" class="btn btn-primary mx-3"> Go to Checkout</button>
+                <button id="empty-cart" class="btn btn-danger mx-3"> Empty your cart</button>
             </div>
-            <div class="modal-body">
-                <p>
-                    Your cart is empty! Go buy something now!
-                </p>
-                <div id="modal-delete-error-div" class="d-none">
-                    <ul>
-                        <li id="modal-delete-error-msg"></li>
+
+
+        </div>
+
+        <div class="container d-none border rounded shadow border-left-success" id="checkout-panel">
+            <div class="row">
+                <div class="col-md-12" id="checkout-table">
+                    <ul class="list-group my-3" id="checkout-table-ul">
+
                     </ul>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <button type="button" id="modal-delete" class="btn btn-danger" data-dismiss="modal">Ok, close window.</button>
+
+            <hr class="sidebar-divider my-4">
+
+            <div class="row text-center justify-content-center">
+                <div class="col-sm-4 text-center">
+                    <button class="btn-lg btn-primary"
+                            id="pay-button"
+                            data-toggle="modal"
+                            data-target="#checkout-modal">Proceed to payment
+                    </button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <button class="btn-lg btn-danger" id="checkout-empty-cart">Empty your cart</button>
+                </div>
+            </div>
+
+            <hr class="sidebar-divider my-4">
+
+            <div class="row text-center justify-content-center">
+
+                <div class="col-sm-4 text-center">
+                    <button class="btn-lg btn-info my-3" id="return-products">Return to products</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="warning-checkout-modal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="warning-checkout">Warning!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Your cart is empty! Go buy something now!
+                        </p>
+                        <div id="modal-delete-error-div" class="d-none">
+                            <ul>
+                                <li id="modal-delete-error-msg"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container">
+                            <div class="row justify-content-between">
+                                <button type="button" id="modal-delete" class="btn btn-danger" data-dismiss="modal">Ok,
+                                    close window.
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="modal fade" id="checkout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Checkout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Are you sure you wish to buy these products?
-                </p>
-                <div id="modal-checkout-msg-div" class="d-none">
-                    <ul>
-                        <li class="text-danger" id="modal-checkout-msg"></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="container">
-                    <div class="row justify-content-between" id="modal-buttons">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, return to
-                            checkout.
-                        </button>
-                        <button type="button" id="checkout-modal-yes-btn" class="btn btn-danger">Yes, I'm sure
+        <div class="modal fade" id="checkout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Checkout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
-                    <div class="row justify-content-center d-none" id="fingerprint-modal">
-                        <div class="col-sm-12 shadow">
-                            <div class="card call-sm-12">
-                                <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
+                    <div class="modal-body">
+                        <p>
+                            Are you sure you wish to buy these products?
+                        </p>
+                        <div id="modal-checkout-msg-div" class="d-none">
+                            <ul>
+                                <li class="text-danger" id="modal-checkout-msg"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container">
+                            <div class="row justify-content-between" id="modal-buttons">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, return to
+                                    checkout.
+                                </button>
+                                <button type="button" id="checkout-modal-yes-btn" class="btn btn-danger">Yes, I'm sure
+                                </button>
                             </div>
 
                             <div class="row justify-content-center d-none" id="fingerprint-modal">
@@ -254,7 +250,6 @@
                                     <div class="card call-sm-12">
                                         <img class="card-img-top" src="{% static 'vendor/img/finger.png' %}">
                                     </div>
-
                                     <div class="card">
                                         <div class="card-body">
                                             <ul>
@@ -263,7 +258,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="container">
+                                    <div class="container my-3">
                                         <div class="row justify-content-between">
                                             <button type="button"
                                                     id="abort-btn"
@@ -281,15 +276,12 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-{% endif %}
+    {% endif %}
 {% endblock content %}
 
 {% block extrajs %}
-<script src="{% static 'js/demo/purchase.js' %}"></script>
-<script>
+    <script src="{% static 'js/demo/purchase.js' %}"></script>
+    <script>
         $(document).ready(function () {
             $('#message-modal').removeClass('d-none');
             $("#message-modal").hide();
@@ -390,6 +382,5 @@
         });
 
 
-
-</script>
+    </script>
 {% endblock %}
