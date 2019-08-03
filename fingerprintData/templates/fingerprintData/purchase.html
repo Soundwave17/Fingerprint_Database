@@ -100,9 +100,9 @@
                 {% if products %}
                 {% for product in products %}
                 {% if type == product.product_type %}
-                <div class="col-md-3  border p-1 m-1 rounded border-4">
-                    <div class="card">
-                        <img class="card-img-top" src="{{ product.product_image.url }}">
+                <div class="col-md-12 col-lg-4 col-xl-3  border p-1 m-1 rounded border-4">
+                    <div class="card h-100 d-sm-flex">
+                        <img class="card-img-top flex-fill" src="{{ product.product_image.url }}">
                         <div class="card-block">
                             <h4 class="card-title p-2">{{ product.product_name }}</h4>
                             <hr class="sidebar-divider my-1">
@@ -116,7 +116,7 @@
                                     <img class="check-image mx-1" alt="Check"
                                          src="{% static 'vendor/img/check.jpg' %}">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 my-1">
                                     <input class="form-control" type="text" value="0">
                                 </div>
 

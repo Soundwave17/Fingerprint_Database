@@ -71,7 +71,7 @@ $(document).ready(function () {
         $("#checkout-panel").hide();
     });
 
-    var card_wrapper = $(".border.col-md-3.p-1.m-1");
+    var card_wrapper = $(".border.col-md-12.p-1.m-1");
 
     card_wrapper.hover(
         function () {
@@ -132,6 +132,8 @@ $(document).ready(function () {
                     .children("img.check-image").hide();
             }
             $("#checkout-table-ul").empty();
+            nav_counter.text(0);
+            nav_counter.hide();
         });
 
     });
@@ -153,6 +155,8 @@ $(document).ready(function () {
                     .children("img.check-image").hide();
             }
             $("#checkout-table-ul").empty();
+            nav_counter.text(0);
+            nav_counter.hide();
         });
     });
 
