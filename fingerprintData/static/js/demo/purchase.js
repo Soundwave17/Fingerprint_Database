@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('#warning-checkout-modal').modal({ show: false});
     var nav_counter = $("#nav-cart-counter");
+    var btn_counter = $("#checkout-cart-counter");
     $(".check-image").hide();
     $("#fingerprint-modal").hide();
 
@@ -93,8 +94,10 @@ $(document).ready(function () {
                 .children("img.check-image").hide();
             counter = parseInt(nav_counter.text()) - 1;
             nav_counter.text(counter);
+            btn_counter.text(counter);
             if (counter == 0) {
                 nav_counter.hide();
+                btn_counter.hide();
             }
         } else {
             $(this).addClass('border-primary');
@@ -106,12 +109,15 @@ $(document).ready(function () {
                 .children("img.check-image").fadeIn('slow');
             if (nav_counter.hasClass("d-none")) {
                 nav_counter.removeClass("d-none");
+                btn_counter.removeClass("d-none");
             }
             counter = parseInt(nav_counter.text());
             if (counter == 0) {
                 nav_counter.show();
+                btn_counter.show();
             }
             nav_counter.text(counter + 1);
+            btn_counter.text(counter + 1);
         }
     });
 
@@ -133,7 +139,9 @@ $(document).ready(function () {
             }
             $("#checkout-table-ul").empty();
             nav_counter.text(0);
+            btn_counter.text(0);
             nav_counter.hide();
+            btn_counter.hide();
         });
 
     });
@@ -156,7 +164,9 @@ $(document).ready(function () {
             }
             $("#checkout-table-ul").empty();
             nav_counter.text(0);
+            btn_counter.text(0);
             nav_counter.hide();
+            btn_counter.hide();
         });
     });
 
