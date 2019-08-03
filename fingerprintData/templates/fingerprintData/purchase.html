@@ -8,15 +8,19 @@
 
     <li class="nav-item active">
         <a class="nav-link " href="javascript:void(0)" id="products-nav">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-fw fa-arrow-right"></i>
             <span> Products </span>
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)" id="cart-nav">
-            <i class="fas fa-fw fa-folder"></i>
-            <span> Your cart </span>
+        <a class="nav-link align-content-center" href="javascript:void(0)" id="cart-nav">
+            <i class="fas fa-fw fa-arrow-right"></i>
+            <span> Your cart
+                <span class="border bg-danger rounded px-1 mx-3 d-none" id="nav-cart-counter">
+                    <!-- Cart-counter -->
+                </span>
+            </span>
         </a>
     </li>
 {% endblock navlinks %}
@@ -56,7 +60,7 @@
 
 
     {% if types %}
-        <div class="container mx-0" id="purchase-panel">
+        <div class="container mx-auto" id="purchase-panel">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item border-left-danger rounded">
                     <a class="nav-link active " id="home-tab" data-toggle="tab" href="#home" role="tab"
@@ -84,15 +88,15 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="jumbotron text-center m-5 border border-success rounded">
                         <h1>Hello There!</h1>
-                        <p>Here you can choose whatever please your choices and buy it!</p>
-                        <p>Just select the amount you want, be
-                            sure the green icon is besides the quantity and then go to checkout!</p>
+                        <p>Here you can choose between a lot of products, of various types. and buy them !</p>
+                        <p>Just select the amount you want, be sure the green icon is next to your desired amount
+                            and then go to your cart to proceed to checkout !</p>
                     </div>
 
                 </div>
                 {% for type in types %}
                     <div class="tab-pane fade" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center my-3">
                             {% if products %}
                                 {% for product in products %}
                                     {% if type == product.product_type %}

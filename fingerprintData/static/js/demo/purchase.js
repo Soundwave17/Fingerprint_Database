@@ -148,7 +148,7 @@ $(document).ready(function () {
         var products = {};
         var array = $(".selected");
         if (!array.length) {
-            window.alert("Ahhh the cart is empty! Go buy something. NOW!");
+            window.alert("The cart is empty! Go buy something!");
             console.log("AAAAAAAAAA EMPTY");
         } else {
             console.log("Product list is not empty");
