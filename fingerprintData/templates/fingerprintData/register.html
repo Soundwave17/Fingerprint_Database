@@ -14,11 +14,35 @@
 {% block content %}
     {% load static %}
 
-    <div class="jumbotron text-center border border-success rounded">
-        <h1>Evil and Mean Marketplace</h1>
+    <div class="jumbotron col-sm-12 text-center border border-success rounded">
+        <h1>Evil and Mean Market</h1>
         <p>Register now to get the exclusive radioactive Schrödinger's cat as a bonus!</p>
         <p>Here you can fill the spaces and register!</p>
     </div>
+
+    <div class="container border border-primary">
+        <h4>Instructions:</h4>
+        <hr class="sidebar-divider my-4">
+        <div class="row justify-content-center">
+
+            <div class="col-sm-4">
+                <p class="text-warning ">
+                    Press the "Try" button and wait for the green light, then place the finger on the sensor.
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="text-success ">
+                    When the yellow light appears, remove your finger. When the green one reappears, place the same finger again!
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="text-danger">
+                    If the red light appears, then you shall not pass!
+                </p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="container d-none "  id="enroll-error-div">
         <div class="col-sm-6 shadow">
@@ -90,7 +114,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body d-none" id="message-ajax-div">
                         <ul>
                             <li id="message-ajax"></li>
                         </ul>
@@ -146,8 +170,11 @@
     <script>
         $(document).ready(function () {
             $('#warning-register-modal').modal({ show: false});
+            var message_ajax_div=$('message-ajax-div');
+            message_ajax_div.removeClass('d-none');
+            message_ajax_div.hide();
             var csrftoken = '{% csrf_token %}';
-            var success = false;
+
             var fingerprint_id;
             var id;
 
@@ -171,7 +198,7 @@
                 e.preventDefault();
                 if(emailIsValid($("#customer-email").val())){
 
-                    if (!success) {
+
                         $.ajax({
                             headers: {
                                 "X-CSRFToken": csrftoken,
@@ -184,45 +211,44 @@
                             success: function (result) {
                                 console.log(result);
                                 if (!result['response']) {
+                                    message_ajax_div.show();
                                     $('#retry').text("Retry");
                                     $('#message-ajax').text(result['msg']);
                                 } else {
                                     fingerprint_id = result['id'];
+                                    message_ajax_div.show();
                                     $('#retry').text("Continue");
                                     $('#message-ajax').text(result['msg']);
-                                    success = true;
+
+                                    $.ajax({
+                                        headers: {"X-CSRFToken": csrftoken},
+                                        url: 'create_customer/',
+                                        dataType: 'json',
+                                        data: {
+                                            "customer_email": $("#customer-email").val(),
+                                            "customer_name": $("#customer-name").val(),
+                                            "customer_surname": $("#customer-surname").val(),
+                                            "customer_password": $("#customer-password").val(),
+                                            "fingerprint_id": fingerprint_id,
+                                            "csrfmiddlewaretoken": "{{ csrf_token }}"
+                                        },
+                                        type: 'POST',
+                                        success: function (result) {
+                                            console.log(result);
+                                            id=0;
+                                            success=false;
+                                            window.location= window.location.pathname +"register_success/";
+                                        }
+                                    });
                                 }
 
                             },
                             error: function(err){
+                                message_ajax_div.show();
                                 $('#retry').text("Retry");
                                 $('#message-ajax').text("Error! Sensor not found!");
                             }
                         });
-
-                    } else {
-                        console.log("okkke");
-                        $.ajax({
-                            headers: {"X-CSRFToken": csrftoken},
-                            url: 'create_customer/',
-                            dataType: 'json',
-                            data: {
-                                "customer_email": $("#customer-email").val(),
-                                "customer_name": $("#customer-name").val(),
-                                "customer_surname": $("#customer-surname").val(),
-                                "customer_password": $("#customer-password").val(),
-                                "fingerprint_id": fingerprint_id,
-                                "csrfmiddlewaretoken": "{{ csrf_token }}"
-                            },
-                            type: 'POST',
-                            success: function (result) {
-                                console.log(result);
-                                id=0;
-                                success=false;
-                                window.location= window.location.pathname +"register_success/";
-                            }
-                        });
-                    }
                 }else{
                     $('#warning-register-modal').modal('show');
                 }

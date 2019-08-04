@@ -61,14 +61,16 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="jumbotron text-center m-5">
-                    <h1>Welcome to the administration page</h1>
+                <div class="jumbotron col-sm-12 text-center mx-auto my-3">
+                    <h1>Welcome to the admin page</h1>
                     <hr class="sidebar-divider my-4">
                     <p>Here you can view data and infos about the site, its customers, and how well the sales are
                         going!</p>
                     <p>Just select the chart you wish to see, and follow the guides!</p>
                     <hr class="sidebar-divider my-4">
                     <p>You can also check on the sensor by clicking on the "Sensor Control" link on the sidebar. </p>
+                    <hr class="sidebar-divider my-4">
+                    <p>Note: If you are on mobile, rotate the mobile phone to have a better view of the page!</p>
                 </div>
             </div>
             <div class="tab-pane fade show" id="line-chart" role="tabpanel" aria-labelledby="line chart">
@@ -347,11 +349,11 @@
                                         $("#modal-delete-error-div").removeClass("d-none");
                                         $("#modal-delete-error-div").show();
                                         $("#modal-delete-error-msg").addClass("text-success");
-                                        $('#modal-delete-error-msg').text(result['msg'] + "you will be returned to the page in 3 seconds.");
+                                        $('#modal-delete-error-msg').text("Success!");
                                         $("#modal-delete").hide();
-                                        $.delay(3000);
 
-                                        $.ajax({
+
+                                            $.ajax({
                                             headers: {
                                                 "X-CSRFToken": csrftoken,
                                             },
@@ -365,11 +367,14 @@
                                                 $("#modal-delete-error-div").removeClass("d-none");
                                                 $("#modal-delete-error-div").show();
                                                 $("#modal-delete-error-msg").addClass("text-success");
-                                                $('#modal-delete-error-msg').text(result['msg'] + "you will be returned to the page in 3 seconds.");
+                                                $('#modal-delete-error-msg').text("Success!");
                                                 $("#modal-delete").hide();
-                                                $.delay(3000);
+
                                             }
                                         });
+
+
+
                                     } else {
                                         $("#modal-delete-error-div").removeClass("d-none");
                                         $("#modal-delete-error-div").show();
