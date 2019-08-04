@@ -30,23 +30,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 //validates year
 function yearValidationPie(year) {
-    $('#rotate-modal').modal({ show: false});
 
-    if (window.innerWidth<350){
-            $("#rotate-modal").show();
-        }
-
-
-     var limitFunc = function(){
-        if (window.innerWidth<350){
-            $("#rotate-modal").show();
-        }
-        if (window.innerWidth>350){
-           $("#rotate-modal").hide();
-        }
-    };
-
-    window.addEventListener("resize", limitFunc);
 
     var error_div = $("#error-pie-div");
     var error_msg = $("#error-pie-msg");
@@ -279,6 +263,26 @@ function setupChartPage() {
 $(document).ready(function () {
     $("#error-div").removeClass("d-none");
     $("#error-div").hide();
+
+    $('#rotate-modal').modal({ show: false});
+
+
+
+
+     var limitFunc = function(){
+        if (window.innerWidth<350){
+            $("#rotate-modal").modal('show');
+        }
+        if (window.innerWidth>350){
+           $("#rotate-modal").modal('hide');
+        }
+    };
+    if (window.innerWidth<350){
+            $("#rotate-modal").modal('show');
+        }
+
+    window.addEventListener("resize", limitFunc);
+
     var csrftoken = '{% csrf_token %}';
     var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     var myLineChart = setupChartPage();
