@@ -86,7 +86,7 @@
             <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="jumbotron text-center m-5 border border-success rounded">
+                    <div class="jumbotron col-sm-10 text-center mx-auto my-3 border border-success rounded">
                         <h1>Hello There!</h1>
                         <p>Here you can choose between a lot of products, of various types. and buy them !</p>
                         <p>Just select the amount you want, be sure the green icon is next to your desired amount
@@ -355,6 +355,7 @@
                                             success: function (result) {
                                                 console.log(result);
                                                 if (result['success']) {
+
                                                     console.log(result['msg']);
                                                     window.location = window.location.pathname + 'purchase_success/';
                                                 }

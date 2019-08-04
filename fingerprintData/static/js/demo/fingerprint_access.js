@@ -1,11 +1,10 @@
 $(document).ready(function () {
-    $("#message-ajax").removeClass("d-none");
-    $("message-ajax").hide();
     var csrftoken = '{% csrf_token %}';
-    var success = false;
+    var message_ajax=$('#message-ajax');
+    message_ajax.removeClass('d-none');
+    message_ajax.hide();
     $('#retry').click(function (e) {
         e.preventDefault();
-        if (!success) {
             $.ajax({
                     headers: {
                         "X-CSRFToken": csrftoken,
@@ -17,6 +16,7 @@ $(document).ready(function () {
                     success: function (result) {
                         console.log(result);
                         if (!result['response']) {
+                            message_ajax.show();
                             $('#retry').text("Retry");
                             $('#message-ajax').text(result['msg']);
                         } else {
@@ -32,17 +32,42 @@ $(document).ready(function () {
                                 success: function (answer) {
                                     console.log(answer);
                                     if (answer['success'] && answer['id'] == result['id']) {
-                                        $('#message-ajax').text(result['msg']);
-                                        $('#retry').text("Continue");
-                                        $('#retry').removeClass('btn-secondary');
-                                        $('#retry').addClass('btn-success');
-                                        success = true;
+                                        message_ajax.show();
+                                        $("#message-ajax").addClass("text-success");
+                                        $('#message-ajax').text(result['msg'] + " you will be redirected to the page in 3 seconds.");
+
+                                        setTimeout(function(){
+                                            message_ajax.show();
+                                            $('#message-ajax').text("Success! You'll be redirected in few moments!");
+                                            $.ajax({
+                                                headers: {"X-CSRFToken": csrftoken},
+                                                url: 'customer_exists/',
+                                                dataType: 'json',
+                                                data: {
+                                                    "customer_email": $("#myVar").val(),
+                                                },
+                                                type: 'GET',
+                                                success: function (result) {
+                                                    console.log(result);
+                                                    if (result['success']) {
+                                                        if (result['admin']) {
+                                                            window.location = window.location.pathname + "overview/";
+                                                        } else {
+                                                            window.location = window.location.pathname + "purchase/";
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }, 3000);
+
+
+
                                     } else if (!answer['success']) {
-                                        $("#message-ajax").show();
+                                        message_ajax.show();
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
                                     } else {
                                         $('#retry').text("Retry");
-                                        $("#message-ajax").show();
+                                        message_ajax.show();
                                         $('#message-ajax').text("Your fingerprint is registered, but " +
                                             "it doesn't match the user's.");
                                     }
@@ -53,37 +78,13 @@ $(document).ready(function () {
                     }
                     ,
                     error: function(err){
+                        message_ajax.show();
                         $('#retry').text("Retry");
-                        $('#message-ajax').show();;
                         $('#message-ajax').text("Error! Sensor not found!");
                     },
                     timeout: 100000,
                 }
             );
-
-        } else {
-            console.log("okkke");
-            $.ajax({
-                headers: {"X-CSRFToken": csrftoken},
-                url: 'customer_exists/',
-                dataType: 'json',
-                data: {
-                    "customer_email": $("#myVar").val(),
-                },
-                type: 'GET',
-                success: function (result) {
-                    console.log(result);
-                    if (result['success']) {
-                        if (result['admin']) {
-                            window.location = window.location.pathname + "overview/";
-                        } else {
-                            window.location = window.location.pathname + "purchase/";
-                        }
-                    }
-                }
-            });
-        }
-
     })
     ;
 
