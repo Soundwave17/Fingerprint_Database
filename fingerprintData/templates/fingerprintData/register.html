@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body d-none" id="message-ajax-div">
                         <ul>
                             <li id="message-ajax"></li>
                         </ul>
@@ -145,6 +145,8 @@
 {% block extrajs %}
     <script>
         $(document).ready(function () {
+            $("#message-ajax-div").removeClass("d-none");
+            $("#message-ajax-div").hide();
             $('#warning-register-modal').modal({ show: false});
             var csrftoken = '{% csrf_token %}';
             var success = false;
@@ -185,10 +187,12 @@
                                 console.log(result);
                                 if (!result['response']) {
                                     $('#retry').text("Retry");
+                                    $("#message-ajax-div").show();
                                     $('#message-ajax').text(result['msg']);
                                 } else {
                                     fingerprint_id = result['id'];
                                     $('#retry').text("Continue");
+                                    $("#message-ajax-div").show();
                                     $('#message-ajax').text(result['msg']);
                                     success = true;
                                 }
@@ -196,6 +200,7 @@
                             },
                             error: function(err){
                                 $('#retry').text("Retry");
+                                $("#message-ajax-div").show();
                                 $('#message-ajax').text("Error! Sensor not found!");
                             }
                         });

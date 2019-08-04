@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("#message-ajax").removeClass("d-none");
+    $("message-ajax").hide();
     var csrftoken = '{% csrf_token %}';
     var success = false;
     $('#retry').click(function (e) {
@@ -36,10 +38,11 @@ $(document).ready(function () {
                                         $('#retry').addClass('btn-success');
                                         success = true;
                                     } else if (!answer['success']) {
+                                        $("#message-ajax").show();
                                         $('#message-ajax').text("Your email is invalid, please return to login.");
                                     } else {
                                         $('#retry').text("Retry");
-                                        $('#message-ajax').removeClass("d-none");
+                                        $("#message-ajax").show();
                                         $('#message-ajax').text("Your fingerprint is registered, but " +
                                             "it doesn't match the user's.");
                                     }
@@ -51,7 +54,7 @@ $(document).ready(function () {
                     ,
                     error: function(err){
                         $('#retry').text("Retry");
-                        $('#message-ajax').removeClass("d-none");
+                        $('#message-ajax').show();;
                         $('#message-ajax').text("Error! Sensor not found!");
                     },
                     timeout: 100000,

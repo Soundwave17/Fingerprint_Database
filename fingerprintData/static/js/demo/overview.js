@@ -30,6 +30,23 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 //validates year
 function yearValidationPie(year) {
+    $('#rotate-modal').modal({ show: false});
+
+    if (window.innerWidth<350){
+            $("#rotate-modal").show();
+        }
+
+
+     var limitFunc = function(){
+        if (window.innerWidth<350){
+            $("#rotate-modal").show();
+        }
+        if (window.innerWidth>350){
+           $("#rotate-modal").hide();
+        }
+    };
+
+    window.addEventListener("resize", limitFunc);
 
     var error_div = $("#error-pie-div");
     var error_msg = $("#error-pie-msg");
@@ -615,7 +632,6 @@ $(document).ready(function () {
                     $(o).html(products[pr]);
                     $("#product-input").append(o);
                 }
-
             },
         });
     });

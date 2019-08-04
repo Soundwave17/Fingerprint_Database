@@ -39,7 +39,7 @@
 
 {% block content %}
     {% load static %}
-    <div id="graph-wrapper" class="container">
+    <div id="graph-wrapper" class="container p-0">
         <ul class="nav nav-tabs" id="nav-tab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link border-left-danger rounded active" id="home-tab" data-toggle="tab" href="#home"
@@ -165,9 +165,9 @@
                     </div>
 
 
-                    <div class=" text-center">
+                    <div class="text-center">
                         <div class="card-body">
-                            <div class="chart-area">
+                            <div class="chart-area chart-container">
                                 <canvas id="myAreaChart"></canvas>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                 <div id="graph-pie-wrapper" class="container">
 
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 text-center">
                         <div class="row ">
                             <div class="form-group m-3">
                                 <label for="year-pie-input">Year</label>
@@ -220,9 +220,9 @@
                             </div>
                         </div>
 
-                        <div class="text-center">
+
                             <div class="card-body">
-                                <div class="chart-area">
+                                <div class="chart-area chart-container">
                                     <canvas id="myPieChart"></canvas>
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                             <button class="btn btn-info" id="download-pie-pdf">
                                 Download PDF
                             </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -267,7 +267,6 @@
 
 
     <!--Modal-->
-
     <div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -295,6 +294,34 @@
                                     data-dismiss="modal">No, close
                             </button>
                             <button type="button" id="modal-delete" class="btn btn-danger">Yes, delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="rotate-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="rotata-modal-title">Warning!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <i class="fas fa-lg fa-sync-alt"></i>
+                    <p>
+                        This page isn't made to view vertically, try rotating your phone!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-danger">Close</button>
                         </div>
                     </div>
                 </div>
