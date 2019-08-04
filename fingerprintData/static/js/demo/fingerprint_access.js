@@ -34,7 +34,7 @@ $(document).ready(function () {
                                     if (answer['success'] && answer['id'] == result['id']) {
                                         message_ajax.show();
                                         $("#message-ajax").addClass("text-success");
-                                        $('#message-ajax').text(result['msg'] + " you will be returned to the page in 3 seconds.");
+                                        $('#message-ajax').text(result['msg'] + " you will be redirected to the page in 3 seconds.");
 
                                         setTimeout(function(){
                                             message_ajax.show();
